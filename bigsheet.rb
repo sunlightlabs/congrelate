@@ -8,7 +8,7 @@ get '/' do
   haml :index
 end
 
-get '/results' do
+get '/table' do
   
   if params[:house] == 'representatives'
     @legislators = REPS
@@ -18,7 +18,7 @@ get '/results' do
     @legislators = REPS + SENATORS
   end
   
-  haml :results
+  haml :table
 end
 
 configure do
