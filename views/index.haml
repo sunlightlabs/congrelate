@@ -1,1 +1,15 @@
-%h1 Hey
+%h1 Pick your columns
+
+%form{:action => '/results', :method => :get}
+  
+  %label{:for => 'test'} Test column
+  %input{:type => 'checkbox', :id => 'test', :name => 'test'}
+  %br
+  
+  %label House
+  %input{:type => 'radio', :name => 'house', :value => 'representatives'} House of Representatives
+  %input{:type => 'radio', :name => 'house', :value => 'senators'} Senate
+  %input{:type => 'radio', :name => 'house', :value => 'both'} Both
+  %br
+  
+  %input{:type => 'submit', :name => 'Submit'}
