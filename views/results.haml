@@ -1,4 +1,23 @@
-%p.debug= p params
+%script{:type => 'text/javascript'}
+  :plain
+    $(document).ready(function() {
+      $('#main').dataTable({
+        bProcessing: true,
+        aaSorting: [[2, 'asc'], [3, 'asc']]
+      });
+    });
 
-- @legislators.each do |legislator|
-  %h3= "#{legislator.firstname} #{legislator.lastname}"
+%table#main
+  %thead
+    %tr
+      %th Title
+      %th Legislator
+      %th State
+      %th District
+  %tbody
+    - @legislators.each do |legislator|
+      %tr
+        %td= "#{legislator.title}."
+        %td= "#{legislator.firstname} #{legislator.lastname}"
+        %td= legislator.state
+        %td= legislator.district
