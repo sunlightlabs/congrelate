@@ -2,14 +2,16 @@
 
 %form{:action => '/results', :method => :get}
   
+  <!-- Optional columns -->
   %label{:for => 'test'} Test column
   %input{:type => 'checkbox', :id => 'test', :name => 'test'}
   %br
   
+  <!-- House -->
   %label House
   %input{:type => 'radio', :name => 'house', :value => 'representatives'} House of Representatives
   %input{:type => 'radio', :name => 'house', :value => 'senators'} Senate
-  %input{:type => 'radio', :name => 'house', :value => 'both'} Both
+  %input{:type => 'radio', :name => 'house', :value => 'both', :checked => 'checked'} Both
   %br
   
   %input{:type => 'submit', :name => 'Submit'}

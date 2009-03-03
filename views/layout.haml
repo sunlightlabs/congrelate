@@ -1,0 +1,12 @@
+!!! XML
+!!! Strict
+%html{html_attrs}
+  %head
+    %title Big Sheet
+    
+    %link{:rel => 'stylesheet', :type => 'text/css', :media => 'screen', :charset => 'utf-8', :href => '/style.css'}
+    %script{:type => 'text/javascript', :src => '/javascript/jquery.js'}
+    %script{:type => 'text/javascript', :src => '/javascript/dataTables.js'}
+  
+  %body
+    = yield
