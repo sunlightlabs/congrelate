@@ -1,8 +1,7 @@
 require 'rubygems'
 require 'sinatra'
-require 'sunlight'
 
-include Sunlight
+require 'configuration'
 
 get '/' do
   haml :index
@@ -19,10 +18,4 @@ get '/table' do
   end
   
   haml :table
-end
-
-configure do
-  Sunlight.api_key = 'sunlight9'
-  SENATORS = Legislator.all_where :title => 'Sen'
-  REPS = Legislator.all_where :title => 'Rep'
 end
