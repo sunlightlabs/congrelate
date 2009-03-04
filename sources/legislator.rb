@@ -2,10 +2,8 @@ class Legislator < ActiveRecord::Base
   
   validates_presence_of :bioguide_id, :district, :state, :name
   
-  
-  
   def self.update
-    api_legislators = Daywalker::Legislator.all
+    api_legislators = Daywalker::Legislator.all :all_legislators => true
     
     api_legislators.each do |api_legislator|
       legislator = Legislator.find_or_initialize_by_bioguide_id api_legislator.bioguide_id
@@ -24,6 +22,9 @@ class Legislator < ActiveRecord::Base
   rescue => e
     ['FAILED', e.message]
   end
+  
+  
+  private
   
   # Some Daywalker-specific transformations
   def self.title_for(api_legislator)
