@@ -1,16 +1,26 @@
+Big Sheet
 
-  Big Sheet
+(c) 2009 Sunlight Foundation
 
-  (c) 2009 Sunlight Foundation
+- Gem dependencies -
 
-  - Adding a new source -
+  * sinatra, sunlight, haml, activerecord
 
-    * Update sources.yml by hand with the new source, following the example of the sources already in there.  
-    * Run "rake sources:load to *overwrite* the contents of the 'sources' table with the contents of sources.yml.
+- Getting started -
+
+  * Create the databases and permissions as specified in configuration.rb.
+  * Run "rake db:migrate", then "rake sources:load".
+  * Execute "bigsheet.rb", or run "ruby bigsheet.rb" if that doesn't work.
+  * Visit "http://localhost:4567" in your browser.
+
+- Adding a new source -
+
+  * Update sources.yml by hand with the new source, following the example of the sources already in there.  
+  * Run "rake sources:load to *overwrite* the contents of the 'sources' table with the contents of sources.yml.
+
+- Modifying the database -
   
-  - Modifying the database -
-    
-    * Create a new migration file in db/, following the example of prior migrations. Include an up and a down.
-    * Run "rake db:migrate VERSION=N", where N is the version number of the migration you just made.
-    * Run "rake db:migrate VERSION=M", where M is N - 1. This exercises the down method of the new migration.
-    * Run "rake db:migrate VERSION=N" again.
+  * Create a new migration file in db/, following the example of prior migrations. Include an up and a down.
+  * Run "rake db:migrate VERSION=N", where N is the version number of the migration you just made.
+  * Run "rake db:migrate VERSION=M", where M is N - 1. This exercises the down method of the new migration.
+  * Run "rake db:migrate VERSION=N" again.
