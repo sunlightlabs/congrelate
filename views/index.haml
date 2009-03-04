@@ -2,16 +2,35 @@
 
 %form{:action => '/table', :method => :get}
   
-  <!-- Optional columns -->
-  %label{:for => 'test'} Test column
-  %input{:type => 'checkbox', :id => 'test', :name => 'test'}
-  %br
-  
-  <!-- House -->
-  %label House
-  %input{:type => 'radio', :name => 'house', :value => 'representatives'} House of Representatives
-  %input{:type => 'radio', :name => 'house', :value => 'senators'} Senate
-  %input{:type => 'radio', :name => 'house', :value => 'both', :checked => 'checked'} Both
-  %br
+  .source
+    %h1 Legislator Info
+    
+    %table
+      %thead
+        %tr
+          %th
+            %label{:for => 'legislator_name'} Name
+          %th 
+            %label{:for => 'legislator_district'} District
+          %th 
+            %label{:for => 'legislator_state'} State
+          %th 
+            %label{:for => 'legislator_gender'} Gender
+          %th 
+            %label{:for => 'legislator_party'} Party
+        %tr
+          %th
+            %input{:type => 'checkbox', :name => 'legislator[name]', :value => '1', :id => 'legislator_name', :checked => 'checked', :disabled => true}
+            %input{:type => 'hidden', :name => 'legislator[name]', :value => '1'}
+          %th
+            %input{:type => 'checkbox', :name => 'legislator[district]', :value => '1', :id => 'legislator_district', :checked => 'checked', :disabled => true}
+            %input{:type => 'hidden', :name => 'legislator[district]', :value => '1'}
+          %th
+            %input{:type => 'checkbox', :name => 'legislator[state]', :value => '1', :id => 'legislator_state', :checked => 'checked', :disabled => true}
+            %input{:type => 'hidden', :name => 'legislator[state]', :value => '1'}
+          %th
+            %input{:type => 'checkbox', :name => 'legislator[gender]', :value => '1', :id => 'legislator_gender'}
+          %th
+            %input{:type => 'checkbox', :name => 'legislator[party]', :value => '1', :id => 'legislator_party'}
   
   %input{:type => 'submit', :name => 'Submit'}

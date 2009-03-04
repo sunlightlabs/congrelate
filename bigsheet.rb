@@ -8,18 +8,11 @@ class Source < ActiveRecord::Base
 end
 
 # Load in each source
-configure do
-  Source.all.each do |source| 
-    begin
-      require "sources/#{source.keyword}"
-    rescue MissingSourceFile
-      nil
-    end
-  end
-end
+require 'sources/legislator'
 
 # Controllers
 get '/' do
+  @legislator = Source.find_by_keyword 'Legislator'
   haml :index
 end
 
