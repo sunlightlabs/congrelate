@@ -1,3 +1,8 @@
+require 'rubygems'
+require 'sinatra'
+require 'daywalker'
+require 'activerecord'
+
 configure :production do
   DATABASE = 'bigsheet_production'
   Daywalker.api_key = 'sunlight9'
@@ -20,12 +25,3 @@ ActiveRecord::Base.establish_connection(
   :database => DATABASE,
   :host => 'localhost'
 )
-
-# Load in each source
-Source.all.each do |source| 
-  begin
-    require "sources/#{source.keyword}"
-  rescue MissingSourceFile
-    nil
-  end
-end

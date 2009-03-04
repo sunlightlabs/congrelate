@@ -9,7 +9,7 @@ end
 
 desc "Loads environment"
 task :environment do
-  require 'bigsheet'
+  require 'environment'
 end
 
 namespace :sources do

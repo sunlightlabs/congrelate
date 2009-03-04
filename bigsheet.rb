@@ -1,16 +1,22 @@
 #!/usr/bin/ruby
 
-require 'rubygems'
-require 'sinatra'
-require 'daywalker'
+# Environment
+require 'environment'
 
 # Models
-require 'activerecord'
 class Source < ActiveRecord::Base
 end
 
-# Configuration
-require 'configuration'
+# Load in each source
+configure do
+  Source.all.each do |source| 
+    begin
+      require "sources/#{source.keyword}"
+    rescue MissingSourceFile
+      nil
+    end
+  end
+end
 
 # Controllers
 get '/' do
