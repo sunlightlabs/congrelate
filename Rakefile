@@ -11,3 +11,11 @@ desc "Loads environment"
 task :environment do
   require 'bigsheet'
 end
+
+namespace :sources do
+  desc "Load in sources"
+  task(:load => :environment) do
+    require 'active_record/fixtures'
+    Fixtures.create_fixtures('.', File.basename("sources.yml", '.*'))
+  end
+end

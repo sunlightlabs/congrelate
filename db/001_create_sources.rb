@@ -4,7 +4,6 @@ class CreateSources < ActiveRecord::Migration
     create_table :sources do |t|
       t.string :name, :keyword
       t.integer :ttl # in days
-      t.timestamps
     end
     add_index :sources, :keyword
   end
