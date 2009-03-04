@@ -18,6 +18,6 @@
     - @legislators.each do |legislator|
       %tr
         %td= "#{legislator.title}."
-        %td= "#{legislator.firstname} #{legislator.lastname}"
+        %td= legislator.name
         %td= legislator.state
         %td= legislator.district

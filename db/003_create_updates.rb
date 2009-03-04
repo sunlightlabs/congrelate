@@ -2,7 +2,7 @@ class CreateUpdates < ActiveRecord::Migration
 
   def self.up
     create_table :updates do |t|
-      t.string :source_keyword, :status
+      t.string :source_keyword, :status, :message
       t.timestamps
     end
     add_index :updates, [:source_keyword, :status]

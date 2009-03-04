@@ -1,5 +1,5 @@
-legislators:
+legislator:
   id: 1
   name: Legislators
-  keyword: legislators
+  keyword: legislator
   ttl: 1

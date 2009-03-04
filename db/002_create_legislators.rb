@@ -2,8 +2,7 @@ class CreateLegislators < ActiveRecord::Migration
 
   def self.up
     create_table :legislators do |t|
-      t.string :title, :name, :gender, :district, :state, :party
-      t.integer :bioguide_id
+      t.string :title, :name, :gender, :district, :state, :party, :bioguide_id
       t.boolean :in_office
       t.timestamps
     end
