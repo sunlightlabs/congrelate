@@ -6,6 +6,7 @@ class CreateSources < ActiveRecord::Migration
       t.integer :ttl # in days
       t.timestamps
     end
+    add_index :sources, :keyword
   end
   
   def self.down
