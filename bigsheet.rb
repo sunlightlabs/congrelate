@@ -1,3 +1,5 @@
+#!/usr/bin/ruby
+
 require 'rubygems'
 require 'sinatra'
 
@@ -8,14 +10,5 @@ get '/' do
 end
 
 get '/table' do
-  
-  if params[:house] == 'representatives'
-    @legislators = REPS
-  elsif params[:house] == 'senators'
-    @legislators = SENATORS
-  else # params[:house] == 'both'
-    @legislators = REPS + SENATORS
-  end
-  
   haml :table
 end
