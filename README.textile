@@ -4,7 +4,7 @@ Big Sheet
 
 h3. Gem dependencies
 
-  * sinatra, sunlight, haml, activerecord
+  * sinatra, daywalker, haml, activerecord
 
 h3. Getting started
 

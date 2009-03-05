@@ -1,6 +1,28 @@
 class Legislator < ActiveRecord::Base
-  
   validates_presence_of :bioguide_id, :district, :state, :name
+  named_scope :active, :conditions => {:in_office => true}
+  
+  def self.fields
+    ['name', 'state', 'district', 'gender', 'party']
+  end
+  
+  def self.data_for(columns)
+    data = {}
+    
+    # in the future, we could refactor this to create a smaller query based on the columns requested
+    legislators = Legislator.active
+    
+    # only use columns that were checked
+    columns.each {|column, use| data[column] = {} if use == '1'}
+    
+    legislators.each do |legislator|
+      data.keys.each do |column|
+        p column
+        data[column][legislator.bioguide_id] = legislator.send(column)
+      end
+    end
+    data
+  end
   
   def self.update
     api_legislators = Daywalker::Legislator.all :all_legislators => true
@@ -22,7 +44,6 @@ class Legislator < ActiveRecord::Base
   rescue => e
     ['FAILED', e.message]
   end
-  
   
   private
   

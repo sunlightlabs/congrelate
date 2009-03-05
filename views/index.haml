@@ -11,9 +11,9 @@
           %th
             %label{:for => 'legislator_name'} Name
           %th 
-            %label{:for => 'legislator_district'} District
-          %th 
             %label{:for => 'legislator_state'} State
+          %th 
+            %label{:for => 'legislator_district'} District
           %th 
             %label{:for => 'legislator_gender'} Gender
           %th 
@@ -23,11 +23,11 @@
             %input{:type => 'checkbox', :name => 'legislator[name]', :value => '1', :id => 'legislator_name', :checked => 'checked', :disabled => true}
             %input{:type => 'hidden', :name => 'legislator[name]', :value => '1'}
           %th
-            %input{:type => 'checkbox', :name => 'legislator[district]', :value => '1', :id => 'legislator_district', :checked => 'checked', :disabled => true}
-            %input{:type => 'hidden', :name => 'legislator[district]', :value => '1'}
-          %th
             %input{:type => 'checkbox', :name => 'legislator[state]', :value => '1', :id => 'legislator_state', :checked => 'checked', :disabled => true}
             %input{:type => 'hidden', :name => 'legislator[state]', :value => '1'}
+          %th
+            %input{:type => 'checkbox', :name => 'legislator[district]', :value => '1', :id => 'legislator_district', :checked => 'checked', :disabled => true}
+            %input{:type => 'hidden', :name => 'legislator[district]', :value => '1'}
           %th
             %input{:type => 'checkbox', :name => 'legislator[gender]', :value => '1', :id => 'legislator_gender'}
           %th

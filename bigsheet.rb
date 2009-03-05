@@ -1,5 +1,8 @@
 #!/usr/bin/ruby
 
+require 'rubygems'
+require 'sinatra'
+
 # Environment
 require 'environment'
 
@@ -12,11 +15,33 @@ require 'sources/legislator'
 
 # Controllers
 get '/' do
-  @legislator = Source.find_by_keyword 'Legislator'
   haml :index
 end
 
 get '/table' do
-  @legislators = Legislator.all
+  @data = get_columns
+  @legislators = Legislator.active
   haml :table
+end
+
+helpers do
+
+  def get_columns
+    data = {}
+    [:legislator].each do |source|
+      if params[source]
+        data[source] = class_for(source).data_for params[source]
+      end
+    end
+    data
+  end
+  
+  def class_for(source)
+    source.to_s.camelize.constantize
+  end
+  
+  def sort_fields(fields, source)
+    fields.sort {|a, b| class_for(source).fields.index(a) <=> class_for(source).fields.index(b)}
+  end
+
 end

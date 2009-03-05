@@ -3,21 +3,22 @@
     $(document).ready(function() {
       $('#main').dataTable({
         bProcessing: true,
-        aaSorting: [[2, 'asc'], [3, 'asc']]
+        aaSorting: [[1, 'asc'], [2, 'asc']]
       });
     });
+
+.header
+  %a{:href => '/'} Back to field selection
 
 %table#main.display
   %thead
     %tr
-      %th Title
-      %th Legislator
-      %th State
-      %th District
+      - @data.keys.each do |source|
+        - sort_fields(@data[source].keys, source).each do |column|
+          %th= column.to_s.titleize
   %tbody
     - @legislators.each do |legislator|
       %tr
-        %td= "#{legislator.title}."
-        %td= legislator.name
-        %td= legislator.state
-        %td= legislator.district
+        - @data.keys.each do |source|
+          - sort_fields(@data[source].keys, source).each do |column|
+            %td= @data[source][column][legislator.bioguide_id]
