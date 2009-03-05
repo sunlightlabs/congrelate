@@ -23,11 +23,11 @@ set :admin_runner, runner
  
 namespace :deploy do
   task :start, :roles => [:web, :app] do
-    run "cd #{deploy_to}/current && mongrel_cluster_ctl start -c #{deploy_to}/current/mongrel_cluster_#{rails_env}.yml"
+    run "cd #{deploy_to}/current && nohup thin -C thin_#{environment}.yml -R config.ru start"
   end
  
   task :stop, :roles => [:web, :app] do
-    run "cd #{deploy_to}/current && mongrel_cluster_ctl stop -c #{deploy_to}/current/mongrel_cluster_#{rails_env}.yml"
+    run "cd #{deploy_to}/current && nohup thin -C thin_#{environment}.yml -R config.ru stop"
   end
  
   task :restart, :roles => [:web, :app] do
@@ -35,6 +35,7 @@ namespace :deploy do
     deploy.start
   end
  
+  # This will make sure that Capistrano doesn't try to run rake:migrate (this is not a Rails project!)
   task :cold do
     deploy.update
     deploy.start
