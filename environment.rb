@@ -11,6 +11,7 @@ end
 configure :staging do
   DATABASE = 'bigsheet_staging'
   Daywalker.api_key = 'sunlight9'
+end
 
 configure :development do
   DATABASE = 'bigsheet_dev'
