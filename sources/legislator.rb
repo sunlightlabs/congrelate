@@ -17,7 +17,6 @@ class Legislator < ActiveRecord::Base
     
     legislators.each do |legislator|
       data.keys.each do |column|
-        p column
         data[column][legislator.bioguide_id] = legislator.send(column)
       end
     end
@@ -50,9 +49,9 @@ class Legislator < ActiveRecord::Base
   # Some Daywalker-specific transformations
   def self.title_for(api_legislator)
     {
-      :representative => 'Rep',
-      :senator => 'Sen',
-      nil => 'Del'
+      :representative => 'Rep.',
+      :senator => 'Sen.',
+      nil => 'Del.'
     }[api_legislator.title]
   end
   
