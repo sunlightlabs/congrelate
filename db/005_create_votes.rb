@@ -2,7 +2,7 @@ class CreateVotes < ActiveRecord::Migration
 
   def self.up
     create_table :votes do |t|
-      t.string :bioguide_id, :roll_call_identifier, :position
+      t.string :bioguide_id, :govtrack_id, :roll_call_identifier, :position
       t.integer :roll_call_id
     end
     

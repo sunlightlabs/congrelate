@@ -2,6 +2,7 @@ require 'rubygems'
 require 'sinatra'
 require 'daywalker'
 require 'activerecord'
+require 'hpricot'
 
 configure :production do
   DATABASE = 'bigsheet_production'
