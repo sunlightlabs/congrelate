@@ -1,6 +1,10 @@
-class RollCall < ActiveRecord::Base
+class RollCall < ActiveRecord::Base 
 
-def self.fields
+  has_many :votes
+  
+  named_scope :bills, :conditions => 'bill_id is not null'
+
+  def self.fields
   
   end
   
@@ -11,4 +15,5 @@ def self.fields
   def self.update
     
   end
+  
 end
