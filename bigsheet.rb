@@ -11,7 +11,7 @@ class Source < ActiveRecord::Base
 end
 
 # Load in each source
-require 'sources/legislator'
+load 'models/legislator.rb'
 
 # Controllers
 get '/' do
