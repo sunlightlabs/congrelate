@@ -1,6 +1,6 @@
 class RollCall < ActiveRecord::Base 
 
-  has_many :votes
+  has_many :votes, :dependent => :destroy
   validates_associated :votes
   validates_presence_of :question, :result, :identifier
   
@@ -85,7 +85,7 @@ class RollCall < ActiveRecord::Base
         success_msg << "\nMissing bioguide_id for govtrack_id's: #{missing_bioguides.uniq.join(", ")}" 
       end
       
-      ['SUCCESS', "#{roll_call_count} RollCalls created"]
+      ['SUCCESS', success_msg]
     else
       ['FAILED', "Couldn't rsync files for Congress ##{congress} from GovTrack"]
     end
