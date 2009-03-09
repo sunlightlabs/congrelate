@@ -7,11 +7,7 @@ require 'sinatra'
 require 'environment'
 
 # Models
-class Source < ActiveRecord::Base
-end
-
-# Load in each source
-load 'models/legislator.rb'
+Dir.glob('models/*.rb').each {|model| load model}
 
 # Controllers
 get '/' do

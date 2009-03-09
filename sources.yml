@@ -3,3 +3,8 @@ legislator:
   name: Legislator Information
   keyword: legislator
   ttl: 1
+votes:
+  id: 2
+  name: Vote History
+  keyword: roll_call
+  ttl: 14
