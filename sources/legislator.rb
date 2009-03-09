@@ -35,7 +35,11 @@ class Legislator < ActiveRecord::Base
         :district => district_for(api_legislator),
         :state => api_legislator.state,
         :party => party_for(api_legislator),
-        :in_office => api_legislator.in_office
+        :in_office => api_legislator.in_office,
+        :crp_id => api_legislator.crp_id,
+        :govtrack_id => api_legislator.govtrack_id,
+        :votesmart_id => api_legislator.votesmart_id,
+        :fec_id => api_legislator.fec_id
       }
       legislator.save!
     end
