@@ -4,13 +4,13 @@
 %table#main.display
   %thead
     %tr
-      - @data.keys.each do |source|
+      - sort_by_ref(@data.keys, source_keys).each do |source|
         - sort_fields(@data[source].keys, source).each do |column|
           %th= column.to_s.titleize
   %tbody
     - @legislators.each do |legislator|
       %tr
-        - @data.keys.each do |source|
+        - sort_by_ref(@data.keys, source_keys).each do |source|
           - sort_fields(@data[source].keys, source).each do |column|
             %td= @data[source][column][legislator.bioguide_id]
 

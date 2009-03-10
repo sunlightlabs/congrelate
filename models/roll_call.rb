@@ -1,6 +1,6 @@
 get '/roll_calls' do
   if params[:q]
-    roll_calls = RollCall.search(params[:q]).all(:limit => (params[:limit] || 10))
+    roll_calls = RollCall.search(params[:q]).listing.all(:limit => (params[:limit] || 100))
     roll_calls.map {|roll_call| "#{roll_call.question}|#{roll_call.identifier}"}.join("\n")
   else
     status 404
@@ -26,14 +26,26 @@ class RollCall < ActiveRecord::Base
       ].flatten
     }
   }
-  named_scope :limit, lambda {|limit| {:conditions => {:limit => limit}}}
 
   def self.fields
     ['']
   end
   
-  def self.data_for(columns)
+  def self.data_for(legislators, columns)
+    data = {}
+    # only use columns that were checked
+    columns.each {|column, use| data[column] = {} if use == '1'}
     
+    data.keys.each do |roll_call_identifier|
+      vote_data = {}
+      votes = Vote.all :conditions => {:roll_call_identifier => roll_call_identifier}
+      votes.each {|vote| vote_data[vote.bioguide_id] = vote.position}
+      
+      legislators.each do |legislator|
+        data[roll_call_identifier][legislator.bioguide_id] = vote_data[legislator.bioguide_id]
+      end
+    end
+    data
   end
   
   def self.update(options = {})

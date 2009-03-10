@@ -6,11 +6,8 @@ class Legislator < ActiveRecord::Base
     ['name', 'state', 'district', 'gender', 'party']
   end
   
-  def self.data_for(columns)
+  def self.data_for(legislators, columns)
     data = {}
-    
-    # in the future, we could refactor this to create a smaller query based on the columns requested
-    legislators = Legislator.active
     
     # only use columns that were checked
     columns.each {|column, use| data[column] = {} if use == '1'}

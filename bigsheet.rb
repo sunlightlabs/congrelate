@@ -15,18 +15,18 @@ get '/' do
 end
 
 get '/table' do
-  @data = get_columns
   @legislators = Legislator.active
+  @data = get_columns @legislators
   haml :table
 end
 
 helpers do
 
-  def get_columns
+  def get_columns(legislators)
     data = {}
     source_keys.each do |source|
       if params[source]
-        if source_data = class_for(source).data_for(params[source])
+        if source_data = class_for(source).data_for(legislators, params[source])
           data[source] = source_data
         end
       end
@@ -39,7 +39,7 @@ helpers do
   end
   
   def sort_fields(fields, source)
-    fields.sort {|a, b| class_for(source).fields.index(a) <=> class_for(source).fields.index(b)}
+    sort_by_ref(fields, class_for(source).fields)
   end
   
   def sources
@@ -48,6 +48,10 @@ helpers do
   
   def source_keys
     sources.map {|source| source.keyword.to_sym}
+  end
+  
+  def sort_by_ref(array, reference)
+    array.sort {|a, b| reference.index(a) <=> reference.index(b)}
   end
   
 end
