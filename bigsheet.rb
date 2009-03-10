@@ -24,7 +24,7 @@ helpers do
 
   def get_columns
     data = {}
-    [:legislator].each do |source|
+    sources.each do |source|
       if params[source]
         data[source] = class_for(source).data_for params[source]
       end
@@ -38,6 +38,10 @@ helpers do
   
   def sort_fields(fields, source)
     fields.sort {|a, b| class_for(source).fields.index(a) <=> class_for(source).fields.index(b)}
+  end
+  
+  def sources
+    @@sources ||= Source.all.map {|source| source.keyword.to_sym}
   end
 
 end
