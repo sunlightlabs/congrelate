@@ -14,8 +14,9 @@ class RollCall < ActiveRecord::Base
   
   end
   
-  def self.update
-    congress = self.current_congress
+  def self.update(options = {})
+    congress = options[:congress] || self.current_congress
+    
     FileUtils.mkdir_p "data/govtrack/#{congress}"
     
     if system("rsync -az govtrack.us::govtrackdata/us/#{congress}/rolls data/govtrack/#{congress}")
