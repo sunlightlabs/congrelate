@@ -1,12 +1,11 @@
-%div
+#roll_call_fields
   %label{:for => 'roll_call_identifier'} Roll Call:
-  %input{:type => 'text', :id => 'roll_call_autocomplete'}
-  %input{:type => 'hidden', :name => 'roll_call[identifier]', :id => 'roll_call_identifier'}
+  %input{:type => 'text', :id => 'roll_call_identifier'}
   
 %script{:type => 'text/javascript'}
   :plain
     $(document).ready(function() {
-      $('#roll_call_autocomplete').autocomplete('/roll_calls', {
+      $('#roll_call_identifier').autocomplete('/roll_calls', {
         formatItem: function(row) {
           return "<em>" + row[1] + "</em><br/>" + row[0];
         },
@@ -15,6 +14,11 @@
           return row[1];
         }
       }).result(function(event, data) {
-        $('#roll_call_identifier').val(data[1]);
+        $('#roll_call_fields').append(
+          '<div class="roll_call_chosen" id="roll_call_' + data[1] + '">' +
+            data[0] + ' ' +
+            '<input type="hidden" name="roll_call[' + data[1] + ']" value="1" />' +
+          '</div>'
+        );
       });
     });
