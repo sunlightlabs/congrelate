@@ -3,8 +3,12 @@ legislator:
   name: Legislator Information
   keyword: legislator
   ttl: 1
+  source_name: Sunlight Labs API
+  source_url: "http://services.sunlightlabs.com/api/"
 votes:
   id: 2
   name: Vote History
   keyword: roll_call
   ttl: 14
+  source_name: GovTrack
+  source_url: "http://govtrack.us"
