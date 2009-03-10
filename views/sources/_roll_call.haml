@@ -1,7 +1,9 @@
 #roll_call_fields
   %label{:for => 'roll_call_identifier'} Roll Call:
   %input{:type => 'text', :id => 'roll_call_identifier'}
-  
+  #roll_call_fields_chosen{:style => "display: none"}
+    %h3 Selected Roll Calls
+    
 %script{:type => 'text/javascript'}
   :plain
     $(document).ready(function() {
@@ -14,11 +16,12 @@
           return row[1];
         }
       }).result(function(event, data) {
-        $('#roll_call_fields').append(
+        $('#roll_call_fields_chosen').append(
           '<div class="roll_call_chosen" id="roll_call_' + data[1] + '">' +
             data[0] + ' ' +
             '<input type="hidden" name="roll_call[' + data[1] + ']" value="1" />' +
           '</div>'
         );
+        $('#roll_call_fields_chosen').show();
       });
     });

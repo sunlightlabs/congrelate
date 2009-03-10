@@ -74,6 +74,7 @@ class RollCall < ActiveRecord::Base
         doc = open(filename) {|f| Hpricot f}
         
         # basic fields
+        roll_call.held_at = Time.at(doc.at(:roll)[:when].to_i)
         roll_call.congress = doc.at(:roll)[:session].to_i
         roll_call.roll_call_type = doc.at(:type).inner_text
         roll_call.question = doc.at(:question).inner_text
@@ -91,12 +92,10 @@ class RollCall < ActiveRecord::Base
           
           # skip cases
           if elem[:id] == '0'
-            puts "  [SKIP VOTE] Missing voter id (of 0) in govtrack data"
             next
           end
           
           if legislators[elem[:id]].nil?
-            puts "  [SKIP VOTE] Missing bioguide_id for govtrack_id #{elem[:id]}"
             missing_bioguides << elem[:id]
             next
           end
@@ -110,11 +109,9 @@ class RollCall < ActiveRecord::Base
         end
         
         roll_call.save!
-        
-        puts "\n  #{roll_call.votes.size} votes created for RollCall with identifier #{identifier}"
+        roll_call_count += 1
       end
       
-      roll_call_count += 1
       success_msg = "#{roll_call_count} RollCalls created"
       if missing_bioguides.any?
         success_msg << "\nMissing bioguide_id for govtrack_id's: #{missing_bioguides.uniq.join(", ")}" 
