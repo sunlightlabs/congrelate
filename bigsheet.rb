@@ -39,7 +39,7 @@ helpers do
   end
   
   def sort_fields(fields, source)
-    sort_by_ref(fields, class_for(source).fields)
+    class_for(source).sort(fields)
   end
   
   def sources

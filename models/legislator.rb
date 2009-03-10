@@ -2,8 +2,9 @@ class Legislator < ActiveRecord::Base
   validates_presence_of :bioguide_id, :district, :state, :name
   named_scope :active, :conditions => {:in_office => true}
   
-  def self.fields
-    ['name', 'state', 'district', 'gender', 'party']
+  def self.sort(fields)
+    cols = ['name', 'state', 'district', 'gender', 'party']
+    fields.sort {|a, b| cols.index(a) <=> cols.index(b)}
   end
   
   def self.data_for(legislators, columns)

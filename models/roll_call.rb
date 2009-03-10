@@ -27,8 +27,8 @@ class RollCall < ActiveRecord::Base
     }
   }
 
-  def self.fields
-    ['']
+  def self.sort(fields)
+    fields.sort
   end
   
   def self.data_for(legislators, columns)
