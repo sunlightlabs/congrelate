@@ -1,17 +1,39 @@
+get '/roll_calls' do
+  if params[:q]
+    roll_calls = RollCall.search(params[:q]).all(:limit => (params[:limit] || 10))
+    roll_calls.map {|roll_call| "#{roll_call.question}|#{roll_call.identifier}"}.join("\n")
+  else
+    status 404
+    "Supply a search parameter."
+  end
+end
+
 class RollCall < ActiveRecord::Base 
 
   has_many :votes, :dependent => :destroy
   validates_associated :votes
   validates_presence_of :question, :result, :identifier
   
-  named_scope :bills, :conditions => 'bill_id is not null'
+  named_scope :bills, :conditions => 'bill_identifier is not null'
+  
+  named_scope :listing, :select => "roll_calls.identifier, roll_calls.question", :order => 'held_at desc'
+  named_scope :search, lambda { |q|
+    {:conditions => [
+        'question like ? or question like ? or
+        bill_identifier like ? or bill_identifier like ? or
+        identifier like ? or identifier like ?',
+        ["#{q}%", "% #{q}%"] * 3
+      ].flatten
+    }
+  }
+  named_scope :limit, lambda {|limit| {:conditions => {:limit => limit}}}
 
   def self.fields
     ['']
   end
   
-  def self.data_for
-  
+  def self.data_for(columns)
+    
   end
   
   def self.update(options = {})

@@ -2,6 +2,10 @@
 
   - sources.each do |source|
     .source
-      = haml :"sources/_#{source}", :layout => false
+      %h1= source.name
+      = haml :"sources/_#{source.keyword}", :layout => false, :locals => {:source => source}
+      %h6
+        Data source:
+        %a{:href => source.source_url}= source.source_name
   
   %input{:type => 'submit', :name => 'Submit'}

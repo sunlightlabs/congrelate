@@ -1,12 +1,3 @@
-%script{:type => 'text/javascript'}
-  :plain
-    $(document).ready(function() {
-      $('#main').dataTable({
-        bProcessing: true,
-        aaSorting: [[1, 'asc'], [2, 'asc']]
-      });
-    });
-
 .header
   %a{:href => '/'} Back to field selection
 
@@ -22,3 +13,12 @@
         - @data.keys.each do |source|
           - sort_fields(@data[source].keys, source).each do |column|
             %td= @data[source][column][legislator.bioguide_id]
+
+%script{:type => 'text/javascript'}
+  :plain
+    $(document).ready(function() {
+      $('#main').dataTable({
+        bProcessing: true,
+        aaSorting: [[1, 'asc'], [2, 'asc']]
+      });
+    });

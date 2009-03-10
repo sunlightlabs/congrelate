@@ -24,9 +24,11 @@ helpers do
 
   def get_columns
     data = {}
-    sources.each do |source|
+    source_keys.each do |source|
       if params[source]
-        data[source] = class_for(source).data_for params[source]
+        if source_data = class_for(source).data_for(params[source])
+          data[source] = source_data
+        end
       end
     end
     data
@@ -41,7 +43,11 @@ helpers do
   end
   
   def sources
-    @@sources ||= Source.all.map {|source| source.keyword.to_sym}
+    @@sources ||= Source.all
   end
-
+  
+  def source_keys
+    sources.map {|source| source.keyword.to_sym}
+  end
+  
 end
