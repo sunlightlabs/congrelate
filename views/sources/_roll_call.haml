@@ -19,9 +19,10 @@
         $('#roll_call_fields_chosen').append(
           '<div class="roll_call_chosen" id="roll_call_' + data[1] + '">' +
             data[0] + ' ' +
-            '<input type="hidden" name="roll_call[' + data[1] + ']" value="1" />' +
+            '<input type="checkbox" name="roll_call[' + data[1] + ']" value="1" checked="checked" />' +
           '</div>'
         );
+        $('#roll_call_identifier').val('');
         $('#roll_call_fields_chosen').show();
       });
     });
