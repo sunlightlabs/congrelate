@@ -1,13 +1,3 @@
-get '/roll_calls' do
-  if params[:q]
-    roll_calls = RollCall.search(params[:q]).listing.all(:limit => (params[:limit] || 100))
-    roll_calls.map {|roll_call| "#{roll_call.question}|#{roll_call.identifier}"}.join("\n")
-  else
-    status 404
-    "Supply a search parameter."
-  end
-end
-
 class RollCall < ActiveRecord::Base 
 
   has_many :votes, :dependent => :destroy
@@ -16,7 +6,7 @@ class RollCall < ActiveRecord::Base
   
   named_scope :bills, :conditions => 'bill_identifier is not null'
   
-  named_scope :listing, :select => "roll_calls.identifier, roll_calls.question", :order => 'held_at desc'
+  named_scope :listing, :order => 'held_at desc'
   named_scope :search, lambda { |q|
     {:conditions => [
         'question like ? or question like ? or
@@ -141,4 +131,18 @@ class RollCall < ActiveRecord::Base
     ((Time.now.year + 1) / 2) - 894
   end
   
+end
+
+# Autocomplete route
+
+get '/roll_calls' do
+  if params[:q]
+    roll_calls = RollCall.search(params[:q]).listing.all(:limit => (params[:limit] || 50))
+    roll_calls.map do |roll_call| 
+      fields = [roll_call.question, roll_call.identifier, roll_call.held_at.strftime("%b %d, %Y"), roll_call.bill_identifier].join '|'
+    end.join "\n"
+  else
+    status 404
+    "Supply a search parameter."
+  end
 end

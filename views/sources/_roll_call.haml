@@ -9,7 +9,11 @@
     $(document).ready(function() {
       $('#roll_call_identifier').autocomplete('/roll_calls', {
         formatItem: function(row) {
-          return "<em>" + row[1] + "</em><br/>" + row[0];
+          var field = "<em>" + row[1] + " - " + row[2];
+          if (row[3])
+            field += " - Bill " + row[3];
+          field += "</em><br/>" + row[0];
+          return field;
         },
         max: 50,
         formatResult: function(row) {
