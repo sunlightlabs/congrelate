@@ -15,17 +15,18 @@ class District < ActiveRecord::Base
     FileUtils.mkdir_p data_dir
     FileUtils.chdir data_dir
     
-    success_msg = ''
-    state_count = 0
-    missed_states = ''
+    state_counts = {}
+    missed_states = []
     
-    state = options[:state]
-    code = states[state]
-    download_state(census, state)
-    unzip_state(state)
-    #states.each do |state, code|
-      # next unless download_state(census, state)
-      # next unless unzip_state(state)
+    states.each do |state, code|
+      unless download_state(census, state)
+        puts "[#{state}] Couldn't download from census."
+        missed_states << state
+      end
+      unless unzip_state(state)
+        puts "[#{state}] Couldn't unzip census data."
+        missed_states << state
+      end
       
       # read in all the CSV (oh boy)
       pages = ["2kh#{code}.csv", "2ks#{code}t2.csv", "2ks#{code}t3.csv", "2ks#{code}t4.csv"].map do |filename|
@@ -33,23 +34,33 @@ class District < ActiveRecord::Base
       end
             
       # the state-wide district is always the first row
-      puts "[#{state}] State level"
+      puts "\n[#{state}] State level"
       state_district = District.find_or_initialize_by_state_and_district state, 'State'
       fill_district state_district, pages, 0
       state_district.save!
       
       # Loop through each region name, making a district for each congressional district
+      district_count = 0
       pages.first.transpose[14].each_with_index do |region, i|
         if district_name = district_for(region)
-          puts "[#{state}] #{region} - District #{district_name}"
+          puts "  [#{district_name}] #{region}"
           district = District.find_or_initialize_by_state_and_district state, district_name
           fill_district district, pages, i
           district.save!
+          district_count += 1
         end
       end
       
-      state_count += 1
-    #end
+      state_counts[state] = district_count
+    end
+    
+    success_msg = "Updated district data from #{census} Census for #{state_counts.keys.size} states."
+    state_counts.each do |state, count|
+      success_msg << "\n[#{state}] #{count} districts."
+    end
+    if missed_states.any?
+      success_msg << "\n\nMissed states: #{missed_states.join(', ')}"
+    end
     
     ['SUCCESS', success_msg]
   rescue ActiveRecord::RecordInvalid => e
@@ -119,21 +130,21 @@ class District < ActiveRecord::Base
   
   def self.states
     {
-      "US" => "00",
+      # "US" => "00",
       "AL" => "01",
       "AK" => "02",
-      "Unknown 1" => "02", # American Samoa?
+      # "Unknown 1" => "02", # American Samoa?
       "AZ" => "04",
-      "AK" => "05",
+      "AR" => "05",
       "CA" => "06",
-      "Unknown 2" => "07",
+      # "Unknown 2" => "07",
       "CO" => "08",
       "CT" => "09",
       "DE" => "10",
       "DC" => "11",
       "FL" => "12",
       "GA" => "13",
-      "Unknown 3" => "14",
+     #  "Unknown 3" => "14",
       "HI" => "15",
       "ID" => "16",
       "IL" => "17",
@@ -162,7 +173,7 @@ class District < ActiveRecord::Base
       "OK" => "40",
       "OR" => "41",
       "PA" => "42",
-      "Unknown 4" => "43",
+      # "Unknown 4" => "43",
       "PR" => "72",
       "RI" => "44",
       "SC" => "45",
@@ -172,7 +183,7 @@ class District < ActiveRecord::Base
       "UT" => "49",
       "VT" => "50",
       "VA" => "51",
-      "Unknown 5" => "52", # Virgin Islands?
+      # "Unknown 5" => "52", # Virgin Islands?
       "WA" => "53",
       "WV" => "54",
       "WI" => "55",
