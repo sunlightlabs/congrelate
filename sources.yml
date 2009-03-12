@@ -12,3 +12,10 @@ votes:
   ttl: 14
   source_name: GovTrack
   source_url: "http://govtrack.us"
+votes:
+  id: 3
+  name: Demographics
+  keyword: district
+  ttl: 365
+  source_name: US Census
+  source_url: "http://census.gov"

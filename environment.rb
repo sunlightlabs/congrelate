@@ -3,6 +3,7 @@ require 'sinatra'
 require 'daywalker'
 require 'activerecord'
 require 'hpricot'
+require 'fastercsv'
 
 configure :production do
   DATABASE = 'bigsheet_production'
