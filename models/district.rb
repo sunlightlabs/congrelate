@@ -10,24 +10,26 @@ class District < ActiveRecord::Base
   
   def self.update(options = {})
     # preparations
-    census = 2000
-    data_dir = "data/census/#{census}"
-    FileUtils.mkdir_p data_dir
-    FileUtils.chdir data_dir
+    data_dir = "data/census/2000"
+    sl1_dir = "data/census/2000/sl1"
+    sl3_dir = "data/census/2000/sl3"
+    
+    if options[:download] and File.exists?(data_dir)
+      FileUtils.rm_rf data_dir
+    end
+    
+    if !File.exists?(data_dir) or (!File.exists?(sl1_dir) and !File.exists?(sl3_dir))
+      FileUtils.mkdir_p data_dir
+      FileUtils.chdir data_dir
+      download_census
+      unzip_census
+    else
+      FileUtils.chdir data_dir
+    end
     
     state_counts = {}
-    missed_states = []
     
     states.each do |state, code|
-      unless download_state(census, state)
-        puts "[#{state}] Couldn't download from census."
-        missed_states << state
-      end
-      unless unzip_state(state)
-        puts "[#{state}] Couldn't unzip census data."
-        missed_states << state
-      end
-      
       # read in all the CSV (oh boy)
       pages = ["2kh#{code}.csv", "2ks#{code}t2.csv", "2ks#{code}t3.csv", "2ks#{code}t4.csv"].map do |filename|
         FasterCSV.read "#{state}/#{filename}"
@@ -54,7 +56,7 @@ class District < ActiveRecord::Base
       state_counts[state] = district_count
     end
     
-    success_msg = "Updated district data from #{census} Census for #{state_counts.keys.size} states."
+    success_msg = "Updated district data from 2000 Census for #{state_counts.keys.size} states."
     state_counts.each do |state, count|
       success_msg << "\n[#{state}] #{count} districts."
     end
@@ -70,6 +72,10 @@ class District < ActiveRecord::Base
   end
   
   private
+  
+  def pages(state, code)
+    
+  end
   
   def self.fill_district(district, pages, row)
     population = pages[0][row][15].to_i
@@ -111,8 +117,30 @@ class District < ActiveRecord::Base
     ((value / population) * 1000).round / 10.0
   end
   
-  def self.download_state(census, state)
-    system "wget http://www2.census.gov/census_#{census}/datasets/100_and_sample_profile/0_All_State/ProfileData#{state}.ZIP"
+  def self.download_census
+    system "wget http://www2.census.gov/census_2000/datasets/Summary_File_Extracts/110_Congressional_Districts/110_CD_HundredPercent/United_States/sl500-in-sl010-us_h10.zip"
+    system "wget http://www2.census.gov/census_2000/datasets/Summary_File_Extracts/110_Congressional_Districts/110_CD_Sample/United_States/sl500-in-sl010-us_s10.zip"
+  end
+  
+  def self.unzip_census
+    FileUtils.rm_rf 'sl1'
+    FileUtils.rm_rf 'sl3'
+    
+    system "unzip -o sl500-in-sl010-us_h10.zip -d sl1"
+    states.keys.each do |state|
+      zip_file = "sl1/sl500-in-sl040-#{state.downcase}_h10.zip"
+      system "unzip #{zip_file} -d sl1/#{state}"
+      FileUtils.rm zip_file
+    end
+    FileUtils.rm "sl500-in-sl010-us_h10.zip"
+    
+    system "unzip -o sl500-in-sl010-us_s10.zip -d sl3"
+    states.keys.each do |state|
+      zip_file = "sl3/sl500-in-sl040-#{state.downcase}_s10.zip"
+      system "unzip #{zip_file} -d sl3/#{state}"
+      FileUtils.rm zip_file
+    end
+    FileUtils.rm "sl500-in-sl010-us_s10.zip"
   end
   
   def self.district_for(district)
@@ -122,10 +150,6 @@ class District < ActiveRecord::Base
     when /District (\d+),/
       $1
     end
-  end
-  
-  def self.unzip_state(state)
-    system "unzip -o ProfileData#{state}.ZIP -d #{state}"
   end
   
   def self.states
