@@ -11,14 +11,12 @@ class District < ActiveRecord::Base
   def self.update(options = {})
     # preparations
     data_dir = "data/census/2000"
-    sl1_dir = "data/census/2000/sl1"
-    sl3_dir = "data/census/2000/sl3"
     
     if options[:download] and File.exists?(data_dir)
       FileUtils.rm_rf data_dir
     end
     
-    if !File.exists?(data_dir) or (!File.exists?(sl1_dir) and !File.exists?(sl3_dir))
+    if !File.exists?(data_dir)
       FileUtils.mkdir_p data_dir
       FileUtils.chdir data_dir
       download_census
@@ -29,28 +27,34 @@ class District < ActiveRecord::Base
     
     state_counts = {}
     
-    states.each do |state, code|
+    states.keys.sort.each do |state|
       # read in all the CSV (oh boy)
-      pages = ["2kh#{code}.csv", "2ks#{code}t2.csv", "2ks#{code}t3.csv", "2ks#{code}t4.csv"].map do |filename|
-        FasterCSV.read "#{state}/#{filename}"
+      pages = self.pages state
+      
+      # constructed in format "1" => "20" for "District 1 is at row index 20"
+      districts = {}
+      
+      header = File.new "sl1/#{state}/sl500-in-sl040-#{state.downcase}geo.h10"
+      
+      i = 0
+      while !f.eof?
+        row = header.readline
+        # if row is a district, get district number
+          # how do we tell the right row for the whole district?
+        # store row index (i) for that district
+        i += 1
       end
-            
-      # the state-wide district is always the first row
-      puts "\n[#{state}] State level"
-      state_district = District.find_or_initialize_by_state_and_district state, 'State'
-      fill_district state_district, pages, 0
-      state_district.save!
       
       # Loop through each region name, making a district for each congressional district
       district_count = 0
-      pages.first.transpose[14].each_with_index do |region, i|
-        if district_name = district_for(region)
-          puts "  [#{district_name}] #{region}"
-          district = District.find_or_initialize_by_state_and_district state, district_name
-          fill_district district, pages, i
-          district.save!
-          district_count += 1
-        end
+      districts.each do |district, i|
+#         puts "  [District #{district}]"
+#         
+#         district = District.find_or_initialize_by_state_and_district state, district_name
+#         fill_district district, pages, i
+#         district.save!
+#         
+#         district_count += 1
       end
       
       state_counts[state] = district_count
@@ -59,9 +63,6 @@ class District < ActiveRecord::Base
     success_msg = "Updated district data from 2000 Census for #{state_counts.keys.size} states."
     state_counts.each do |state, count|
       success_msg << "\n[#{state}] #{count} districts."
-    end
-    if missed_states.any?
-      success_msg << "\n\nMissed states: #{missed_states.join(', ')}"
     end
     
     ['SUCCESS', success_msg]
@@ -73,8 +74,28 @@ class District < ActiveRecord::Base
   
   private
   
-  def pages(state, code)
-    
+  def self.page_map
+    {
+      :sl1 => [2],
+      :sl3 => [4, 6, 59, 60]
+    }
+  end
+  
+  def self.pages(state)
+    pages = {}
+    ext_map = {:sl1 => 'h10', :sl3 => 's10'}
+    page_map.each do |set, page_numbers|
+      pages[set] = page_numbers.map do |number|
+        filename = "sl500-in-sl040-#{state.downcase}#{zero_prefix number}.#{ext_map[set]}"
+        FasterCSV.read "#{set}/#{state}/#{filename}"
+      end
+    end
+    pages
+  end
+  
+  # Turns "59" into "00059", "6" into "00006", etc.
+  def self.zero_prefix(n, z = 5)
+    "#{"0" * (z - n.to_s.size)}#{n}"
   end
   
   def self.fill_district(district, pages, row)
@@ -213,14 +234,6 @@ class District < ActiveRecord::Base
       "WI" => "55",
       "WY" => "56"
     }
-  end
-  
-  def self.test(census)
-    system "wget #{base_url}/census_#{census}/datasets/100_and_sample_profile/"
-  end
-  
-  def self.base_url
-    'http://www2.census.gov'
   end
 
 end
