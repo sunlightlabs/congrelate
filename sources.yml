@@ -17,5 +17,5 @@ demographics:
   name: Demographics
   keyword: district
   ttl: 365
-  source_name: US Census
+  source_name: 2000 US Census
   source_url: "http://census.gov"
