@@ -1,7 +1,7 @@
 ---
   environment: staging
   chdir: /home/bigsheet/bigsheet_staging/current
-  rackup: /home/bigsheet/bigsheet_staging/current/thin_staging.ru
+  rackup: /home/bigsheet/bigsheet_staging/current/config/thin_staging.ru
   address: 127.0.0.1
   user: bigsheet
   group: bigsheet
