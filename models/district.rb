@@ -40,21 +40,35 @@ class District < ActiveRecord::Base
       FileUtils.chdir data_dir
     end
     
-    state_counts = {}
+    # constructed in format "AK" => "20" for "State AK is at row index 20"
+    states = {}
+    header = File.new "states/sl1/sl040-in-sl010-usgeo.uf1"
     
-    states.keys.sort.each do |state|
-      puts "[#{state}] Reading in pages..."
-      # read in all the CSV (oh boy)
-      pages = self.district_pages state
+    i = 0
+    while !header.eof?
+      row = header.readline
+      name = row[200..289].strip
+      states[name] ||= i
+      i += 1
+    end
+    puts "[US] Found #{states.size} states/regions..."
+    
+    puts "[US] Reading in states..."
+    state_pages = self.state_pages
+    
+    states_to_get = options[:state] ? {options[:state] => state_codes[options[:state]]} : state_codes
+    
+    state_counts = {}
+    states_to_get.keys.sort.each do |state|
       
       ##### per-district files #####
       
-      # Figure out the map of districts to rows for this state
-      
-      header = File.new "districts/sl1/#{state}/sl500-in-sl040-#{state.downcase}geo.h10"
-      
       # constructed in format "1" => "20" for "District 1 is at row index 20"
       districts = {}
+      header = File.new "districts/sl1/#{state}/sl500-in-sl040-#{state.downcase}geo.h10"
+      
+      puts "[#{state}] Reading in pages..."
+      district_pages = self.district_pages state
       
       i = 0
       while !header.eof?
@@ -73,7 +87,7 @@ class District < ActiveRecord::Base
         puts "  [District #{name}] Parsing census data..."
         
         district = District.find_or_initialize_by_state_and_district state, name
-        fill_district district, pages, i
+        fill_district district, district_pages, i
         district.save!
          
         district_count += 1
@@ -83,10 +97,16 @@ class District < ActiveRecord::Base
       
       
       #####TODO: Per-state files ######
+      
+      puts "  [Statewide] Parsing census data..."
+      
+      district = District.find_or_initialize_by_state_and_district state, 'state'
+      fill_district district, state_pages, states[state_codes[state]]
+      district.save!
     end
     
     
-    success_msg = "Updated district data from 2000 Census for #{state_counts.keys.size} states."
+    success_msg = "Updated district data from 2000 Census for #{state_counts.size} states."
     state_counts.each do |state, count|
       success_msg << "\n[#{state}] #{count} districts."
     end
@@ -110,6 +130,63 @@ class District < ActiveRecord::Base
     }
   end
   
+  def self.state_codes
+    {
+      "AL" => "Alabama",
+      "AK" => "Alaska",
+      "AZ" => "Arizona",
+      "AR" => "Arkansas",
+      "CA" => "California",
+      "CO" => "Colorado",
+      "CT" => "Connecticut",
+      "DE" => "Delaware",
+      "DC" => "District of Columbia",
+      "FL" => "Florida",
+      "GA" => "Georgia",
+      "HI" => "Hawaii",
+      "ID" => "Idaho",
+      "IL" => "Illinois",
+      "IN" => "Indiana",
+      "IA" => "Iowa",
+      "KS" => "Kansas",
+      "KY" => "Kentucky",
+      "LA" => "Louisiana",
+      "ME" => "Maine",
+      "MD" => "Maryland",
+      "MA" => "Massachusetts",
+      "MI" => "Michigan",
+      "MN" => "Minnesota",
+      "MS" => "Mississippi",
+      "MO" => "Missouri",
+      "MT" => "Montana",
+      "NE" => "Nebraska",
+      "NV" => "Nevada",
+      "NH" => "New Hampshire",
+      "NJ" => "New Jersey",
+      "NM" => "New Mexico",
+      "NY" => "New York",
+      "NC" => "North Carolina",
+      "ND" => "North Dakota",
+      "OH" => "Ohio",
+      "OK" => "Oklahoma",
+      "OR" => "Oregon",
+      "PA" => "Pennsylvania",
+      "PR" => "Puerto Rico",
+      "RI" => "Rhode Island",
+      "SC" => "South Carolina",
+      "SD" => "South Dakota",
+      "TN" => "Tennessee",
+      "TX" => "Texas",
+      "UT" => "Utah",
+      "VT" => "Vermont",
+      "VA" => "Virginia",
+      "WA" => "Washington",
+      "WV" => "West Virginia",
+      "WI" => "Wisconsin",
+      "WY" => "Wyoming"
+    }
+  end
+  
   def self.district_pages(state)
     pages = {}
     ext_map = {:sl1 => 'h10', :sl3 => 's10'}
@@ -124,7 +201,7 @@ class District < ActiveRecord::Base
     pages
   end
   
-  def self.statewide_pages
+  def self.state_pages
     pages = {}
     ext_map = {:sl1 => 'uf1', :sl3 => 'uf3'}
     page_map.each do |set, page_numbers|
@@ -140,7 +217,6 @@ class District < ActiveRecord::Base
   
   def self.fill_district(district, pages, row)
     population = pages[:sl1][2][row][86].to_i
-    
     district.population = population
     
     district.blacks = percent pages[:sl1][2][row][105].to_f, population
@@ -148,6 +224,7 @@ class District < ActiveRecord::Base
     district.asians = percent pages[:sl1][2][row][107].to_f, population
     district.whites = percent pages[:sl1][2][row][104].to_f, population
     district.hispanics = percent pages[:sl1][2][row][125].to_f, population
+    
     district.males = percent pages[:sl1][2][row][127].to_f, population
     district.females = percent pages[:sl1][2][row][151].to_f, population
     
@@ -216,69 +293,6 @@ class District < ActiveRecord::Base
     when /District (\d+)/
       $1
     end
-  end
-  
-  def self.states
-    {
-      # "US" => "00",
-      "AL" => "01",
-      "AK" => "02",
-      # "Unknown 1" => "02", # American Samoa?
-      "AZ" => "04",
-      "AR" => "05",
-      "CA" => "06",
-      # "Unknown 2" => "07",
-      "CO" => "08",
-      "CT" => "09",
-      "DE" => "10",
-      "DC" => "11",
-      "FL" => "12",
-      "GA" => "13",
-     #  "Unknown 3" => "14",
-      "HI" => "15",
-      "ID" => "16",
-      "IL" => "17",
-      "IN" => "18",
-      "IA" => "19",
-      "KS" => "20",
-      "KY" => "21",
-      "LA" => "22",
-      "ME" => "23",
-      "MD" => "24",
-      "MA" => "25",
-      "MI" => "26",
-      "MN" => "27",
-      "MS" => "28",
-      "MO" => "29",
-      "MT" => "30",
-      "NE" => "31",
-      "NV" => "32",
-      "NH" => "33",
-      "NJ" => "34",
-      "NM" => "35",
-      "NY" => "36",
-      "NC" => "37",
-      "ND" => "38",
-      "OH" => "39",
-      "OK" => "40",
-      "OR" => "41",
-      "PA" => "42",
-      # "Unknown 4" => "43",
-      "PR" => "72",
-      "RI" => "44",
-      "SC" => "45",
-      "SD" => "46",
-      "TN" => "47",
-      "TX" => "48",
-      "UT" => "49",
-      "VT" => "50",
-      "VA" => "51",
-      # "Unknown 5" => "52", # Virgin Islands?
-      "WA" => "53",
-      "WV" => "54",
-      "WI" => "55",
-      "WY" => "56"
-    }
   end
 
 end
