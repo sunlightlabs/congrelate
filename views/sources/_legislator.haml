@@ -11,17 +11,18 @@
         %label{:for => 'legislator_gender'} Gender
       %th 
         %label{:for => 'legislator_party'} Party
+  %tbody
     %tr
-      %th
+      %td
         %input{:type => 'checkbox', :name => 'legislator[name]', :value => '1', :id => 'legislator_name', :checked => 'checked', :disabled => true}
         %input{:type => 'hidden', :name => 'legislator[name]', :value => '1'}
-      %th
+      %td
         %input{:type => 'checkbox', :name => 'legislator[state]', :value => '1', :id => 'legislator_state', :checked => 'checked', :disabled => true}
         %input{:type => 'hidden', :name => 'legislator[state]', :value => '1'}
-      %th
+      %td
         %input{:type => 'checkbox', :name => 'legislator[district]', :value => '1', :id => 'legislator_district', :checked => 'checked', :disabled => true}
         %input{:type => 'hidden', :name => 'legislator[district]', :value => '1'}
-      %th
+      %td
         %input{:type => 'checkbox', :name => 'legislator[gender]', :value => '1', :id => 'legislator_gender'}
-      %th
+      %td
         %input{:type => 'checkbox', :name => 'legislator[party]', :value => '1', :id => 'legislator_party'}

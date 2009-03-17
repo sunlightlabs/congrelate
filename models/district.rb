@@ -1,11 +1,25 @@
 class District < ActiveRecord::Base
 
   def self.sort(fields)
-  
+    cols = ['blacks', 'whites', 'hispanics', 'asians', 'american_indians', 'males', 'females', 'unemployment', 'median_age', 'median_house_value', 'median_rent', 'median_household_income']
+    fields.sort {|a, b| cols.index(a) <=> cols.index(b)}
   end
   
-  def self.data_for(columns)
-  
+  def self.data_for(legislators, columns)
+    data = {}
+    
+    # only use columns that were checked
+    columns.each {|column, use| data[column] = {} if use == '1'}
+    
+    legislators.each do |legislator|
+      leg_district = ['Senior Seat', 'Junior Seat'].include?(legislator.district) ? 'state' : legislator.district
+      if district = District.find_by_state_and_district(legislator.state, leg_district)
+        data.keys.each do |column|
+          data[column][legislator.bioguide_id] = district.send(column)
+        end
+      end
+    end
+    data
   end
   
   def self.update(options = {})
@@ -31,7 +45,7 @@ class District < ActiveRecord::Base
     states.keys.sort.each do |state|
       puts "[#{state}] Reading in pages..."
       # read in all the CSV (oh boy)
-      pages = self.pages state
+      pages = self.district_pages state
       
       ##### per-district files #####
       
@@ -96,14 +110,28 @@ class District < ActiveRecord::Base
     }
   end
   
-  def self.pages(state)
+  def self.district_pages(state)
     pages = {}
     ext_map = {:sl1 => 'h10', :sl3 => 's10'}
     page_map.each do |set, page_numbers|
       pages[set] = {}
       page_numbers.each do |number|
         filename = "sl500-in-sl040-#{state.downcase}#{zero_prefix number}.#{ext_map[set]}"
-        page = FasterCSV.read "#{set}/#{state}/#{filename}"
+        page = FasterCSV.read "districts/#{set}/#{state}/#{filename}"
+        pages[set][number] = page
+      end
+    end
+    pages
+  end
+  
+  def self.statewide_pages
+    pages = {}
+    ext_map = {:sl1 => 'uf1', :sl3 => 'uf3'}
+    page_map.each do |set, page_numbers|
+      pages[set] = {}
+      page_numbers.each do |number|
+        filename = "sl040-in-sl010-us#{zero_prefix number}.#{ext_map[set]}"
+        page = FasterCSV.read "states/#{set}/#{filename}"
         pages[set][number] = page
       end
     end
@@ -144,27 +172,41 @@ class District < ActiveRecord::Base
   def self.download_census
     system "wget http://www2.census.gov/census_2000/datasets/Summary_File_Extracts/110_Congressional_Districts/110_CD_HundredPercent/United_States/sl500-in-sl010-us_h10.zip"
     system "wget http://www2.census.gov/census_2000/datasets/Summary_File_Extracts/110_Congressional_Districts/110_CD_Sample/United_States/sl500-in-sl010-us_s10.zip"
+    system "wget http://www2.census.gov/census_2000/datasets/Summary_File_Extracts/Summary_File_1/United_States/sl040-in-sl010-us_uf1.zip"
+    system "wget http://www2.census.gov/census_2000/datasets/Summary_File_Extracts/Summary_File_3/United_States/sl040-in-sl010-us_uf3.zip"
   end
   
   def self.unzip_census
-    FileUtils.rm_rf 'sl1'
-    FileUtils.rm_rf 'sl3'
+    # districtwide files
     
-    system "unzip -o sl500-in-sl010-us_h10.zip -d sl1"
+    FileUtils.rm_rf 'districts'
+    FileUtils.mkdir 'districts'
+    
+    system "unzip -o sl500-in-sl010-us_h10.zip -d districts/sl1"
     states.keys.each do |state|
-      zip_file = "sl1/sl500-in-sl040-#{state.downcase}_h10.zip"
-      system "unzip #{zip_file} -d sl1/#{state}"
+      zip_file = "districts/sl1/sl500-in-sl040-#{state.downcase}_h10.zip"
+      system "unzip #{zip_file} -d districts/sl1/#{state}"
       FileUtils.rm zip_file
     end
     FileUtils.rm "sl500-in-sl010-us_h10.zip"
     
-    system "unzip -o sl500-in-sl010-us_s10.zip -d sl3"
+    system "unzip -o sl500-in-sl010-us_s10.zip -d districts/sl3"
     states.keys.each do |state|
-      zip_file = "sl3/sl500-in-sl040-#{state.downcase}_s10.zip"
-      system "unzip #{zip_file} -d sl3/#{state}"
+      zip_file = "districts/sl3/sl500-in-sl040-#{state.downcase}_s10.zip"
+      system "unzip #{zip_file} -d districts/sl3/#{state}"
       FileUtils.rm zip_file
     end
     FileUtils.rm "sl500-in-sl010-us_s10.zip"
+    
+    # statewide files
+    
+    FileUtils.rm_rf 'states'
+    FileUtils.mkdir 'states'
+    
+    system "unzip -o sl040-in-sl010-us_uf1.zip -d states/sl1"
+    FileUtils.rm "sl040-in-sl010-us_uf1.zip"
+    system "unzip -o sl040-in-sl010-us_uf3.zip -d states/sl3"
+    FileUtils.rm "sl040-in-sl010-us_uf3.zip"
   end
   
   def self.district_for(name)
