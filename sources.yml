@@ -1,6 +1,6 @@
 legislator:
   id: 1
-  name: Legislator Information
+  name: Legislator Info
   keyword: legislator
   ttl: 1
   source_name: Sunlight Labs API
@@ -14,7 +14,7 @@ votes:
   source_url: "http://govtrack.us"
 demographics:
   id: 3
-  name: Demographics
+  name: Demographic Info
   keyword: district
   ttl: 365
   source_name: 2000 US Census
