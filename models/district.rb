@@ -51,7 +51,7 @@ class District < ActiveRecord::Base
       
       # Figure out the map of districts to rows for this state
       
-      header = File.new "sl1/#{state}/sl500-in-sl040-#{state.downcase}geo.h10"
+      header = File.new "districts/sl1/#{state}/sl500-in-sl040-#{state.downcase}geo.h10"
       
       # constructed in format "1" => "20" for "District 1 is at row index 20"
       districts = {}
