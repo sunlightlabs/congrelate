@@ -1,0 +1,14 @@
+---
+  environment: staging
+  chdir: /home/bigsheet/bigsheet_test/bigsheet
+  address: 127.0.0.1
+  user: bigsheet
+  group: bigsheet
+  port: 8200
+  pid: /home/bigsheet/bigsheet_test/shared/pid/thin.pid
+  rackup: /home/bigsheet/bigsheet_test/bigsheet/config.ru
+  log: /home/bigsheet/bigsheet_test/shared/log/thin.log
+  max_conns: 1024
+  timeout: 30
+  max_persistent_conns: 512
+  daemonize: true
