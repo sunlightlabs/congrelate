@@ -260,7 +260,7 @@ class District < ActiveRecord::Base
     FileUtils.mkdir 'districts'
     
     system "unzip -o sl500-in-sl010-us_h10.zip -d districts/sl1"
-    states.keys.each do |state|
+    state_codes.keys.each do |state|
       zip_file = "districts/sl1/sl500-in-sl040-#{state.downcase}_h10.zip"
       system "unzip #{zip_file} -d districts/sl1/#{state}"
       FileUtils.rm zip_file
@@ -268,7 +268,7 @@ class District < ActiveRecord::Base
     FileUtils.rm "sl500-in-sl010-us_h10.zip"
     
     system "unzip -o sl500-in-sl010-us_s10.zip -d districts/sl3"
-    states.keys.each do |state|
+    state_codes.keys.each do |state|
       zip_file = "districts/sl3/sl500-in-sl040-#{state.downcase}_s10.zip"
       system "unzip #{zip_file} -d districts/sl3/#{state}"
       FileUtils.rm zip_file
