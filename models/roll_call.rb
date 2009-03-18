@@ -1,6 +1,6 @@
 class RollCall < ActiveRecord::Base 
 
-  has_many :votes, :dependent => :destroy
+  has_many :votes, :dependent => :delete_all
   validates_associated :votes
   validates_presence_of :question, :result, :identifier
   
@@ -8,12 +8,16 @@ class RollCall < ActiveRecord::Base
   
   named_scope :listing, :order => 'held_at desc'
   named_scope :search, lambda { |q|
+    # for bill searching, support "H.R. 267", "HR 267", etc.
+    bill_q = q.gsub(/[^\w\d]/, '')
     {:conditions => [
         'question like ? or question like ? or
         bill_identifier like ? or bill_identifier like ? or
         identifier like ? or identifier like ?',
-        ["#{q}%", "% #{q}%"] * 3
-      ].flatten
+        "#{q}%", "% #{q}%",
+        "#{bill_q}%", "% #{bill_q}%",
+        "#{q}%", "% #{q}%"
+      ]
     }
   }
 
@@ -72,7 +76,7 @@ class RollCall < ActiveRecord::Base
         
         # associated bill identifier, if any
         if bill = doc.at(:bill)
-          roll_call.bill_identifier = "#{bill[:type].upcase} #{bill[:number]}"
+          roll_call.bill_identifier = bill_id_for bill[:type], bill[:number]
         end
         
         puts "\n[#{identifier}] #{roll_call.question}"
@@ -131,6 +135,19 @@ class RollCall < ActiveRecord::Base
     ((Time.now.year + 1) / 2) - 894
   end
   
+  def self.bill_id_for(type, number)
+    type_map = {
+      :h => 'HR',
+      :hr => 'HRES',
+      :hj => 'HJRES',
+      :sj => 'SJRES',
+      :hc => 'HCRES',
+      :s => 'S'
+    }
+    type = type_map[type.downcase.to_sym] || 'X'
+    "#{type.upcase}#{number}"
+  end
+  
 end
 
 # Autocomplete route
@@ -139,7 +156,7 @@ get '/roll_calls' do
   if params[:q]
     roll_calls = RollCall.search(params[:q]).listing.all(:limit => (params[:limit] || 50))
     roll_calls.map do |roll_call| 
-      fields = [roll_call.question, roll_call.identifier, roll_call.held_at.strftime("%b %d, %Y"), roll_call.bill_identifier].join '|'
+      [roll_call.question, roll_call.identifier, roll_call.held_at.strftime("%b %d, %Y"), roll_call.bill_identifier].join '|'
     end.join "\n"
   else
     status 404
