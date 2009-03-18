@@ -11,12 +11,12 @@ class RollCall < ActiveRecord::Base
     # for bill searching, support "H.R. 267", "HR 267", etc.
     bill_q = q.gsub(/[^\w\d]/, '')
     {:conditions => [
-        'question like ? or question like ? or
+        'question like ? or question like ? or question like ? or
         bill_identifier like ? or bill_identifier like ? or
-        identifier like ? or identifier like ?',
-        "#{q}%", "% #{q}%",
+        identifier like ?',
+        "#{q}%", "% #{q}%", "%(#{q}%",
         "#{bill_q}%", "% #{bill_q}%",
-        "#{q}%", "% #{q}%"
+        "%#{q}%"
       ]
     }
   }
