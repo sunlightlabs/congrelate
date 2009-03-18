@@ -32,12 +32,14 @@ class RollCall < ActiveRecord::Base
     
     data.keys.each do |roll_call_identifier|
       vote_data = {}
-      votes = Vote.all :conditions => {:roll_call_identifier => roll_call_identifier}
-      votes.each {|vote| vote_data[vote.bioguide_id] = vote.position}
+      roll_call = RollCall.find_by_identifier roll_call_identifier
+      roll_call.votes.each {|vote| vote_data[vote.bioguide_id] = vote.position}
       
       legislators.each do |legislator|
         data[roll_call_identifier][legislator.bioguide_id] = vote_data[legislator.bioguide_id]
       end
+      
+      data[roll_call_identifier][:title] = roll_call.question
     end
     data
   end
