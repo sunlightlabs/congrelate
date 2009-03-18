@@ -3,13 +3,13 @@ namespace :db do
   task :migrate => :environment do
     ActiveRecord::Base.logger = Logger.new(STDOUT)
     ActiveRecord::Migration.verbose = true
-    ActiveRecord::Migrator.migrate 'db', (ENV['VERSION'] ? ENV['VERSION'].to_i : nil)
+    ActiveRecord::Migrator.migrate 'db/migrations', (ENV['VERSION'] ? ENV['VERSION'].to_i : nil)
   end
 end
 
 desc "Loads environment"
 task :environment do
-  require 'environment'
+  require 'config/environment'
   load_models
 end
 
@@ -18,7 +18,7 @@ namespace :sources do
   task :load => :environment do
     puts "Loading sources..."
     require 'active_record/fixtures'
-    Fixtures.create_fixtures('.', File.basename("sources.yml", '.*'))
+    Fixtures.create_fixtures('db', File.basename("sources.yml", '.*'))
   end
   
   desc "Update each source whose TTL has expired"

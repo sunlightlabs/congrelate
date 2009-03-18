@@ -4,7 +4,7 @@ require 'rubygems'
 require 'sinatra'
 
 # Environment
-require 'environment'
+require 'config/environment'
 
 # Models
 load_models
