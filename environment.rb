@@ -36,3 +36,7 @@ ActiveRecord::Base.establish_connection(
   :database => DATABASE,
   :host => 'localhost'
 )
+
+def load_models
+  Dir.glob('models/*.rb').each {|model| load model}
+end

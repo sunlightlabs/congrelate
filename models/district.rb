@@ -79,7 +79,7 @@ class District < ActiveRecord::Base
         end
         i += 1
       end
-      puts "[#{state}} Found #{districts.keys.size} districts..."
+      puts "[#{state}] Found #{districts.keys.size} districts..."
       
       # Loop through each region name, making a district for each congressional district
       district_count = 0
@@ -105,13 +105,7 @@ class District < ActiveRecord::Base
       district.save!
     end
     
-    
-    success_msg = "Updated district data from 2000 Census for #{state_counts.size} states."
-    state_counts.each do |state, count|
-      success_msg << "\n[#{state}] #{count} districts."
-    end
-    
-    ['SUCCESS', success_msg]
+    ['SUCCESS', "Updated district data from 2000 Census for #{state_counts.size} states."]
   rescue ActiveRecord::RecordInvalid => e
     ['FAILED', e.record.errors]
   rescue => e

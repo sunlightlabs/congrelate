@@ -7,7 +7,7 @@ require 'sinatra'
 require 'environment'
 
 # Models
-Dir.glob('models/*.rb').each {|model| load model}
+load_models
 
 # Controllers
 get '/' do

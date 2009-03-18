@@ -9,7 +9,7 @@ votes:
   id: 2
   name: Vote History
   keyword: roll_call
-  ttl: 14
+  ttl: 1
   source_name: GovTrack
   source_url: "http://govtrack.us"
 demographics:

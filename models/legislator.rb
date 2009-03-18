@@ -24,8 +24,19 @@ class Legislator < ActiveRecord::Base
   def self.update
     api_legislators = Daywalker::Legislator.all :all_legislators => true
     
+    created_count = 0
+    updated_count = 0
+    
     api_legislators.each do |api_legislator|
       legislator = Legislator.find_or_initialize_by_bioguide_id api_legislator.bioguide_id
+      if legislator.new_record?
+        created_count += 1
+        puts "[#{api_legislator.bioguide_id}] Created"
+      else
+        updated_count += 1
+        puts "[#{api_legislator.bioguide_id}] Updated"
+      end
+      
       legislator.attributes = {
         :title => title_for(api_legislator),
         :gender => gender_for(api_legislator),
@@ -41,7 +52,7 @@ class Legislator < ActiveRecord::Base
       }
       legislator.save!
     end
-    ['SUCCESS', "#{api_legislators.size} legislators created or updated"]
+    ['SUCCESS', "#{created_count} legislators created, #{updated_count} updated"]
   rescue => e
     ['FAILED', e.message]
   end
