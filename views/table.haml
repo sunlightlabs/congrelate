@@ -6,7 +6,8 @@
     %tr
       - sort_by_ref(@data.keys, source_keys).each do |source|
         - sort_fields(@data[source].keys, source).each do |column|
-          %th{:title => @data[source][column][:title]}= column.to_s.titleize
+          %th{:title => @data[source][column][:title]}
+            = @data[source][column][:header] ? @data[source][column][:header] : column.to_s.titleize
   %tbody
     - @legislators.each do |legislator|
       %tr

@@ -39,6 +39,7 @@ class RollCall < ActiveRecord::Base
         data[roll_call_identifier][legislator.bioguide_id] = vote_data[legislator.bioguide_id]
       end
       
+      data[roll_call_identifier][:header] = roll_call.bill_identifier || "Vote #{roll_call.identifier}"
       data[roll_call_identifier][:title] = roll_call.question
     end
     data
