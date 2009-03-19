@@ -14,10 +14,16 @@ get '/' do
   haml :index
 end
 
-get '/table' do
+get /\/table(?:\.([\w]+))?/ do
   @legislators = get_legislators
   @data = get_columns @legislators
-  haml :table
+  case params[:captures]
+  when ['csv']
+    response['Content-Type'] = 'text/csv'
+    to_csv @data, @legislators
+  else
+    haml :table
+  end
 end
 
 helpers do
@@ -64,6 +70,38 @@ helpers do
   
   def sort_by_ref(array, reference)
     array.sort {|a, b| reference.index(a) <=> reference.index(b)}
+  end
+  
+  def to_csv(data, legislators)
+    FasterCSV.generate do |csv|
+      to_array(data, legislators).each {|row| csv << row}
+    end
+  end
+  
+  # creates a flat array of arrays of the data
+  def to_array(data, legislators)
+    array = []
+    
+    sources = sort_by_ref(data.keys, source_keys)
+    header = []
+    sources.each do |source|
+      sort_fields(data[source].keys, source).each do |column|
+        header << (data[source][column][:header] ? data[source][column][:header] : column.to_s.titleize)
+      end
+    end
+    array << header
+    
+    legislators.each do |legislator|
+      row = []
+      sources.each do |source|
+        sort_fields(@data[source].keys, source).each do |column|
+          row << data[source][column][legislator.bioguide_id]
+        end
+      end
+      array << row
+    end
+    
+    array
   end
   
 end

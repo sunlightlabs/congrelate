@@ -1,5 +1,7 @@
 .header
   %a{:href => '/'} Back to field selection
+  %br
+  %a{:href => "#{request.path_info}.csv?#{request.query_string}"} Download CSV
 
 %table#main.display
   %thead
