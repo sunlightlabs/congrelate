@@ -26,3 +26,12 @@
         %input{:type => 'checkbox', :name => 'legislator[gender]', :value => '1', :id => 'legislator_gender'}
       %td
         %input{:type => 'checkbox', :name => 'legislator[party]', :value => '1', :id => 'legislator_party'}
+
+.house
+  %h3 House of Congress
+  %input{:type => 'radio', :name => 'filters[house]', :value => 'senate', :id => 'filter_house_senate'}
+  %label{:for => 'filter_house_senate'} Senate
+  %input{:type => 'radio', :name => 'filters[house]', :value => 'house', :id => 'filter_house_house'}
+  %label{:for => 'filter_house_house'} House of Representatives
+  %input{:type => 'radio', :name => 'filters[house]', :value => 'both', :id => 'filter_house_both', :checked => 'checked'}
+  %label{:for => 'filter_house_both'} Both Houses

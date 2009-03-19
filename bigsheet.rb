@@ -15,12 +15,20 @@ get '/' do
 end
 
 get '/table' do
-  @legislators = Legislator.active
+  @legislators = get_legislators
   @data = get_columns @legislators
   haml :table
 end
 
 helpers do
+
+  def get_legislators
+    if params[:filters]
+      Legislator.active.filter params[:filters]
+    else
+      Legislator.active
+    end
+  end
 
   def get_columns(legislators)
     data = {}
