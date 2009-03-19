@@ -38,5 +38,5 @@ ActiveRecord::Base.establish_connection(
 )
 
 def load_models
-  Dir.glob('models/*.rb').each {|model| load model}
+  Dir.glob('sources/**/*.rb').each {|model| load model}
 end

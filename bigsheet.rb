@@ -50,6 +50,10 @@ helpers do
     sources.map {|source| source.keyword.to_sym}
   end
   
+  def source_form(source)
+    haml :"../sources/#{source.keyword}/form", :layout => false, :locals => {:source => source}
+  end
+  
   def sort_by_ref(array, reference)
     array.sort {|a, b| reference.index(a) <=> reference.index(b)}
   end

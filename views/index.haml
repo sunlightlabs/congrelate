@@ -3,7 +3,7 @@
   - sources.each do |source|
     .source{:class => "source #{source.keyword}"}
       %h1= source.name
-      = haml :"sources/_#{source.keyword}", :layout => false, :locals => {:source => source}
+      = source_form source
       %h6
         Data source:
         %a{:href => source.source_url}= source.source_name
