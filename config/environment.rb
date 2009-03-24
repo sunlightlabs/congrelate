@@ -10,14 +10,12 @@ configure :production do
   DATABASE = 'bigsheet_production'
   Daywalker.api_key = '[make production key]'
   OPENSECRETS_API_KEY = 'e38f1739902531476d7d450ab966a3a7' # infinite
-  OPENSECRETS_LIMIT = 
 end
 
 configure :staging do
   DATABASE = 'bigsheet_staging'
   Daywalker.api_key = 'sunlight9'
   OPENSECRETS_API_KEY = 'e38f1739902531476d7d450ab966a3a7' # infinite
-  OPENSECRETS_LIMIT = 
 end
 
 configure :development do
