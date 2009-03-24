@@ -1,7 +1,18 @@
 class Contribution < ActiveRecord::Base
 
   validates_presence_of :cycle, :crp_id, :bioguide_id, :industry
-  
+
+  named_scope :cycle, lambda {|cycle|
+    {:conditions => {:cycle => cycle}}
+  }
+  named_scope :industries, lambda {|industry|
+    if !industry.blank?
+      {:select => 'distinct industry', :conditions => ['industry like ?', "%#{industry}%"]}
+    else
+      {}
+    end
+  }
+
   def self.sort(fields)
     fields
   end
@@ -12,7 +23,7 @@ class Contribution < ActiveRecord::Base
   
   def self.update(options = {})
     cycle = options[:cycle] || latest_cycle
-    limit = options[:limit] || 200
+    limit = options[:limit] || 150
     
     secrets = OpenSecrets.new :api_key => OPENSECRETS_API_KEY, :cycle => cycle
     
@@ -109,4 +120,13 @@ class OpenSecrets
     self.class.get '/', :query => url_options.merge(:method => 'candIndustry', :cid => crp_id, :apikey => api_key, :cycle => cycle)
   end
   
+end
+
+get '/industries' do
+  if params[:q]
+    Contribution.cycle(2008).industries(params[:q]).map(&:industry).join "\n"
+  else
+    status 404
+    "Supply a search parameter."
+  end
 end
