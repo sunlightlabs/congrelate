@@ -3,19 +3,26 @@ legislator:
   name: Legislator Info
   keyword: legislator
   ttl: 1
-  source_name: Sunlight Labs API
-  source_url: "http://services.sunlightlabs.com/api/"
-votes:
+  source_name: Sunlight Labs
+  source_url: "http://sunlightlabs.com"
+roll_call:
   id: 2
   name: Vote History
   keyword: roll_call
   ttl: 1
   source_name: GovTrack
   source_url: "http://govtrack.us"
-demographics:
+district:
   id: 3
   name: Demographic Info
   keyword: district
   ttl: 365
   source_name: 2000 US Census
   source_url: "http://census.gov"
+contribution:
+  id: 4
+  name: Fundraising
+  keyword: contribution
+  ttl: 1
+  source_name: Center for Responsive Politics
+  source_url: "http://opensecrets.org"

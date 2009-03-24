@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'sinatra'
+require 'httparty'
 require 'daywalker'
 require 'activerecord'
 require 'hpricot'
@@ -8,7 +9,7 @@ require 'fastercsv'
 configure :production do
   DATABASE = 'bigsheet_production'
   Daywalker.api_key = '[make production key]'
-  OPENSECRETS_API_KEY = 'd55ecab9fdc27683d3512af9e2c4deb5'
+  OPENSECRETS_API_KEY = 'aef987bf5dbfdcf00f2d460d47d6bb9a'
 end
 
 configure :staging do
@@ -20,7 +21,7 @@ end
 configure :development do
   DATABASE = 'bigsheet_dev'
   Daywalker.api_key = 'sunlight9'
-  OPENSECRETS_API_KEY = 'a6158cd98d260fdcfe849af93d06820d'
+  OPENSECRETS_API_KEY = 'd55ecab9fdc27683d3512af9e2c4deb5'
 end
 
 configure :test do
