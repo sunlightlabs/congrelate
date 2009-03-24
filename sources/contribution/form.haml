@@ -2,6 +2,8 @@
   %label{:for => 'industry_name'} Industry:
   %input{:type => 'text', :id => 'industry_name'}
   %h5== Enter an asterisk (*) to list all industries. All data is for the latest election cycle (#{Contribution.latest_cycle}).
+  %input{:type => 'checkbox', :id => 'contribution_top_industries', :name => 'contribution[top_industries]', :value => '1'}
+  %label{:for => 'contribution_top_industries'} Top 3 Industries
   #contribution_fields_chosen{:style => "display: none"}
     %h3 Selected Industries
     
@@ -15,7 +17,7 @@
         formatResult: function(row) {
           return row[0];
         },
-        max: 50
+        max: 0
       }).result(function(event, data) {
         $('#contribution_fields_chosen').append(
           '<div class="contribution_chosen">' +

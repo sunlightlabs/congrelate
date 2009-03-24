@@ -7,10 +7,14 @@ class Contribution < ActiveRecord::Base
   }
   named_scope :industries, lambda {|industry|
     if !industry.blank? and industry != "*"
-      {:select => 'distinct industry', :order => 'industry asc', :conditions => ['industry like ?', "%#{industry}%"]}
+      {:select => 'distinct industry', :conditions => ['industry like ?', "%#{industry}%"]}
     else
-      {:select => 'distinct industry', :order => 'industry asc'}
+      {:select => 'distinct industry'}
     end
+  }
+  
+  named_scope :legislator, lambda {|bioguide_id|
+    {:conditions => {:bioguide_id => bioguide_id}}
   }
 
   def self.sort(fields)
@@ -22,6 +26,13 @@ class Contribution < ActiveRecord::Base
     cycle = latest_cycle
     
     columns.each {|column, use| data[column] = {} if use == '1'}
+    
+    top_industries = nil
+    
+    if data['top_industries']
+      data.delete 'top_industries'
+      top_industries = {}
+    end
     
     data.keys.each do |industry|
       contribution_data = {}
@@ -35,6 +46,14 @@ class Contribution < ActiveRecord::Base
       data[industry][:header] = "#{industry} (#{cycle})"
       data[industry][:title] = "Contributions by #{industry} to this candidate in the #{cycle} election cycle."
     end
+    
+    if top_industries
+      data['top_industries'] = {}
+      legislators.each do |legislator|
+        data['top_industries'][legislator.bioguide_id] = Contribution.cycle(cycle).legislator(legislator.bioguide_id).industries(nil).all(:order => 'amount desc', :limit => 3).map(&:industry).join(', ')
+      end
+    end
+    
     data
   end
   
@@ -60,7 +79,6 @@ class Contribution < ActiveRecord::Base
       candidate = Candidate.find_or_initialize_by_bioguide_id_and_crp_id_and_cycle(legislator.bioguide_id, legislator.crp_id, latest_cycle)
       
       if candidate.new_record?
-        # log any mistakes
         if candidate.valid?
           # toss any new legislators in the queue to get updated, up to the limit
           candidates << candidate if candidates.size < limit
@@ -143,7 +161,7 @@ end
 
 get '/industries' do
   if params[:q]
-    Contribution.cycle(2008).industries(params[:q]).map(&:industry).join "\n"
+    Contribution.cycle(2008).industries(params[:q]).all(:order => 'industry asc').map(&:industry).join "\n"
   else
     status 404
     "Supply a search parameter."

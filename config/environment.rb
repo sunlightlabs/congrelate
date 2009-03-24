@@ -9,19 +9,21 @@ require 'fastercsv'
 configure :production do
   DATABASE = 'bigsheet_production'
   Daywalker.api_key = '[make production key]'
-  OPENSECRETS_API_KEY = 'aef987bf5dbfdcf00f2d460d47d6bb9a'
+  OPENSECRETS_API_KEY = 'e38f1739902531476d7d450ab966a3a7' # infinite
+  OPENSECRETS_LIMIT = 
 end
 
 configure :staging do
   DATABASE = 'bigsheet_staging'
   Daywalker.api_key = 'sunlight9'
-  OPENSECRETS_API_KEY = 'a6158cd98d260fdcfe849af93d06820d'
+  OPENSECRETS_API_KEY = 'e38f1739902531476d7d450ab966a3a7' # infinite
+  OPENSECRETS_LIMIT = 
 end
 
 configure :development do
   DATABASE = 'bigsheet_dev'
   Daywalker.api_key = 'sunlight9'
-  OPENSECRETS_API_KEY = 'd55ecab9fdc27683d3512af9e2c4deb5'
+  OPENSECRETS_API_KEY = 'd55ecab9fdc27683d3512af9e2c4deb5' # limited
 end
 
 configure :test do

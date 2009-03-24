@@ -7,7 +7,6 @@ class CreateContributions < ActiveRecord::Migration
       t.timestamps
     end
     add_index :contributions, [:cycle, :bioguide_id]
-    add_index :contributions, [:cycle, :crp_id, :industry]
     add_index :contributions, [:cycle, :industry]
   end
   
