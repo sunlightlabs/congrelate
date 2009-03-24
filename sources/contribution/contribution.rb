@@ -23,7 +23,7 @@ class Contribution < ActiveRecord::Base
     mistakes = []
     
     # update the candidates table with any new legislator info
-    #TODO: Improve the performance here
+    #TODO: Improve the performance here, one single query
     Legislator.active.each do |legislator|
       candidate = Candidate.find_or_initialize_by_bioguide_id_and_crp_id_and_cycle(legislator.bioguide_id, legislator.crp_id, latest_cycle)
       
@@ -48,6 +48,8 @@ class Contribution < ActiveRecord::Base
     # if there are few enough legislators, there may be duplicates from that process
     candidates = candidates.uniq
     
+    
+    candidate_count = 0
     # for each candidate, find or create the contribution row for each industry
     candidates.each do |candidate|
       industries = secrets.industries candidate.crp_id
@@ -70,15 +72,13 @@ class Contribution < ActiveRecord::Base
         
         # update updated_at
         candidate.update_attribute :updated_at, Time.now
+        candidate_count += 1
       end
     end
     
-    success_msg = "Success"
-    success_msg << "\nCreated #{create_count} new candidate rows"
-    success_msg << "\nCreated or updated #{contribution_count} contributions"
-    success_msg << "\n#{mistakes.join("\n")}" if mistakes.any?
+    puts "\n#{mistakes.join("\n")}" if mistakes.any?
     
-    ['SUCCESS', success_msg]
+    ['SUCCESS', "Success, created #{create_count} new candidate rows, updated #{candidate_count} candidates with #{contribution_count} rows of industry contributions"]
   rescue => e
     ['FAILED', "#{e.class}: #{e.message}"]
   end
