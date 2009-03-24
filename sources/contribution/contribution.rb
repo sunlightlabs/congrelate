@@ -6,10 +6,10 @@ class Contribution < ActiveRecord::Base
     {:conditions => {:cycle => cycle}}
   }
   named_scope :industries, lambda {|industry|
-    if !industry.blank?
-      {:select => 'distinct industry', :conditions => ['industry like ?', "%#{industry}%"]}
+    if !industry.blank? and industry != "*"
+      {:select => 'distinct industry', :order => 'industry asc', :conditions => ['industry like ?', "%#{industry}%"]}
     else
-      {}
+      {:select => 'distinct industry', :order => 'industry asc'}
     end
   }
 
