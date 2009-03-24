@@ -30,9 +30,11 @@ class Contribution < ActiveRecord::Base
       if candidate.new_record?
         # log any mistakes
         if candidate.valid?
-          create_count += 1 
           # toss any new legislators in the queue to get updated, up to the limit
           candidates << candidate if candidates.size < limit
+          
+          candidate.save!
+          create_count += 1 
         else
           mistakes << "Invalid candidate, Bioguide #{legislator.bioguide_id}, errors:\n\t #{candidate.errors.full_messages.join("\n\t")}"
         end
