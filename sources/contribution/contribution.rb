@@ -14,11 +14,32 @@ class Contribution < ActiveRecord::Base
   }
 
   def self.sort(fields)
-    fields
+    fields.sort
   end
   
   def self.data_for(legislators, columns)
+    data = {}
+    cycle = latest_cycle
     
+    columns.each {|column, use| data[column] = {} if use == '1'}
+    
+    data.keys.each do |industry|
+      contribution_data = {}
+      contributions = Contribution.find_all_by_cycle_and_industry cycle, industry
+      contributions.each {|contribution| contribution_data[contribution.bioguide_id] = format_amount(contribution.amount)}
+      
+      legislators.each do |legislator|
+        data[industry][legislator.bioguide_id] = contribution_data[legislator.bioguide_id]
+      end
+      
+      data[industry][:header] = "#{industry} (#{cycle})"
+      data[industry][:title] = "Contributions by #{industry} to this candidate in the #{cycle} election cycle."
+    end
+    data
+  end
+  
+  def self.format_amount(amount)
+    "$#{amount}"
   end
   
   def self.update(options = {})
@@ -95,8 +116,6 @@ class Contribution < ActiveRecord::Base
   rescue => e
     ['FAILED', "#{e.class}: #{e.message}"]
   end
-  
-  private
   
   # 2008 => 2008, 2009 => 2008, 2010 => 2010
   # This relies on truncating integers

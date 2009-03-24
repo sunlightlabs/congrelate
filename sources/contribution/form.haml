@@ -1,8 +1,8 @@
-#crp_fields
+#contribution_fields
   %label{:for => 'industry_name'} Industry:
   %input{:type => 'text', :id => 'industry_name'}
-  %h5 Enter an asterisk (*) to list all industries.
-  #crp_fields_chosen{:style => "display: none"}
+  %h5== Enter an asterisk (*) to list all industries. All data is for the latest election cycle (#{Contribution.latest_cycle}).
+  #contribution_fields_chosen{:style => "display: none"}
     %h3 Selected Industries
     
 %script{:type => 'text/javascript'}
@@ -17,13 +17,13 @@
         },
         max: 50
       }).result(function(event, data) {
-        $('#crp_fields_chosen').append(
-          '<div class="crp_chosen">' +
+        $('#contribution_fields_chosen').append(
+          '<div class="contribution_chosen">' +
             data[0] + ' ' +
             '<input type="checkbox" name="contribution[' + data[0] + ']" value="1" checked="checked" />' +
           '</div>'
         );
         $('#industry_name').val('');
-        $('#crp_fields_chosen').show();
+        $('#contribution_fields_chosen').show();
       });
     });
