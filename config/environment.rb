@@ -35,6 +35,7 @@ ActiveRecord::Base.establish_connection(
   :username => 'bigsheet',
   :password => 'bigsheet',
   :database => DATABASE,
+  :reconnect => true,
   :host => 'localhost'
 )
 
