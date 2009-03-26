@@ -6,18 +6,6 @@ require 'activerecord'
 require 'hpricot'
 require 'fastercsv'
 
-def database(environment)
-  details = YAML.load_file('config/database.yml')[environment.to_s]
-  ActiveRecord::Base.establish_connection(
-    :adapter => 'mysql',
-    :reconnect => true,
-    :username => details[:username],
-    :password => details[:password],
-    :database => details[:database],
-    :host => details[:host]
-  )
-end
-
 configure :production do
   Daywalker.api_key = '[make production key]'
   OPENSECRETS_API_KEY = 'e38f1739902531476d7d450ab966a3a7' # infinite
@@ -39,7 +27,15 @@ configure :test do
 end
 
 configure do
-  database Sinatra::Application.options.environment
+  details = YAML.load_file('config/database.yml')[Sinatra::Application.options.environment]
+  ActiveRecord::Base.establish_connection(
+    :adapter => 'mysql',
+    :reconnect => true,
+    :username => details[:username],
+    :password => details[:password],
+    :database => details[:database],
+    :host => details[:host]
+  )
 end
 
 def load_models

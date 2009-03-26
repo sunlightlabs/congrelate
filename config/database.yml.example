@@ -1,22 +1,23 @@
-development:
+# Enforced: mysql adapter, with reconnect turned on
+:development:
   :database: bigsheet_development
   :username: bigsheet
   :password: bigsheet
   :host: localhost
 
-staging:
+:staging:
   :database: bigsheet_staging
   :username: bigsheet
   :password: bigsheet
   :host: localhost
 
-production:
+:production:
   :database: bigsheet_production
   :username: bigsheet
   :password: bigsheet
   :host: localhost
   
-test:
+:test:
   :database: bigsheet_test
   :username: bigsheet
   :password: bigsheet
