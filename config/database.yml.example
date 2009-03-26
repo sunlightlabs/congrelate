@@ -1,0 +1,23 @@
+development:
+  :database: bigsheet_development
+  :username: bigsheet
+  :password: bigsheet
+  :host: localhost
+
+staging:
+  :database: bigsheet_staging
+  :username: bigsheet
+  :password: bigsheet
+  :host: localhost
+
+production:
+  :database: bigsheet_production
+  :username: bigsheet
+  :password: bigsheet
+  :host: localhost
+  
+test:
+  :database: bigsheet_test
+  :username: bigsheet
+  :password: bigsheet
+  :host: localhost
