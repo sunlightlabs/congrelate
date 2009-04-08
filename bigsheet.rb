@@ -6,14 +6,24 @@ require 'sinatra'
 # Environment
 require 'config/environment'
 
-# Models
 load_models
 
-# Controllers
 get '/' do
   haml :index
 end
 
+# temporary
+get '/old' do
+  haml :old
+end
+
+# returns a column of data in json form
+get '/column' do
+  #response['Content-Type'] = 'text/json'
+  class_for(params[:source]).field_for(get_legislators, params[:column]).to_json
+end
+
+# API
 get /\/table(?:\.([\w]+))?/ do
   @legislators = get_legislators
   @data = get_columns @legislators
@@ -22,11 +32,16 @@ get /\/table(?:\.([\w]+))?/ do
     response['Content-Type'] = 'text/csv'
     to_csv @data, @legislators
   else
-    haml :table
+    status 404
+    'Unsupported format.'
   end
 end
 
 helpers do
+
+  def source_form(source)
+    haml :"../sources/#{source.keyword}/form", :layout => false, :locals => {:source => source}
+  end
 
   def get_legislators
     if params[:filters]
@@ -46,30 +61,6 @@ helpers do
       end
     end
     data
-  end
-  
-  def class_for(source)
-    source.to_s.camelize.constantize
-  end
-  
-  def sort_fields(fields, source)
-    class_for(source).sort(fields)
-  end
-  
-  def sources
-    @@sources ||= Source.all
-  end
-  
-  def source_keys
-    sources.map {|source| source.keyword.to_sym}
-  end
-  
-  def source_form(source)
-    haml :"../sources/#{source.keyword}/form", :layout => false, :locals => {:source => source}
-  end
-  
-  def sort_by_ref(array, reference)
-    array.sort {|a, b| reference.index(a) <=> reference.index(b)}
   end
   
   def to_csv(data, legislators)
@@ -102,6 +93,28 @@ helpers do
     end
     
     array
+  end
+  
+  # little helpers
+  
+  def sort_by_ref(array, reference)
+    array.sort {|a, b| reference.index(a) <=> reference.index(b)}
+  end
+  
+  def source_keys
+    sources.map {|source| source.keyword.to_sym}
+  end
+  
+  def sources
+    @@sources ||= Source.all
+  end
+  
+  def class_for(source)
+    source.to_s.camelize.constantize
+  end
+  
+  def sort_fields(fields, source)
+    class_for(source).sort(fields)
   end
   
 end
