@@ -5,6 +5,17 @@ class District < ActiveRecord::Base
     fields.sort {|a, b| cols.index(a) <=> cols.index(b)}
   end
   
+  def self.field_for(legislators, column)
+    field = {}
+    legislators.each do |legislator|
+      leg_district = ['Senior Seat', 'Junior Seat'].include?(legislator.district) ? 'state' : legislator.district
+      if district = District.find_by_state_and_district(legislator.state, leg_district)
+        field[legislator.bioguide_id] = district.send(column)
+      end
+    end
+    field
+  end
+  
   def self.data_for(legislators, columns)
     data = {}
     

@@ -23,23 +23,32 @@ class RollCall < ActiveRecord::Base
     fields.sort
   end
   
+  def self.field_for(legislators, column)
+    field = {}
+    identifier = column
+    
+    vote_data = {}
+    roll_call = RollCall.find_by_identifier identifier
+    roll_call.votes.each {|vote| vote_data[vote.bioguide_id] = vote.position}
+    
+    legislators.each do |legislator|      
+      field[legislator.bioguide_id] = vote_data[legislator.bioguide_id]
+    end
+    
+    field[:header] = roll_call.bill_identifier || "Vote #{roll_call.identifier}"
+    field[:title] = roll_call.question
+    
+    field
+  end
+  
   def self.data_for(legislators, columns)
     data = {}
-    # only use columns that were checked
     columns.each {|column, use| data[column] = {} if use == '1'}
     
-    data.keys.each do |roll_call_identifier|
-      vote_data = {}
-      roll_call = RollCall.find_by_identifier roll_call_identifier
-      roll_call.votes.each {|vote| vote_data[vote.bioguide_id] = vote.position}
-      
-      legislators.each do |legislator|
-        data[roll_call_identifier][legislator.bioguide_id] = vote_data[legislator.bioguide_id]
-      end
-      
-      data[roll_call_identifier][:header] = roll_call.bill_identifier || "Vote #{roll_call.identifier}"
-      data[roll_call_identifier][:title] = roll_call.question
+    data.keys.each do |column|
+      data[column] = field_for legislators, column
     end
+    
     data
   end
   

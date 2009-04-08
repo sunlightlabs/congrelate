@@ -21,6 +21,32 @@ class Contribution < ActiveRecord::Base
     fields.sort
   end
   
+  def self.field_for(legislators, column)
+    field = {}
+    cycle = latest_cycle
+    
+    if column == 'top_industries'
+      legislators.each do |legislator|
+        field[legislator.bioguide_id] = Contribution.cycle(cycle).legislator(legislator.bioguide_id).industries(nil).all(:order => 'amount desc', :limit => 3).map(&:industry).join(', ')
+      end
+    else
+      industry = column
+      
+      contribution_data = {}
+      contributions = Contribution.find_all_by_cycle_and_industry cycle, industry
+      contributions.each {|contribution| contribution_data[contribution.bioguide_id] = format_amount(contribution.amount)}
+      
+      legislators.each do |legislator|
+        field[legislator.bioguide_id] = contribution_data[legislator.bioguide_id]
+      end
+      
+      field[:header] = "#{industry} (#{cycle})"
+      field[:title] = "Contributions by #{industry} to this candidate in the #{cycle} election cycle."
+    end
+    
+    field
+  end
+  
   def self.data_for(legislators, columns)
     data = {}
     cycle = latest_cycle

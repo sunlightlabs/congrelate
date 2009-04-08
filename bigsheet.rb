@@ -50,14 +50,20 @@ helpers do
       Legislator.active
     end
   end
-
+  
   def get_columns(legislators)
     data = {}
     source_keys.each do |source|
+      source_class = class_for source
       if params[source]
-        if source_data = class_for(source).data_for(legislators, params[source])
-          data[source] = source_data
+        columns = {}
+        params[source].each {|column, use| columns[column] = {} if use == '1'}
+        
+        columns.keys.each do |column|
+          columns[column] = source_class.field_for legislators, column
         end
+        
+        data[source] = columns
       end
     end
     data

@@ -12,16 +12,22 @@ class Legislator < ActiveRecord::Base
     fields.sort {|a, b| cols.index(a) <=> cols.index(b)}
   end
   
+  def self.field_for(legislators, column)
+    field = {}
+    legislators.each do |legislator|
+      field[legislator.bioguide_id] = legislator.send(column)
+    end
+    field
+  end
+  
   def self.data_for(legislators, columns)
     data = {}
     
     # only use columns that were checked
     columns.each {|column, use| data[column] = {} if use == '1'}
     
-    legislators.each do |legislator|
-      data.keys.each do |column|
-        data[column][legislator.bioguide_id] = legislator.send(column)
-      end
+    data.keys.each do |column|
+      data[column] = field_for legislators, column
     end
     data
   end
