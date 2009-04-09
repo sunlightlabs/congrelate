@@ -22,10 +22,7 @@ class Legislator < ActiveRecord::Base
   
   def self.data_for(legislators, columns)
     data = {}
-    
-    # only use columns that were checked
     columns.each {|column, use| data[column] = {} if use == '1'}
-    
     data.keys.each do |column|
       data[column] = field_for legislators, column
     end
