@@ -12,44 +12,46 @@ a:hover{outline: none; color: #940a0a}
 a:active{outline: none; color: #940a0a}
 
 body{
-	color:#563f3f;
-	background: #fff;
-	font-size: 76%;
-  	line-height: 22px;
-  	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  color:#563f3f;
+  background: #fff;
+  font-size: 76%;
+  line-height: 22px;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 
-div#headerWrapper{
-    background: url("/images/bg_wrapper.jpg") top left repeat-x; height: 335px;
+div#headerWrapper {
+  background: url("/images/bg_wrapper.jpg") top left repeat-x; height: 335px;
 }
 
-div#mainBg{ background: url("/images/mainBg.jpg") top left no-repeat; height: 335px;}
+div#mainBg {
+  background: url("/images/mainBg.jpg") top left no-repeat; height: 335px;
+}
 
-div.container{
-    height: 311px;
-    padding-left: 30px;
-    padding-top: 24px;
-    margin: 0 70px;
-    min-width: 960px;
-    width: auto !important;
-    background: url(/images/ltSide.png) left 24px no-repeat;
+div.container {
+  height: 311px;
+  padding-left: 30px;
+  padding-top: 24px;
+  margin: 0 70px;
+  min-width: 960px;
+  width: auto !important;
+  background: url(/images/ltSide.png) left 24px no-repeat;
 }
 
 div.container2 {
-	background: url(/images/rtSide.png) right 1px no-repeat;
-	padding-right: 45px;
+  background: url(/images/rtSide.png) right 1px no-repeat;
+  padding-right: 45px;
 }
 
 div.container3 {
-	background: url(/images/middle.png) top left repeat-x;
-	height: 311px;
-	//padding: 10px 20px;
+  background: url(/images/middle.png) top left repeat-x;
+  height: 311px;
+  //padding: 10px 20px;
 }
 
 div.container4 {
     padding-top: 2px;
     height: 311px;
-	background: url(/images/container4.png) right 1px no-repeat;
+  background: url(/images/container4.png) right 1px no-repeat;
 }
 
 h1{
@@ -112,6 +114,7 @@ div#mainContent table { width: 100%; }
 tr#titles{ color: #203646; text-transform: uppercase; font-size: 110%;}
 table tr {height: 25px;}
 table tr.odd { background: #f4f4ef;}
+table tr td, table tr th { padding-left: 5px;}
 tfoot tr td { padding-top: 2px;}
 
 td.delete a{
@@ -128,21 +131,6 @@ td.delete{
     width: 16px;
     height: 16px;
 }
-
-/*div#addVotes a{
-    width: 127px;
-    height: 38px;
-    background: url(/images/btn_addVotes.png) right bottom no-repeat;
-    text-indent: -9999em;
-    display: block;
-}
-
-div#addVotes{
-    float: right;
-    padding-right: 10px;
-    width: 127px;
-    height: 38px;
-}*/
 
 a#addLegislators{ 
     background: url(/images/btn_add.png) left 2px no-repeat; 
@@ -177,7 +165,7 @@ div#addBtns li{ float: left; background: url(/images/btn_add.png) left bottom no
 div#addBtns ul{ width: 100%; display: block; }
 
 .clear{
-	clear: both;
+  clear: both;
 }
 
 select.stateDropdown{ margin-top: 2px;}
@@ -200,10 +188,10 @@ h3{ font-weight: bold;}
 
 div#addVoteName input#name, div#individualForm input{ 
     -moz-border-radius:5px;
-	-webkit-border-radius: 5px;
+  -webkit-border-radius: 5px;
     border: solid 1px #978f8f;
     height: 15px;
-	padding: 2px 4px;
+  padding: 2px 4px;
 }
 
 div#individualForm{ border-left: 1px solid #978f8f; padding-left: 30px;}

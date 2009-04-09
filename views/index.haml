@@ -23,6 +23,7 @@
             bPaginate: false,
             bInfo: false,
             bFilter: false,
+            bProcessing: false,
             aaSorting: [[1, 'asc'], [2, 'asc']]
           });
         });
@@ -77,7 +78,7 @@
                               = @data[source][column][:header] ? @data[source][column][:header] : column.to_s.titleize
                     %tbody
                       - @legislators.each do |legislator|
-                        %tr{:class => cycle_row}
+                        %tr{:class => cycle_class}
                           - sort_by_ref(@data.keys, source_keys).each do |source|
                             - sort_fields(@data[source].keys, source).each do |column|
                               %td{:class => "#{source}_#{column}"}

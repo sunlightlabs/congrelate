@@ -140,7 +140,7 @@ helpers do
     class_for(source).sort(fields)
   end
   
-  def cycle_row
+  def cycle_class
     @cycle_class = {'odd' => 'even', 'even' => 'odd'}[@cycle_class || 'even']
   end
   
