@@ -7,6 +7,8 @@ require 'activerecord'
 require 'hpricot'
 require 'fastercsv'
 
+set :views, File.dirname(__FILE__) + "/.."
+
 configure :production do
   Daywalker.api_key = '[make production key]'
   OPENSECRETS_API_KEY = 'e38f1739902531476d7d450ab966a3a7' # infinite

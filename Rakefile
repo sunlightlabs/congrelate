@@ -18,7 +18,7 @@ namespace :sources do
   task :load => :environment do
     puts "Loading sources..."
     require 'active_record/fixtures'
-    Fixtures.create_fixtures('.', File.basename("sources.yml", '.*'))
+    Fixtures.create_fixtures('db', File.basename("sources.yml", '.*'))
   end
   
   desc "Update each source whose TTL has expired"

@@ -41,7 +41,7 @@ end
 helpers do
 
   def source_form(source)
-    haml :"../sources/#{source.keyword}/form", :layout => false, :locals => {:source => source}
+    haml :"sources/#{source.keyword}/form", :layout => false, :locals => {:source => source}
   end
 
   def get_legislators
