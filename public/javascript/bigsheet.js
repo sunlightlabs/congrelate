@@ -1,3 +1,5 @@
+var mainTable;
+
 var GB_ANIMATION = true;
 $(document).ready(function(){
 
@@ -44,20 +46,21 @@ function add_column(source, column) {
   $.getJSON('/column.json', {source: source, column: column}, function(data) {
     var id = column_id(source, column);
     for (bioguide_id in data) {
-      if (bioguide_id != 'title' && bioguide_id != 'header')
-        $('tr#' + bioguide_id).append('<td class="' + id + '">' + data[bioguide_id] + '</tr>');
+      if (bioguide_id != 'title' && bioguide_id != 'header') {
+        var row = $('tr#' + bioguide_id);
+        if (row)
+          $('tr#' + bioguide_id).append('<td class="' + id + '">' + data[bioguide_id] + '</tr>');
+      }
     }
     $('tr#titles').append('<th class="' + id + '">' + data['title'] + '</th>');
-    prepare_table();
     spinner_off();
+    prepare_table();
   });
 }
 
 function remove_column(source, column) {
   spinner_on();
-  var id = column_id(source, column);
-  $('th.' + id + ',td.' + id).remove();
-  prepare_table();
+  $('.' + column_id(source, column)).remove();
   spinner_off();
 }
 
@@ -76,7 +79,7 @@ function column_id(source, column) {
 }
 
 function prepare_table() {
-  $('#main_table').dataTable({
+  mainTable = $('#main_table').dataTable({
     bProcessing: true,
     bPaginate: false,
     bInfo: false,
