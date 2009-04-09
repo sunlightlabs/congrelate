@@ -14,6 +14,18 @@
     %script{:type => 'text/javascript', :src => '/facebox/facebox.js'}
     %script{:type => 'text/javascript', :src => '/javascript/dataTables.js'}
     %script{:type => 'text/javascript', :src => '/javascript/autocomplete.js'}
+    
+    %script{:type => 'text/javascript'}
+      :plain
+        $(document).ready(function() {
+          $('#main_table').dataTable({
+            bProcessing: true,
+            bPaginate: false,
+            bInfo: false,
+            bFilter: false,
+            aaSorting: [[1, 'asc'], [2, 'asc']]
+          });
+        });
   
   %body.home
     #headerWrapper
@@ -44,3 +56,18 @@
                         %a{:href => '#'} Senate
                       %li#All
                         %a{:href => '#'} All
+                #mainContent
+                  %table#main_table.display
+                    %thead
+                      %tr#titles
+                        - sort_by_ref(@data.keys, source_keys).each do |source|
+                          - sort_fields(@data[source].keys, source).each do |column|
+                            %th{:title => @data[source][column][:title], :class => "#{source}_#{column}"}
+                              = @data[source][column][:header] ? @data[source][column][:header] : column.to_s.titleize
+                    %tbody
+                      - @legislators.each do |legislator|
+                        %tr{:class => cycle_row}
+                          - sort_by_ref(@data.keys, source_keys).each do |source|
+                            - sort_fields(@data[source].keys, source).each do |column|
+                              %td{:class => "#{source}_#{column}"}
+                                = @data[source][column][legislator.bioguide_id]

@@ -9,6 +9,8 @@ require 'config/environment'
 load_models
 
 get '/' do
+  @legislators = get_legislators
+  @data = get_columns @legislators, initial_columns
   haml :index
 end
 
@@ -26,7 +28,7 @@ end
 # API
 get /\/table(?:\.([\w]+))?/ do
   @legislators = get_legislators
-  @data = get_columns @legislators
+  @data = get_columns @legislators, params
   case params[:captures]
   when ['csv']
     response['Content-Type'] = 'text/csv'
@@ -54,7 +56,7 @@ helpers do
     end
   end
   
-  def get_columns(legislators)
+  def get_columns(legislators, params)
     data = {}
     source_keys.each do |source|
       source_class = class_for source
@@ -70,6 +72,14 @@ helpers do
       end
     end
     data
+  end
+  
+  def initial_columns
+    {:legislator => {
+        'name' => '1',
+        'state' => '1',
+        'district' => '1'
+    }}
   end
   
   def to_csv(data, legislators)
@@ -128,6 +138,10 @@ helpers do
   
   def sort_fields(fields, source)
     class_for(source).sort(fields)
+  end
+  
+  def cycle_row
+    @cycle_class = {'odd' => 'even', 'even' => 'odd'}[@cycle_class || 'even']
   end
   
 end

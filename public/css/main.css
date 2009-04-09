@@ -112,8 +112,6 @@ div#mainContent table { width: 100%; }
 tr#titles{ color: #203646; text-transform: uppercase; font-size: 110%;}
 table tr {height: 25px;}
 table tr.odd { background: #f4f4ef;}
-tbody th, tbody td { text-align: center;}
-table th.name, table td.name { text-align: left;}
 tfoot tr td { padding-top: 2px;}
 
 td.delete a{
