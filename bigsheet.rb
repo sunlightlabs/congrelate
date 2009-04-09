@@ -14,18 +14,14 @@ get '/' do
   haml :index
 end
 
-# temporary
-get '/old' do
-  haml :old
-end
-
-# returns a column of data in json form
-get '/column' do
+get '/column.json' do
   #response['Content-Type'] = 'text/json'
-  class_for(params[:source]).field_for(get_legislators, params[:column]).to_json
+  column = class_for(params[:source]).field_for(get_legislators, params[:column])
+  column[:header] ||= params[:column].to_s.titleize
+  column[:title] ||= params[:column].to_s.titleize
+  column.to_json
 end
 
-# API
 get /\/table(?:\.([\w]+))?/ do
   @legislators = get_legislators
   @data = get_columns @legislators, params
@@ -141,7 +137,11 @@ helpers do
   end
   
   def cycle_class
-    @cycle_class = {'odd' => 'even', 'even' => 'odd'}[@cycle_class || 'even']
+    @cycle_class = {nil => :odd, :odd => :even, :even => :odd}[@cycle_class]
+  end
+  
+  def column_header(text)
+    text.to_s.titleize
   end
   
 end

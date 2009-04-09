@@ -27,7 +27,7 @@ $(document).ready(function(){
     this.value = '';
   });
   
-  $("a#addVotes").facebox()
+  $("a#addVotes").facebox();
   $(document).bind('reveal.facebox', function() {
     $("div#facebox table").show();
     $("div#facebox div.content a#bustedLink").click(function() {
@@ -38,3 +38,50 @@ $(document).ready(function(){
     });
   });
 });
+
+function add_column(source, column) {
+  spinner_on();
+  $.getJSON('/column.json', {source: source, column: column}, function(data) {
+    var id = column_id(source, column);
+    for (bioguide_id in data) {
+      if (bioguide_id != 'title' && bioguide_id != 'header')
+        $('tr#' + bioguide_id).append('<td class="' + id + '">' + data[bioguide_id] + '</tr>');
+    }
+    $('tr#titles').append('<th class="' + id + '">' + data['title'] + '</th>');
+    prepare_table();
+    spinner_off();
+  });
+}
+
+function remove_column(source, column) {
+  spinner_on();
+  var id = column_id(source, column);
+  $('th.' + id + ',td.' + id).remove();
+  prepare_table();
+  spinner_off();
+}
+
+function spinner_on() {$('#spinner').show();}
+function spinner_off() {$('#spinner').hide();}
+
+function toggle_column(checked, source, column) {
+  if (checked)
+    add_column(source, column);
+  else
+    remove_column(source, column);
+}
+
+function column_id(source, column) {
+  return source + '_' + column;
+}
+
+function prepare_table() {
+  $('#main_table').dataTable({
+    bProcessing: true,
+    bPaginate: false,
+    bInfo: false,
+    bFilter: false,
+    bProcessing: false,
+    aaSorting: [[1, 'asc'], [2, 'asc']]
+  });
+}

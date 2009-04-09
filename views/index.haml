@@ -17,16 +17,7 @@
     
     %script{:type => 'text/javascript'}
       :plain
-        $(document).ready(function() {
-          $('#main_table').dataTable({
-            bProcessing: true,
-            bPaginate: false,
-            bInfo: false,
-            bFilter: false,
-            bProcessing: false,
-            aaSorting: [[1, 'asc'], [2, 'asc']]
-          });
-        });
+        $(document).ready(prepare_table);
   
   %body.home
     #headerWrapper
@@ -44,11 +35,13 @@
                     %form#legislator_form
                       %ul
                         %li
-                          %input{:class => 'party', :type => 'checkbox', :value => '1', :name => 'legislator[party]', :id => 'legislator_party'}
+                          %input{:class => 'party', :type => 'checkbox', :value => '1', :id => 'legislator_party', :onchange => 'toggle_column(this.checked, "legislator", "party")'}
                           %label{:for => 'legislator_party'} Party
                         %li
-                          %input{:class => 'gender', :type => 'checkbox', :value => '1', :name => 'legislator[gender]', :id => 'legislator_gender'}
+                          %input{:class => 'gender', :type => 'checkbox', :value => '1', :id => 'legislator_gender', :onchange => 'toggle_column(this.checked, "legislator", "gender")'}
                           %label{:for => 'legislator_gender'} Gender
+                        %li#spinner{:style => 'display: none; padding-top: 5px; padding-left: 10px;'}
+                          %img{:src => '/images/spinner.gif'}
                   #filterNav
                     %form{:method => :get, :id => 'filters_form'}
                       %input{:type => 'hidden', :name => 'filters[house]', :value => '', :id => 'filters_house'}
@@ -78,7 +71,7 @@
                               = @data[source][column][:header] ? @data[source][column][:header] : column.to_s.titleize
                     %tbody
                       - @legislators.each do |legislator|
-                        %tr{:class => cycle_class}
+                        %tr{:class => cycle_class, :id => legislator.bioguide_id}
                           - sort_by_ref(@data.keys, source_keys).each do |source|
                             - sort_fields(@data[source].keys, source).each do |column|
                               %td{:class => "#{source}_#{column}"}
