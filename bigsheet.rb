@@ -31,6 +31,9 @@ get /\/table(?:\.([\w]+))?/ do
   when ['csv']
     response['Content-Type'] = 'text/csv'
     to_csv @data, @legislators
+  when ['json']
+    response['Content-Type'] = 'text/json'
+    to_json @data, @legislators
   else
     status 404
     'Unsupported format.'
@@ -73,6 +76,10 @@ helpers do
     FasterCSV.generate do |csv|
       to_array(data, legislators).each {|row| csv << row}
     end
+  end
+  
+  def to_json(data, legislators)
+    to_array(data, legislators).to_json
   end
   
   # creates a flat array of arrays of the data
