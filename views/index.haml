@@ -40,7 +40,7 @@
                 #headerNav
                   #filter
                     %h2 Legislator Fields
-                    %form#filter_form
+                    %form#legislator_form
                       %ul
                         %li
                           %input{:class => 'party', :type => 'checkbox', :value => '1', :name => 'legislator[party]', :id => 'legislator_party'}
@@ -49,13 +49,24 @@
                           %input{:class => 'gender', :type => 'checkbox', :value => '1', :name => 'legislator[gender]', :id => 'legislator_gender'}
                           %label{:for => 'legislator_gender'} Gender
                   #filterNav
-                    %ul
-                      %li#House
-                        %a{:href => '#'} House
-                      %li#Senate
-                        %a{:href => '#'} Senate
-                      %li#All
-                        %a{:href => '#'} All
+                    %form{:method => :get, :id => 'filters_form'}
+                      %input{:type => 'hidden', :name => 'filters[house]', :value => '', :id => 'filters_house'}
+                      %ul
+                        %li#House
+                          - if params[:filters] and params[:filters][:house] == 'house'
+                            House
+                          - else
+                            %a{:href => '#', :onclick => '$("#filters_house").val("house"); $("#filters_form").submit(); return false'} House
+                        %li#Senate
+                          - if params[:filters] and params[:filters][:house] == 'senate'
+                            Senate
+                          - else
+                            %a{:href => '#', :onclick => '$("#filters_house").val("senate"); $("#filters_form").submit(); return false'} Senate
+                        %li#All
+                          - if !params[:filters] or [nil, '', 'both'].include?(params[:filters][:house])
+                            All
+                          - else
+                            %a{:href => '#', :onclick => '$("#filters_house").val(""); $("#filters_form").submit(); return false'} All
                 #mainContent
                   %table#main_table.display
                     %thead
