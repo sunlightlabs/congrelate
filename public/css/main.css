@@ -1,0 +1,222 @@
+/*
+ * YUI Resect CSS version: 2.2.2 
+ * Copyright (c) 2007, Yahoo! Inc. All rights reserved.
+ * Licensed under the BSD License: http://developer.yahoo.net/yui/license.txt
+ */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,optgroup,button,p,blockquote,th,td{margin:0;padding:0;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}table{border-collapse:collapse;border-spacing:0;}caption,th{text-align:left;}ol,ul{list-style:none;}fieldset,img{border:0;}input,textarea,select,optgroup,option,button{font-family:inherit;font-size:100%;}button,input {width: auto;overflow: visible;}optgroup,address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym {border:0;}
+dl li{list-style: none;}
+
+a:link{outline: none; color: #940a0a;}
+a:visited{outline: none; color: #940a0a}
+a:hover{outline: none; color: #940a0a}
+a:active{outline: none; color: #940a0a}
+
+body{
+	color:#563f3f;
+	background: #fff;
+	font-size: 76%;
+  	line-height: 22px;
+  	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+div#headerWrapper{
+    background: url("/images/bg_wrapper.jpg") top left repeat-x; height: 335px;
+}
+
+div#mainBg{ background: url("/images/mainBg.jpg") top left no-repeat; height: 335px;}
+
+div.container{
+    height: 311px;
+    padding-left: 30px;
+    padding-top: 24px;
+    margin: 0 70px;
+    min-width: 960px;
+    width: auto !important;
+    background: url(/images/ltSide.png) left 24px no-repeat;
+}
+
+div.container2 {
+	background: url(/images/rtSide.png) right 1px no-repeat;
+	padding-right: 45px;
+}
+
+div.container3 {
+	background: url(/images/middle.png) top left repeat-x;
+	height: 311px;
+	//padding: 10px 20px;
+}
+
+div.container4 {
+    padding-top: 2px;
+    height: 311px;
+	background: url(/images/container4.png) right 1px no-repeat;
+}
+
+h1{
+    padding: 97px 0 30px 0;
+    width: 455px;
+    height: 52px;
+}
+
+h1 a{
+    display: block;
+    text-indent: -9999em;
+    width: 455px;
+    height: 52px;
+    background: url("/images/headerText.png") bottom left no-repeat;
+}
+
+div.container h2{
+    color: #534444;
+    font-weight: bold;
+    font-size: 110%;
+    float: left;
+    margin-right: 20px;
+    margin-top: 2px;
+}
+
+div#filter li{
+    float: left;
+    margin-right: 10px;
+}
+
+label { padding-left: 5px;}
+
+div#filterNav li{
+    float: right;
+    margin-left: 10px;
+    padding-left: 10px;
+    border-left: 1px solid #443b3b;
+}
+
+div#filter input#name{
+    border: none;
+    background: url("/images/search_legislator.png") bottom left no-repeat;
+    width: 166px;
+    height: 20px;
+    padding: 0 0 0 8px;
+}
+
+div#headerNav{
+    background: url("/images/navBar.png") top center no-repeat; 
+    height: 53px; 
+    width: 900px;
+    padding-top: 15px;
+}
+
+div#filterNav li#All{ border: none;}
+
+div#mainContent { padding: 10px 0;}
+div#mainContent table { width: 100%; }
+
+tr#titles{ color: #203646; text-transform: uppercase; font-size: 110%;}
+table tr {height: 25px;}
+table tr.odd { background: #f4f4ef;}
+tbody th, tbody td { text-align: center;}
+table th.name, table td.name { text-align: left;}
+tfoot tr td { padding-top: 2px;}
+
+td.delete a{
+    width: 16px;
+    height: 16px;
+    background: url(/images/btn_delete.png) left bottom no-repeat;
+    text-indent: -9999em;
+    display: block;
+    margin-right: 10px;
+}
+
+td.delete{
+    padding-left: 10px;
+    width: 16px;
+    height: 16px;
+}
+
+/*div#addVotes a{
+    width: 127px;
+    height: 38px;
+    background: url(/images/btn_addVotes.png) right bottom no-repeat;
+    text-indent: -9999em;
+    display: block;
+}
+
+div#addVotes{
+    float: right;
+    padding-right: 10px;
+    width: 127px;
+    height: 38px;
+}*/
+
+a#addLegislators{ 
+    background: url(/images/btn_add.png) left 2px no-repeat; 
+    float: left;
+    height: 19px; 
+    padding-left: 23px;
+}
+
+a#download{ float: right; background: url(/images/docIcon.jpg) left 2px no-repeat; padding-left: 23px;}
+
+div#footerWrapper{ background-color: #311d1d; bottom: 0; display: block; position: fixed; width: 100%;}
+
+div#footer{
+    color: #c4beb5;
+    margin: 15px 70px 0;
+}
+div#footer h2{ text-transform: uppercase; font-size: 140%; color: #fff; margin-bottom: 10px;}
+div#censusData li{ width: 115px; float: left;}
+div#censusData{display: none; clear: left;}
+
+div#chartTools{ display: block; margin-top: 20px; background: #dcd7d2; padding: 5px 10px;}
+
+div#addLegislatorsForm li, div#addLegislatorsForm ul{ float: left; }
+
+div#addLegislatorsForm{margin: 20px 0 10px; display: none;}
+div#addLegislatorsForm li{ margin-right: 20px;}
+div#addLegislatorsForm button{ float: left;}
+
+div#individualForm{ float: right;}
+
+div#addBtns li{ float: left; background: url(/images/btn_add.png) left bottom no-repeat; padding-left: 20px; margin-right: 30px; margin-bottom: 20px;}
+div#addBtns ul{ width: 100%; display: block; }
+
+.clear{
+	clear: both;
+}
+
+select.stateDropdown{ margin-top: 2px;}
+input.party, input.gender{ margin-top: 4px;}
+
+button.goBtn{ background: url(/images/btn_go.png) left top no-repeat; text-indent: -9999em; border: none; width: 45px; height: 26px; float: left; cursor: pointer;}
+
+div#detailNav li{ float: left; margin-right: 25px; padding: 5px 10px 1px;}
+div#detailNav li a{ text-decoration: none;}
+div#detailNav ul { border-bottom: 1px solid #dcd8d8; width: 100%; padding-bottom: 27px; margin-bottom: 30px;}
+div#detailNav li.active{ border: 1px solid #7f7171; border-bottom: 0; background: #fff; -moz-border-radius:3px; -webkit-border-radius: 3px; color: #6a5a59; font-weight: bold;}
+
+div#addVoteForm{ text-align: left;}
+div#addVoteForm h2{ font-size: 130%; margin: 10px 20px 20px 0; font-weight: bold; }
+
+button.addBtn{ background: url(/images/btn_addChart.png) left bottom no-repeat; border: none; width: 125px; height: 26px; text-indent: -9999em; cursor: pointer;}
+
+div#addVoteForm h3{ float: left; margin-right: 15px; font-size: 115%; margin-top: 3px;}
+h3{ font-weight: bold;}
+
+div#addVoteName input#name, div#individualForm input{ 
+    -moz-border-radius:5px;
+	-webkit-border-radius: 5px;
+    border: solid 1px #978f8f;
+    height: 15px;
+	padding: 2px 4px;
+}
+
+div#individualForm{ border-left: 1px solid #978f8f; padding-left: 30px;}
+
+div#individualForm input{ float: left; margin-top: 3px; margin-right: 10px;}
+
+
+
+div#recentVotes{ clear: left;}
+div#recentVotes table { width: 100%;}
+div#addVoteName form{ margin-bottom: 20px; border-bottom: 1px solid #c4bdbd; padding-bottom: 20px;}
+
+div#moreBtn{ margin: 7px 5px 10px 0; text-align: right;}
+div#recentVotes button{ margin-left: 86%; }

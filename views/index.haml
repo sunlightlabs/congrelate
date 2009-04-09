@@ -5,8 +5,7 @@
     %meta{'http-equiv' => 'Content-Type', :content => 'text/html; charset=UTF-8'}
     %title Big Sheet
     
-    %link{:rel => 'stylesheet', :type => 'text/css', :media => 'screen', :charset => 'utf-8', :href => '/css/style.css'}
-    %link{:rel => 'stylesheet', :type => 'text/css', :media => 'screen', :charset => 'utf-8', :href => '/css/table.css'}
+    %link{:rel => 'stylesheet', :type => 'text/css', :media => 'screen', :charset => 'utf-8', :href => '/css/main.css'}
     %link{:rel => 'stylesheet', :type => 'text/css', :media => 'screen', :charset => 'utf-8', :href => '/css/autocomplete.css'}
     %link{:rel => 'stylesheet', :type => 'text/css', :media => 'screen', :charset => 'utf-8', :href => '/facebox/facebox.css'}
       
@@ -16,15 +15,32 @@
     %script{:type => 'text/javascript', :src => '/javascript/dataTables.js'}
     %script{:type => 'text/javascript', :src => '/javascript/autocomplete.js'}
   
-  %body
-    %form{:action => '/table', :method => :get}
-
-      - sources.each do |source|
-        .source{:class => "source #{source.keyword}"}
-          %h1= source.name
-          = source_form source
-          %h6
-            Data source:
-            %a{:href => source.source_url}= source.source_name
-      
-      %input{:type => 'submit', :name => 'Submit'}
+  %body.home
+    #headerWrapper
+      #mainBg
+        .container
+          .container2
+            .container3
+              .container4
+                #mainHeader
+                  %h1
+                    %a{:href => '/'} Comparing Legislator Votes and their Constituencies
+                #headerNav
+                  #filter
+                    %h2 Legislator Fields
+                    %form#filter_form
+                      %ul
+                        %li
+                          %input{:class => 'party', :type => 'checkbox', :value => '1', :name => 'legislator[party]', :id => 'legislator_party'}
+                          %label{:for => 'legislator_party'} Party
+                        %li
+                          %input{:class => 'gender', :type => 'checkbox', :value => '1', :name => 'legislator[gender]', :id => 'legislator_gender'}
+                          %label{:for => 'legislator_gender'} Gender
+                  #filterNav
+                    %ul
+                      %li#House
+                        %a{:href => '#'} House
+                      %li#Senate
+                        %a{:href => '#'} Senate
+                      %li#All
+                        %a{:href => '#'} All
