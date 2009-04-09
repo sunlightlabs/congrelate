@@ -84,3 +84,13 @@
                             - sort_fields(@data[source].keys, source).each do |column|
                               %td{:class => "#{source}_#{column}"}
                                 = @data[source][column][legislator.bioguide_id]
+    #footerWrapper
+      #footer
+        %h2 Add Data
+        #dataContent
+          #addBtns
+            %ul
+              - sources.each do |source|
+                %li
+                  %a{:class => "add_#{source.keyword}", :href => '#', :onclick => 'return false'}
+                    = source.name
