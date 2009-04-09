@@ -17,7 +17,7 @@
     
     %script{:type => 'text/javascript'}
       :plain
-        $(document).ready(prepare_table);
+        $(document).ready(init);
   
   %body.home
     #headerWrapper
@@ -31,7 +31,15 @@
                     %a{:href => '/'} Comparing Legislator Votes and their Constituencies
                 #headerNav
                   #filter
-                    %h2 Legislator Fields
+                    %h2 Filter Legislators
+                    %ul
+                      %li
+                        %input{:id => 'filter_legislator_name', :class => 'text', :type => 'text', :maxlength => '329', :value => 'By Name', :onfocus => 'if (this.value == "By Name") this.value = "";', :onblur => 'if (this.value == "") this.value = "By Name";', :onkeyup => 'filter_column(this.value, 0)'}
+                      %li
+                        %select{:name => 'filter_legislator_state', :id => 'filter_legislator_state', :class => 'stateDropDown', :onchange => 'filter_column(this.value, 1)'}
+                          %option{:value => ''} By State
+                          %option{:value => ''} ------
+                    %h2 More Fields
                     %form#legislator_form
                       %ul
                         %li
