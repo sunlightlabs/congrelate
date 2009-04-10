@@ -1,5 +1,4 @@
 var mainTable;
-var GB_ANIMATION = true;
 
 function init() {
 
@@ -10,23 +9,12 @@ function init() {
   for (state in states)
     state_elem.append('<option value=\"' + state + '">' + states[state] + '</option>');
 
-  $("td.delete a").click(function(){
-    $(this).parent().parent().fadeOut("slow", function () {
-      $(this).remove();
-      $("table tbody tr").removeClass("odd");
-      $("table tbody tr").removeClass("even");
-      $("table tbody tr").each(function (i) {
-        if (i % 2 == 1)
-          $(this).addClass("even");
-        else
-          $(this).addClass("odd");     
-      });
-    });
-  });
-  
   // Add source data links
   $("a.source_form_link").click(function() {
-    $("div#" + this.id.replace("_link", "")).toggle("slow");
+    var form_id = this.id.replace("_link", "");
+    $("div.source_form:not(#" + form_id + ")").hide("medium");
+    $("div#" + form_id).toggle("medium");
+    return false;
   });
   
   // filter fields
@@ -44,11 +32,7 @@ function init() {
   });
   
   // column fields
-  $('div.source_form input:checkbox, #legislator_form input:checkbox').change(function() {
-    var source, column;
-    [source, column] = this.id.split("_");
-    toggle_column(this.checked, source, column);
-  });
+  $('div.source_form input:checkbox, #legislator_form input:checkbox').change(toggle_checkbox);
   
   $("a#addVotes").facebox();
   $(document).bind('reveal.facebox', function() {
@@ -56,10 +40,16 @@ function init() {
     $("div#facebox div.content a#bustedLink").click(function() {
       $(document).trigger('close.facebox');
 
-      //This is whatever you want the button/link/whatever to do.  Submit a form, pull back data, adjust the DOM, etc.
+      // This is whatever you want the button/link/whatever to do.  Submit a form, pull back data, adjust the DOM, etc.
       $("table").hide("slow");
     });
   });
+}
+
+function toggle_checkbox() {
+  var source, column;
+  [source, column] = this.id.split("_");
+  toggle_column(this.checked, source, column);
 }
 
 function add_column(source, column) {
@@ -73,7 +63,7 @@ function add_column(source, column) {
           $('tr#' + bioguide_id).append('<td class="' + id + '">' + data[bioguide_id] + '</tr>');
       }
     }
-    $('tr#titles').append('<th class="' + id + '">' + data['title'] + '</th>');
+    $('tr#titles').append('<th class="' + id + '">' + data['header'] + '</th>');
     spinner_off();
     prepare_table();
   });
