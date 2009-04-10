@@ -128,6 +128,10 @@ helpers do
     @@sources ||= Source.all
   end
   
+  def other_sources
+    sources[1..-1]
+  end
+  
   def class_for(source)
     source.to_s.camelize.constantize
   end

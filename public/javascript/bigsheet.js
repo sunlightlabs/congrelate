@@ -24,16 +24,30 @@ function init() {
     });
   });
   
-  $("a#addLegislators").click(function(){
-    $("div#addLegislatorsForm").toggle("slow");
+  // Add source data links
+  $("a.source_form_link").click(function() {
+    $("div#" + this.id.replace("_link", "")).toggle("slow");
   });
   
-  $("a#addCensus").click(function(){
-    $("div#censusData").toggle("slow");
+  // filter fields
+  $('input#filter_legislator_name').focus(function() {
+    if (this.value == 'By Name')
+      this.value = '';
+  }).blur(function() {
+    if (this.value == '')
+      this.value = 'By Name';
+  }).keyup(function() {
+    filter_column(this.value, 0);
+  });
+  $('select#filter_legislator_state').change(function() {
+    filter_column(this.value, 1);
   });
   
-  $('input#name').click(function() {
-    this.value = '';
+  // column fields
+  $('div.source_form input:checkbox, #legislator_form input:checkbox').change(function() {
+    var source, column;
+    [source, column] = this.id.split("_");
+    toggle_column(this.checked, source, column);
   });
   
   $("a#addVotes").facebox();
@@ -96,6 +110,7 @@ function prepare_table() {
     bInfo: false,
     bFilter: false,
     bProcessing: false,
+    oLanguage: {sZeroRecords: "No matching legislators."},
     aaSorting: [[1, 'asc'], [2, 'asc']]
   });
 }

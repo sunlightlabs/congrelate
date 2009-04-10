@@ -34,19 +34,19 @@
                     %h2 Filter Legislators
                     %ul
                       %li
-                        %input{:id => 'filter_legislator_name', :class => 'text', :type => 'text', :maxlength => '329', :value => 'By Name', :onfocus => 'if (this.value == "By Name") this.value = "";', :onblur => 'if (this.value == "") this.value = "By Name";', :onkeyup => 'filter_column(this.value, 0)'}
+                        %input{:id => 'filter_legislator_name', :class => 'text', :type => 'text', :maxlength => '329', :value => 'By Name'}
                       %li
-                        %select{:name => 'filter_legislator_state', :id => 'filter_legislator_state', :class => 'stateDropDown', :onchange => 'filter_column(this.value, 1)'}
+                        %select{:name => 'filter_legislator_state', :id => 'filter_legislator_state', :class => 'stateDropDown'}
                           %option{:value => ''} By State
                           %option{:value => ''} ------
                     %h2 More Fields
                     %form#legislator_form
                       %ul
                         %li
-                          %input{:class => 'party', :type => 'checkbox', :value => '1', :id => 'legislator_party', :onchange => 'toggle_column(this.checked, "legislator", "party")'}
+                          %input{:class => 'party', :type => 'checkbox', :value => '1', :id => 'legislator_party'}
                           %label{:for => 'legislator_party'} Party
                         %li
-                          %input{:class => 'gender', :type => 'checkbox', :value => '1', :id => 'legislator_gender', :onchange => 'toggle_column(this.checked, "legislator", "gender")'}
+                          %input{:class => 'gender', :type => 'checkbox', :value => '1', :id => 'legislator_gender'}
                           %label{:for => 'legislator_gender'} Gender
                         %li#spinner{:style => 'display: none; padding-top: 5px; padding-left: 10px;'}
                           %img{:src => '/images/spinner.gif'}
@@ -90,7 +90,10 @@
         #dataContent
           #addBtns
             %ul
-              - sources.each do |source|
+              - other_sources.each do |source|
                 %li
-                  %a{:class => "add_#{source.keyword}", :href => '#', :onclick => 'return false'}
+                  %a{:class => "source_form_link", :href => '#', :id => "#{source.keyword}_form_link"}
                     = source.name
+          - other_sources.each do |source|
+            %div.source_form{:id => "#{source.keyword}_form"}
+              = source_form source

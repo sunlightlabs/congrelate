@@ -1,53 +1,37 @@
-%table
-  %thead
-    %tr
-      %th
-        %label{:for => 'district_blacks'} % Black
-      %th
-        %label{:for => 'district_whites'} % White
-      %th
-        %label{:for => 'district_hispanics'} % Hispanic
-      %th
-        %label{:for => 'district_american_indians'} % American Indian
-      %th
-        %label{:for => 'district_asians'} % Asian
-      %th
-        %label{:for => 'district_males'} % Male
-      %th
-        %label{:for => 'district_females'} % Female
-      %th
-        %label{:for => 'district_unemployment'} % Unemployed
-      %th
-        %label{:for => 'district_median_age'} Median Age
-      %th
-        %label{:for => 'district_median_household_income'} Median Household Income
-      %th
-        %label{:for => 'district_median_house_value'} Median House Value
-      %th
-        %label{:for => 'district_median_rent'} Median Rent
-  %tbody
-    %tr
-      %td
-        %input{:type => 'checkbox', :name => 'district[blacks]', :value => '1', :id => 'district_blacks'}
-      %td
-        %input{:type => 'checkbox', :name => 'district[whites]', :value => '1', :id => 'district_whites'}
-      %td
-        %input{:type => 'checkbox', :name => 'district[hispanics]', :value => '1', :id => 'district_hispanics'}
-      %td
-        %input{:type => 'checkbox', :name => 'district[american_indians]', :value => '1', :id => 'district_american_indians'}
-      %td
-        %input{:type => 'checkbox', :name => 'district[asians]', :value => '1', :id => 'district_asians'}
-      %td
-        %input{:type => 'checkbox', :name => 'district[males]', :value => '1', :id => 'district_males'}
-      %td
-        %input{:type => 'checkbox', :name => 'district[females]', :value => '1', :id => 'district_females'}
-      %td
-        %input{:type => 'checkbox', :name => 'district[unemployment]', :value => '1', :id => 'district_unemployment'}
-      %td
-        %input{:type => 'checkbox', :name => 'district[median_age]', :value => '1', :id => 'district_median_age'}
-      %td
-        %input{:type => 'checkbox', :name => 'district[median_household_income]', :value => '1', :id => 'district_median_household_income'}
-      %td
-        %input{:type => 'checkbox', :name => 'district[median_house_value]', :value => '1', :id => 'district_median_house_value'}
-      %td
-        %input{:type => 'checkbox', :name => 'district[median_rent]', :value => '1', :id => 'district_median_rent'}
+%ul
+  %li
+    %input{:type => 'checkbox', :name => 'district[blacks]', :value => '1', :id => 'district_blacks'}
+    %label{:for => 'district_blacks'} % Black
+  %li
+    %input{:type => 'checkbox', :name => 'district[whites]', :value => '1', :id => 'district_whites'}
+    %label{:for => 'district_whites'} % White
+  %li
+    %input{:type => 'checkbox', :name => 'district[hispanics]', :value => '1', :id => 'district_hispanics'}
+    %label{:for => 'district_hispanics'} % Hispanic
+  %li
+    %input{:type => 'checkbox', :name => 'district[american_indians]', :value => '1', :id => 'district_american_indians'}
+    %label{:for => 'district_american_indians'} % American Indian
+  %li
+    %input{:type => 'checkbox', :name => 'district[asians]', :value => '1', :id => 'district_asians'}
+    %label{:for => 'district_asians'} % Asian
+  %li
+    %input{:type => 'checkbox', :name => 'district[males]', :value => '1', :id => 'district_males'}
+    %label{:for => 'district_males'} % Male
+  %li
+    %input{:type => 'checkbox', :name => 'district[females]', :value => '1', :id => 'district_females'}
+    %label{:for => 'district_females'} % Female
+  %li
+    %input{:type => 'checkbox', :name => 'district[unemployment]', :value => '1', :id => 'district_unemployment'}
+    %label{:for => 'district_unemployment'} % Unemployed
+  %li
+    %input{:type => 'checkbox', :name => 'district[median_age]', :value => '1', :id => 'district_median_age'}
+    %label{:for => 'district_median_age'} Median Age
+  %li
+    %input{:type => 'checkbox', :name => 'district[median_household_income]', :value => '1', :id => 'district_median_household_income'}
+    %label{:for => 'district_median_household_income'} Median Household Income
+  %li
+    %input{:type => 'checkbox', :name => 'district[median_house_value]', :value => '1', :id => 'district_median_house_value'}
+    %label{:for => 'district_median_house_value'} Median House Value
+  %li
+    %input{:type => 'checkbox', :name => 'district[median_rent]', :value => '1', :id => 'district_median_rent'}
+    %label{:for => 'district_median_rent'} Median Rent

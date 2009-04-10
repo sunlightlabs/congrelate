@@ -77,12 +77,12 @@ div.container h2{
     margin-top: 2px;
 }
 
-div#filter li{
-    float: left;
-    margin-right: 10px;
+div#filter li {
+  float: left;
+  margin-right: 10px;
 }
 
-label { padding-left: 5px;}
+label {padding-left: 5px;}
 
 div#filterNav li{
     float: right;
@@ -148,21 +148,20 @@ div#footer{
     margin: 15px 70px 0;
 }
 div#footer h2{ text-transform: uppercase; font-size: 140%; color: #fff; margin-bottom: 10px;}
-div#censusData li{ width: 115px; float: left;}
-div#censusData{display: none; clear: left;}
+
+div.source_form {display: none; clear: left; float: left;}
+div.source_form li {width: 115px; float: left;}
 
 div#chartTools{ display: block; margin-top: 20px; background: #dcd7d2; padding: 5px 10px;}
 
 div#addLegislatorsForm li, div#addLegislatorsForm ul{ float: left; }
 
-div#addLegislatorsForm{margin: 20px 0 10px; display: none;}
-div#addLegislatorsForm li{ margin-right: 20px;}
-div#addLegislatorsForm button{ float: left;}
+div#addLegislatorsForm {margin: 20px 0 10px; display: none;}
+div#addLegislatorsForm li {margin-right: 20px;}
+div#addLegislatorsForm button {float: left;}
 
-div#individualForm{ float: right;}
-
-div#addBtns li{ float: left; background: url(/images/btn_add.png) left bottom no-repeat; padding-left: 20px; margin-right: 30px; margin-bottom: 20px;}
-div#addBtns ul{ width: 100%; display: block; }
+div#addBtns li {float: left; background: url(/images/btn_add.png) left bottom no-repeat; padding-left: 20px; margin-right: 30px; margin-bottom: 20px;}
+div#addBtns ul {width: 100%; display: block; }
 
 .clear{
   clear: both;
@@ -177,6 +176,10 @@ div#detailNav li{ float: left; margin-right: 25px; padding: 5px 10px 1px;}
 div#detailNav li a{ text-decoration: none;}
 div#detailNav ul { border-bottom: 1px solid #dcd8d8; width: 100%; padding-bottom: 27px; margin-bottom: 30px;}
 div#detailNav li.active{ border: 1px solid #7f7171; border-bottom: 0; background: #fff; -moz-border-radius:3px; -webkit-border-radius: 3px; color: #6a5a59; font-weight: bold;}
+
+div#individualForm {border-left: 1px solid #978f8f; padding-left: 30px; float: right;}
+div#individualForm input{ float: left; margin-top: 3px; margin-right: 10px;}
+
 
 div#addVoteForm{ text-align: left;}
 div#addVoteForm h2{ font-size: 130%; margin: 10px 20px 20px 0; font-weight: bold; }
@@ -194,15 +197,9 @@ div#addVoteName input#name, div#individualForm input{
   padding: 2px 4px;
 }
 
-div#individualForm{ border-left: 1px solid #978f8f; padding-left: 30px;}
+div#recentVotes {clear: left;}
+div#recentVotes table {width: 100%;}
+div#addVoteName form {margin-bottom: 20px; border-bottom: 1px solid #c4bdbd; padding-bottom: 20px;}
 
-div#individualForm input{ float: left; margin-top: 3px; margin-right: 10px;}
-
-
-
-div#recentVotes{ clear: left;}
-div#recentVotes table { width: 100%;}
-div#addVoteName form{ margin-bottom: 20px; border-bottom: 1px solid #c4bdbd; padding-bottom: 20px;}
-
-div#moreBtn{ margin: 7px 5px 10px 0; text-align: right;}
+div#moreBtn {margin: 7px 5px 10px 0; text-align: right;}
 div#recentVotes button{ margin-left: 86%; }
