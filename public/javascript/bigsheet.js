@@ -10,10 +10,15 @@ function init() {
     state_elem.append('<option value=\"' + state + '">' + states[state] + '</option>');
 
   // Add source data links
-  $("a.source_form_link").click(function() {
-    var form_id = this.id.replace("_link", "");
-    $("div.source_form:not(#" + form_id + ")").hide("medium");
-    $("div#" + form_id).toggle("medium");
+  $('a.source_form_link.inline_form').click(function() {
+    var form_id = this.id.replace('_link', '');
+    $('div.source_form:not(#' + form_id + ')').hide('medium');
+    $('div#' + form_id).toggle('medium');
+    return false;
+  });
+  $('a.source_form_link.popup_form').click(function() {
+    var source_id = this.id.replace('_form_link', '');
+    jQuery.facebox({ajax: '/' + source_id + '/form'});
     return false;
   });
   
@@ -34,7 +39,6 @@ function init() {
   // column fields
   $('div.source_form input:checkbox, #legislator_form input:checkbox').change(toggle_checkbox);
   
-  $("a#addVotes").facebox();
   $(document).bind('reveal.facebox', function() {
     $("div#facebox table").show();
     $("div#facebox div.content a#bustedLink").click(function() {

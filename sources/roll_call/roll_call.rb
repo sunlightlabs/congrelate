@@ -158,11 +158,17 @@ class RollCall < ActiveRecord::Base
     "#{type.upcase}#{number}"
   end
   
+  def self.popup_form?
+    true
+  end
+  
 end
 
-# Autocomplete route
+get '/roll_call/form' do
+  haml :"sources/roll_call/form"
+end
 
-get '/roll_calls' do
+get '/roll_call/autocomplete' do
   if params[:q]
     roll_calls = RollCall.search(params[:q]).listing.all(:limit => (params[:limit] || 50))
     roll_calls.map do |roll_call| 

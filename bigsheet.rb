@@ -148,4 +148,8 @@ helpers do
     text.to_s.titleize
   end
   
+  def popup_form?(source)
+    class_for(source.keyword).respond_to?(:popup_form?) and class_for(source.keyword).popup_form?
+  end
+  
 end
