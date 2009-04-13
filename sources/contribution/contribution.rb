@@ -166,6 +166,10 @@ class Contribution < ActiveRecord::Base
   def self.latest_cycle
     Time.now.year / 2 * 2
   end
+  
+  def self.popup_form?
+    true
+  end
 
 end
 
@@ -185,7 +189,11 @@ class OpenSecrets
   
 end
 
-get '/industries' do
+get '/contribution/form' do
+  haml :"sources/contribution/form"
+end
+
+get '/contribution/autocomplete' do
   if params[:q]
     Contribution.cycle(2008).industries(params[:q]).all(:order => 'industry asc').map(&:industry).join "\n"
   else
