@@ -41,12 +41,6 @@ function init() {
   
   $(document).bind('reveal.facebox', function() {
     $("div#facebox table").show();
-    $("div#facebox div.content a#bustedLink").click(function() {
-      $(document).trigger('close.facebox');
-
-      // This is whatever you want the button/link/whatever to do.  Submit a form, pull back data, adjust the DOM, etc.
-      $("table").hide("slow");
-    });
   });
 }
 

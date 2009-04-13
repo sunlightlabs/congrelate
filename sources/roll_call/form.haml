@@ -1,1 +1,32 @@
-To come.
+#roll_call_fields
+  %label{:for => 'roll_call_identifier'} Roll Call:
+  %input{:type => 'text', :id => 'roll_call_identifier'}
+  #roll_call_fields_chosen{:style => "display: none"}
+    %h3 Selected Roll Calls
+    
+%script{:type => 'text/javascript'}
+  :plain
+    $(document).ready(function() {
+      $('#roll_call_identifier').autocomplete('/roll_call/autocomplete', {
+        formatItem: function(row) {
+          var field = "<em>" + row[1] + " - " + row[2];
+          if (row[3])
+            field += " - Bill " + row[3];
+          field += "</em><br/>" + row[0];
+          return field;
+        },
+        max: 50,
+        formatResult: function(row) {
+          return row[1];
+        }
+      }).result(function(event, data) {
+        $('#roll_call_fields_chosen').append(
+          '<div class="roll_call_chosen" id="roll_call_' + data[1] + '">' +
+            data[0] + ' ' +
+            '<input type="checkbox" name="roll_call[' + data[1] + ']" value="1" checked="checked" />' +
+          '</div>'
+        );
+        $('#roll_call_identifier').val('');
+        $('#roll_call_fields_chosen').show();
+      });
+    });

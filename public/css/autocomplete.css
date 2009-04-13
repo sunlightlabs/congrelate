@@ -3,6 +3,7 @@
 }
 
 .ac_results {
+  z-index: 100; /* added by Eric */
   padding: 0px;
   border: 1px solid WindowFrame;
   background-color: Window;
