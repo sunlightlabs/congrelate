@@ -38,11 +38,8 @@ get /\/table(?:\.([\w]+))?/ do
   end
 end
 
-helpers do
 
-  def source_form(source)
-    haml :"sources/#{source.keyword}/form", :layout => false, :locals => {:source => source}
-  end
+helpers do
 
   def get_legislators
     if params[:filters]
@@ -136,6 +133,10 @@ helpers do
     source.to_s.camelize.constantize
   end
   
+  def source_for(keyword)
+    Source.find_by_keyword keyword.to_s
+  end
+  
   def sort_fields(fields, source)
     class_for(source).sort(fields)
   end
@@ -152,4 +153,35 @@ helpers do
     class_for(source.keyword).respond_to?(:popup_form?) and class_for(source.keyword).popup_form?
   end
   
+  def inline_form_for(source)
+    haml :inline_form, :layout => false, :locals => {:source => source}
+  end
+  
+  def popup_form_for(source)
+    haml :popup_form, :layout => false, :locals => {:source => source}
+  end
+  
+  def form_for(source)
+    haml :"sources/#{source.keyword}/form", :layout => false, :locals => {:source => source}
+  end
+  
+end
+
+
+template :inline_form do
+  <<-INLINE_FORM
+.inline_form
+  = form_for source
+  %h6
+    Data source:
+    %a{:href => source.source_url}= source.source_name
+  INLINE_FORM
+end
+
+template :popup_form do
+  <<-POPUP_FORM
+.popup_form
+  %h2= source.name
+  = form_for source
+  POPUP_FORM
 end

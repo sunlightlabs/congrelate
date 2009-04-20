@@ -180,20 +180,30 @@ div#detailNav li.active{ border: 1px solid #7f7171; border-bottom: 0; background
 div#individualForm {border-left: 1px solid #978f8f; padding-left: 30px; float: right;}
 div#individualForm input{ float: left; margin-top: 3px; margin-right: 10px;}
 
+div.inline_form h6 {clear: both}
 
-div#addVoteForm{ text-align: left;}
-div#addVoteForm h2{ font-size: 130%; margin: 10px 20px 20px 0; font-weight: bold; }
 
-button.addBtn{ background: url(/images/btn_addChart.png) left bottom no-repeat; border: none; width: 125px; height: 26px; text-indent: -9999em; cursor: pointer;}
+/* remaining source-specific CSS */
+div.popup_form {text-align: left;}
+div.popup_form h2 {font-size: 130%; margin: 10px 20px 20px 0; font-weight: bold;}
+div.popup_form h3 {float: left; margin-right: 15px; font-size: 115%; margin-top: 3px;}
 
-div#addVoteForm h3{ float: left; margin-right: 15px; font-size: 115%; margin-top: 3px;}
+button.addBtn {
+  background: url(/images/btn_addChart.png) left bottom no-repeat; 
+  border: none; 
+  width: 125px; 
+  height: 26px; 
+  text-indent: -9999em; 
+  cursor: pointer;
+}
+
 h3{ font-weight: bold;}
 
 div#addVoteName input#name, div#individualForm input{ 
-    -moz-border-radius:5px;
+  -moz-border-radius:5px;
   -webkit-border-radius: 5px;
-    border: solid 1px #978f8f;
-    height: 15px;
+  border: solid 1px #978f8f;
+  height: 15px;
   padding: 2px 4px;
 }
 

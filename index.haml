@@ -96,4 +96,4 @@
                     = source.name
           - other_sources.select {|s| !popup_form? s}.each do |source|
             %div.source_form{:id => "#{source.keyword}_form"}
-              = source_form source
+              = inline_form_for source

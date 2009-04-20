@@ -165,7 +165,7 @@ class RollCall < ActiveRecord::Base
 end
 
 get '/roll_call/form' do
-  haml :"sources/roll_call/form"
+  popup_form_for source_for(:roll_call)
 end
 
 get '/roll_call/autocomplete' do

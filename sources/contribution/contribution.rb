@@ -190,7 +190,7 @@ class OpenSecrets
 end
 
 get '/contribution/form' do
-  haml :"sources/contribution/form"
+  popup_form_for source_for(:contribution)
 end
 
 get '/contribution/autocomplete' do
