@@ -194,7 +194,7 @@ get '/contribution/form' do
 end
 
 get '/contribution/search' do
-  if !params[:q].blank?
+  if params[:q]
     @industries = Contribution.cycle(Contribution.latest_cycle).industries(params[:q]).all(:order => 'industry asc').map(&:industry)
   end
   if @industries and @industries.any?
