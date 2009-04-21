@@ -63,9 +63,7 @@ function init_popup(source) {
   });
   
   // popup search field
-  $(popup_elem + ' div.search_field input.search').focus(function() {
-    this.value = '';
-  })
+  $(popup_elem + ' div.search_field input.search').focus(function() {this.value = '';})
   
   // Add to chart button
   $(popup_elem + ' button.add_button').click(function() {

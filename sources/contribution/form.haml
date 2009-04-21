@@ -4,7 +4,13 @@
     %input.search{:id => "search_name_field_#{source.keyword}", :type => 'text', :name => "search_name_#{source.keyword}", :value => 'By Industry'}
     %button.go_button.source_go{:type => 'submit', :id => "search_name_go_#{source.keyword}"}
       %span Add to Chart
+    
+    %input{:type => 'checkbox', :id => 'contribution_top_industries'}
+    %label{:for => 'contribution_top_industries'} Top Industries
+    %input{:type => 'hidden', :value => 'top_industries'}
+    
     %img.popup_spinner{:src => '/images/spinner.gif', :style => 'display:none'}
+
 %div
   .search_table
     
