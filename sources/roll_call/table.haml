@@ -1,17 +1,16 @@
 %table
   %thead
     %tr.titles
-      %td.select
+      %th.select
       %th.date Date
-      %th Vote
       %th Description
       %th Result
   %tbody
     - roll_calls.each do |roll_call|
-      %tr{:class => "search_result #{cycle_class}", :id => "roll_call_row_#{roll_call.identifier}"}
-        %td{:class => "roll_call_box", :id => "roll_call_box_#{roll_call.identifier}"}
-          %input{:type => 'checkbox', :class => 'selected', :id => "roll_call__#{roll_call.identifier}"}
+      %tr{:class => "search_result #{cycle_class}"}
+        %td{:class => "roll_call_box"}
+          %input{:type => 'checkbox', :class => 'selected'}
+          %input{:type => 'hidden', :value => roll_call.identifier}
         %td.date= short_date roll_call.held_at
-        %td= roll_call.identifier
         %td= roll_call.question
         %td= roll_call.result

@@ -1,0 +1,12 @@
+%table
+  %thead
+    %tr.titles
+      %th.select
+      %th Name
+  %tbody
+    - industries.each do |industry|
+      %tr{:class => "search_result #{cycle_class}"}
+        %td{:class => "contribution_box"}
+          %input{:type => 'checkbox', :class => 'selected'}
+          %input{:type => 'hidden', :value => industry}
+        %td= industry

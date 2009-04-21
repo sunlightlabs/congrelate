@@ -64,18 +64,14 @@ function init_popup(source) {
   
   // popup search field
   $(popup_elem + ' div.search_field input.search').focus(function() {
-    if (this.value == 'By Name')
-      this.value = '';
-  }).blur(function() {
-    if (this.value == '')
-      this.value = 'By Name';
-  });
+    this.value = '';
+  })
   
   // Add to chart button
   $(popup_elem + ' button.add_button').click(function() {
     popup_spinner_on();
     $(popup_elem + ' input:checked').each(function(i, box) {
-      toggle_checkbox.apply(box);
+      add_column(source, $(this).siblings('input:hidden').val());
     });
     popup_spinner_off();
     $(document).trigger('close.facebox');
@@ -86,13 +82,10 @@ function init_popup(source) {
 function init_search_table(source) {
   var popup_elem = 'div.popup_form.' + source;
   $(popup_elem + ' tr.search_result td:not(td.' + source + '_box)').click(function() {    
-    var row = $(this).parent('tr');
-    var id = row[0].id.replace(source + '_row_', '');
-    $('#' + source + '_box_' + id + ' input').click();
+    $(this).parent('tr').find('input:checkbox').click();
   });
   $(popup_elem + ' tr.search_result td.' + source + '_box input').click(function() {
-    var row = $(this).parent('td').parent('tr');
-    row.toggleClass('selected');
+    $(this).parent('td').parent('tr').toggleClass('selected');
   });
 }
 

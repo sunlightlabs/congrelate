@@ -193,11 +193,13 @@ get '/contribution/form' do
   popup_form_for source_for(:contribution)
 end
 
-get '/contribution/autocomplete' do
-  if params[:q]
-    Contribution.cycle(2008).industries(params[:q]).all(:order => 'industry asc').map(&:industry).join "\n"
+get '/contribution/search' do
+  if !params[:q].blank?
+    @industries = Contribution.cycle(Contribution.latest_cycle).industries(params[:q]).all(:order => 'industry asc').map(&:industry)
+  end
+  if @industries and @industries.any?
+    haml :"sources/contribution/table", :locals => {:industries => @industries}
   else
-    status 404
-    "Supply a search parameter."
+    'No results found.'
   end
 end

@@ -1,31 +1,15 @@
-#contribution_fields
-  %label{:for => 'industry_name'} Industry:
-  %input{:type => 'text', :id => 'industry_name'}
-  %h5== Enter an asterisk (*) to list all industries. All data is for the latest election cycle (#{Contribution.latest_cycle}).
-  %input{:type => 'checkbox', :id => 'contribution_top_industries', :name => 'contribution[top_industries]', :value => '1'}
-  %label{:for => 'contribution_top_industries'} Top 3 Industries
-  #contribution_fields_chosen{:style => "display: none"}
-    %h3 Selected Industries
+%div.search_field
+  %form{:id => "search_name_form_#{source.keyword}", :class => 'search_name_form'}
+    %h3 Search
+    %input.search{:id => "search_name_field_#{source.keyword}", :type => 'text', :name => "search_name_#{source.keyword}", :value => 'By Industry'}
+    %button.go_button.source_go{:type => 'submit', :id => "search_name_go_#{source.keyword}"}
+      %span Add to Chart
+    %img.popup_spinner{:src => '/images/spinner.gif', :style => 'display:none'}
+%div
+  .search_table
     
-%script{:type => 'text/javascript'}
-  :plain
-    $(document).ready(function() {
-      $('#industry_name').autocomplete('/contribution/autocomplete', {
-        formatItem: function(row) {
-          return row[0];
-        },
-        formatResult: function(row) {
-          return row[0];
-        },
-        max: 0
-      }).result(function(event, data) {
-        $('#contribution_fields_chosen').append(
-          '<div class="contribution_chosen">' +
-            data[0] + ' ' +
-            '<input type="checkbox" name="contribution[' + data[0] + ']" value="1" checked="checked" />' +
-          '</div>'
-        );
-        $('#industry_name').val('');
-        $('#contribution_fields_chosen').show();
-      });
-    });
+    .search_table_inner{:id => "search_name_table_#{source.keyword}"}
+      <!-- Where the results table will go -->
+    
+    %button.add_button.source_add{:id => "search_name_add_#{source.keyword}", :type => 'submit'}
+      %span Add to Chart
