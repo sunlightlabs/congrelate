@@ -44,9 +44,59 @@ function init() {
   });
 }
 
+function init_popup(source) {
+  // source search field
+  var popup_elem = 'div.popup_form.' + source;
+  $(popup_elem + ' form.search_name_form').submit(function() {
+    popup_spinner_on();
+    var q = $('#search_name_field_' + source).val();
+    var search_url = '/' + source + '/search?q=' + q;
+    $.ajax({
+      success: function(data) {
+        $('#search_name_table_' + source + ' table').remove();
+        $('#search_name_table_' + source).prepend(data);
+        init_search_table(source);
+        popup_spinner_off();
+      },
+      url: search_url
+    });
+    return false;
+  });
+  
+  // popup search field
+  $(popup_elem + ' div.search_field input.search').focus(function() {
+    if (this.value == 'By Name')
+      this.value = '';
+  }).blur(function() {
+    if (this.value == '')
+      this.value = 'By Name';
+  });
+  
+  // Add to chart button
+  $(popup_elem + ' button.add_button').click(function() {
+    $(document).trigger('close.facebox');
+    $(popup_elem + ' input:checked').each(function(i, box) {
+      toggle_checkbox.apply(box);
+    });
+  });
+
+}
+
+function init_search_table(source) {
+  $('tr.search_result td:not(td.' + source + '_box)').click(function() {    
+    var row = $(this).parent('tr');
+    var id = row[0].id.replace(source + '_row_', '');
+    $('#' + source + '_box_' + id + ' input').click();
+  });
+  $('tr.search_result td.' + source + '_box input').click(function() {
+    var row = $(this).parent('td').parent('tr');
+    row.toggleClass('selected');
+  });
+}
+
 function toggle_checkbox() {
   var source, column;
-  [source, column] = this.id.split("_");
+  [source, column] = this.id.split('__');
   toggle_column(this.checked, source, column);
 }
 
@@ -56,6 +106,8 @@ function add_column(source, column) {
     var id = column_id(source, column);
     for (bioguide_id in data) {
       if (bioguide_id != 'title' && bioguide_id != 'header') {
+        if (data[bioguide_id] == null)
+          data[bioguide_id] = '';
         var row = $('tr#' + bioguide_id);
         if (row)
           $('tr#' + bioguide_id).append('<td class="' + id + '">' + data[bioguide_id] + '</tr>');
@@ -79,6 +131,9 @@ function remove_column(source, column) {
 
 function spinner_on() {$('#spinner').show();}
 function spinner_off() {$('#spinner').hide();}
+
+function popup_spinner_on() {$('.popup_spinner').show();}
+function popup_spinner_off() {$('.popup_spinner').hide();}
 
 function toggle_column(checked, source, column) {
   if (checked)

@@ -111,7 +111,7 @@ div#filterNav li#All{ border: none;}
 div#mainContent { padding: 10px 0;}
 div#mainContent table { width: 100%; }
 
-tr#titles{ color: #203646; text-transform: uppercase; font-size: 110%;}
+tr.titles {color: #203646; text-transform: uppercase; font-size: 110%;}
 table tr {height: 25px;}
 table tr.odd { background: #f4f4ef;}
 table tr td, table tr th { padding-left: 5px;}
@@ -132,63 +132,36 @@ td.delete{
     height: 16px;
 }
 
-a#addLegislators{ 
-    background: url(/images/btn_add.png) left 2px no-repeat; 
-    float: left;
-    height: 19px; 
-    padding-left: 23px;
-}
-
 a#download{ float: right; background: url(/images/docIcon.jpg) left 2px no-repeat; padding-left: 23px;}
 
 div#footerWrapper{ background-color: #311d1d; bottom: 0; display: block; position: fixed; width: 100%;}
 
-div#footer{
-    color: #c4beb5;
-    margin: 15px 70px 0;
+div#footer {
+  color: #c4beb5;
+  margin: 15px 70px 0;
 }
-div#footer h2{ text-transform: uppercase; font-size: 140%; color: #fff; margin-bottom: 10px;}
+div#footer h2 {text-transform: uppercase; font-size: 140%; color: #fff; margin-bottom: 10px;}
 
 div.source_form {display: none; clear: left; float: left;}
 div.source_form li {width: 115px; float: left;}
-
-div#chartTools{ display: block; margin-top: 20px; background: #dcd7d2; padding: 5px 10px;}
-
-div#addLegislatorsForm li, div#addLegislatorsForm ul{ float: left; }
-
-div#addLegislatorsForm {margin: 20px 0 10px; display: none;}
-div#addLegislatorsForm li {margin-right: 20px;}
-div#addLegislatorsForm button {float: left;}
-
-div#addBtns li {float: left; background: url(/images/btn_add.png) left bottom no-repeat; padding-left: 20px; margin-right: 30px; margin-bottom: 20px;}
-div#addBtns ul {width: 100%; display: block; }
 
 .clear{
   clear: both;
 }
 
-select.stateDropdown{ margin-top: 2px;}
-input.party, input.gender{ margin-top: 4px;}
+select.stateDropdown {margin-top: 2px;}
+input.party, input.gender {margin-top: 4px;}
 
-button.goBtn{ background: url(/images/btn_go.png) left top no-repeat; text-indent: -9999em; border: none; width: 45px; height: 26px; float: left; cursor: pointer;}
+button.go_button {
+  background: url(/images/btn_go.png) left top no-repeat; 
+  text-indent: -9999em; 
+  border: none; 
+  width: 45px; 
+  height: 26px;
+  cursor: pointer;
+}
 
-div#detailNav li{ float: left; margin-right: 25px; padding: 5px 10px 1px;}
-div#detailNav li a{ text-decoration: none;}
-div#detailNav ul { border-bottom: 1px solid #dcd8d8; width: 100%; padding-bottom: 27px; margin-bottom: 30px;}
-div#detailNav li.active{ border: 1px solid #7f7171; border-bottom: 0; background: #fff; -moz-border-radius:3px; -webkit-border-radius: 3px; color: #6a5a59; font-weight: bold;}
-
-div#individualForm {border-left: 1px solid #978f8f; padding-left: 30px; float: right;}
-div#individualForm input{ float: left; margin-top: 3px; margin-right: 10px;}
-
-div.inline_form h6 {clear: both}
-
-
-/* remaining source-specific CSS */
-div.popup_form {text-align: left;}
-div.popup_form h2 {font-size: 130%; margin: 10px 20px 20px 0; font-weight: bold;}
-div.popup_form h3 {float: left; margin-right: 15px; font-size: 115%; margin-top: 3px;}
-
-button.addBtn {
+button.add_button {
   background: url(/images/btn_addChart.png) left bottom no-repeat; 
   border: none; 
   width: 125px; 
@@ -197,19 +170,60 @@ button.addBtn {
   cursor: pointer;
 }
 
-h3{ font-weight: bold;}
+div#addBtns li {float: left; background: url(/images/btn_add.png) left bottom no-repeat; padding-left: 20px; margin-right: 30px; margin-bottom: 20px;}
+div#addBtns ul {width: 100%; display: block; }
 
-div#addVoteName input#name, div#individualForm input{ 
-  -moz-border-radius:5px;
+
+div.inline_form h6 {clear: both}
+
+div.popup_form {text-align: left;}
+div.popup_form h2 {font-size: 130%; margin: 10px 20px 20px 0; font-weight: bold;}
+div.popup_form h3 {float: left; margin-right: 15px; font-size: 115%; margin-top: 3px;}
+
+h3 {font-weight: bold;}
+
+div.search_field input#name {
+  -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   border: solid 1px #978f8f;
   height: 15px;
   padding: 2px 4px;
 }
 
-div#recentVotes {clear: left;}
-div#recentVotes table {width: 100%;}
-div#addVoteName form {margin-bottom: 20px; border-bottom: 1px solid #c4bdbd; padding-bottom: 20px;}
+div.search_table {clear: left;}
+div.search_table table {width: 100%;}
+div.search_field form {
+  margin-bottom: 20px; 
+  border-bottom: 1px solid #c4bdbd; 
+  padding-bottom: 20px;
+}
 
-div#moreBtn {margin: 7px 5px 10px 0; text-align: right;}
-div#recentVotes button{ margin-left: 86%; }
+div.search_table button {margin-left: 86%;}
+
+/* div#moreBtn {margin: 7px 5px 10px 0; text-align: right;} */
+
+/*
+div#detailNav li{ float: left; margin-right: 25px; padding: 5px 10px 1px;}
+div#detailNav li a{ text-decoration: none;}
+div#detailNav ul { border-bottom: 1px solid #dcd8d8; width: 100%; padding-bottom: 27px; margin-bottom: 30px;}
+div#detailNav li.active{ border: 1px solid #7f7171; border-bottom: 0; background: #fff; -moz-border-radius:3px; -webkit-border-radius: 3px; color: #6a5a59; font-weight: bold;}
+*/
+
+/*
+div#chartTools{ display: block; margin-top: 20px; background: #dcd7d2; padding: 5px 10px;}
+
+div#addLegislatorsForm li, div#addLegislatorsForm ul{ float: left; }
+
+div#addLegislatorsForm {margin: 20px 0 10px; display: none;}
+div#addLegislatorsForm li {margin-right: 20px;}
+div#addLegislatorsForm button {float: left;}
+*/
+
+/*
+a#addLegislators {
+    background: url(/images/btn_add.png) left 2px no-repeat; 
+    float: left;
+    height: 19px; 
+    padding-left: 23px;
+}
+*/

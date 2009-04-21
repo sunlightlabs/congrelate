@@ -113,6 +113,10 @@ helpers do
   
   # little helpers
   
+  def short_date(time)
+    time.strftime '%m/%d/%y'
+  end
+  
   def sort_by_ref(array, reference)
     array.sort {|a, b| reference.index(a) <=> reference.index(b)}
   end
@@ -170,7 +174,7 @@ end
 
 template :inline_form do
   <<-INLINE_FORM
-.inline_form
+%div{:class => "inline_form " + source.keyword}
   = form_for source
   %h6
     Data source:
@@ -180,8 +184,11 @@ end
 
 template :popup_form do
   <<-POPUP_FORM
-.popup_form
+%div{:class => "popup_form " + source.keyword}
   %h2= source.name
   = form_for source
+  
+  %script{:type => 'text/javascript'}
+    = "init_popup('" + source.keyword + "');"
   POPUP_FORM
 end

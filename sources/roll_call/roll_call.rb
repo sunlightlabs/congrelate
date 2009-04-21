@@ -168,14 +168,13 @@ get '/roll_call/form' do
   popup_form_for source_for(:roll_call)
 end
 
-get '/roll_call/autocomplete' do
+get '/roll_call/search' do
   if params[:q]
-    roll_calls = RollCall.search(params[:q]).listing.all(:limit => (params[:limit] || 50))
-    roll_calls.map do |roll_call| 
-      [roll_call.question, roll_call.identifier, roll_call.held_at.strftime("%b %d, %Y"), roll_call.bill_identifier].join '|'
-    end.join "\n"
+    @roll_calls = RollCall.search(params[:q]).listing.all(:limit => (params[:limit] || 50))
+  end
+  if @roll_calls and @roll_calls.any?
+    haml :"sources/roll_call/table", :locals => {:roll_calls => @roll_calls}
   else
-    status 404
-    "Supply a search parameter."
+    'No results found.'
   end
 end
