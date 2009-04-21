@@ -169,7 +169,7 @@ get '/roll_call/form' do
 end
 
 get '/roll_call/search' do
-  if params[:q]
+  if !params[:q].blank?
     @roll_calls = RollCall.search(params[:q]).listing.all(:limit => (params[:limit] || 50))
   end
   if @roll_calls and @roll_calls.any?
