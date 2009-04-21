@@ -53,8 +53,7 @@ function init_popup(source) {
     var search_url = '/' + source + '/search?q=' + q;
     $.ajax({
       success: function(data) {
-        $('#search_name_table_' + source + ' table').remove();
-        $('#search_name_table_' + source).prepend(data);
+        $('#search_name_table_' + source).html(data);
         init_search_table(source);
         popup_spinner_off();
       },
@@ -74,21 +73,24 @@ function init_popup(source) {
   
   // Add to chart button
   $(popup_elem + ' button.add_button').click(function() {
-    $(document).trigger('close.facebox');
+    popup_spinner_on();
     $(popup_elem + ' input:checked').each(function(i, box) {
       toggle_checkbox.apply(box);
     });
+    popup_spinner_off();
+    $(document).trigger('close.facebox');
   });
 
 }
 
 function init_search_table(source) {
-  $('tr.search_result td:not(td.' + source + '_box)').click(function() {    
+  var popup_elem = 'div.popup_form.' + source;
+  $(popup_elem + ' tr.search_result td:not(td.' + source + '_box)').click(function() {    
     var row = $(this).parent('tr');
     var id = row[0].id.replace(source + '_row_', '');
     $('#' + source + '_box_' + id + ' input').click();
   });
-  $('tr.search_result td.' + source + '_box input').click(function() {
+  $(popup_elem + ' tr.search_result td.' + source + '_box input').click(function() {
     var row = $(this).parent('td').parent('tr');
     row.toggleClass('selected');
   });

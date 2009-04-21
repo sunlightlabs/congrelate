@@ -6,9 +6,10 @@
       %span Add to Chart
     %img.popup_spinner{:src => '/images/spinner.gif', :style => 'display:none'}
 %div
-  .search_table{:id => "search_name_table_#{source.keyword}"}
+  .search_table
     
-    <!-- Where the results table will go -->
+    .search_table_inner{:id => "search_name_table_#{source.keyword}"}
+      <!-- Where the results table will go -->
     
     %button.add_button.source_add{:id => "search_name_add_#{source.keyword}", :type => 'submit'}
       %span Add to Chart
