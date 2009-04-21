@@ -108,12 +108,15 @@ function add_column(source, column) {
       if (bioguide_id != 'title' && bioguide_id != 'header') {
         if (data[bioguide_id] == null)
           data[bioguide_id] = '';
+        if (data['title'] == null)
+          data['title'] = '';
         var row = $('tr#' + bioguide_id);
         if (row)
           $('tr#' + bioguide_id).append('<td class="' + id + '">' + data[bioguide_id] + '</tr>');
       }
     }
-    $('tr#titles').append('<th class="' + id + '">' + data['header'] + '</th>');
+    $('#main_table tr.titles').append("<th class='" + id + "' title='" + escape_single_quotes(data['title']) + "'>" + data['header'] + "</th>");
+    
     spinner_off();
     prepare_table();
   });
@@ -213,4 +216,8 @@ function state_map() {
     WI: "Wisconsin",
     WY: "Wyoming"
   }
+}
+
+function escape_single_quotes(string) {
+  return string.replace(/\'/g, '\\\'');
 }
