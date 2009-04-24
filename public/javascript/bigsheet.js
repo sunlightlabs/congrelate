@@ -35,6 +35,20 @@ function init() {
   $('select#filter_legislator_state').change(function() {
     filter_column(this.value, 1);
   });
+  $('a.house_filter').click(function() {
+    var elem = $(this);
+    if (elem.hasClass('house_selected'))
+      return false;
+      
+    var filters = {House: "\\d+", Senate: 'seat', All: ''};
+    var filter = filters[elem.html()];
+    filter_column(filter, 2, true);
+    
+    $('a.house_filter').removeClass('house_selected');
+    elem.addClass('house_selected');
+    return false;
+  });
+  
   
   // column fields
   $('div.source_form input:checkbox, #legislator_form input:checkbox').change(toggle_checkbox);
@@ -115,8 +129,8 @@ function add_column(source, column) {
   });
 }
 
-function filter_column(q, column) {
-  mainTable.fnFilter(q, column);
+function filter_column(q, column, regex) {
+  mainTable.fnFilter(q, column, !regex);
 }
 
 function remove_column(source, column) {

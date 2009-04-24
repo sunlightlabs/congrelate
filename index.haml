@@ -51,24 +51,13 @@
                         %li#spinner{:style => 'display: none; padding-top: 5px; padding-left: 10px;'}
                           %img{:src => '/images/spinner.gif'}
                   #filterNav
-                    %form{:method => :get, :id => 'filters_form'}
-                      %input{:type => 'hidden', :name => 'filters[house]', :value => '', :id => 'filters_house'}
-                      %ul
-                        %li#House
-                          - if params[:filters] and params[:filters][:house] == 'house'
-                            House
-                          - else
-                            %a{:href => '#', :onclick => '$("#filters_house").val("house"); $("#filters_form").submit(); return false'} House
-                        %li#Senate
-                          - if params[:filters] and params[:filters][:house] == 'senate'
-                            Senate
-                          - else
-                            %a{:href => '#', :onclick => '$("#filters_house").val("senate"); $("#filters_form").submit(); return false'} Senate
-                        %li#All
-                          - if !params[:filters] or [nil, '', 'both'].include?(params[:filters][:house])
-                            All
-                          - else
-                            %a{:href => '#', :onclick => '$("#filters_house").val(""); $("#filters_form").submit(); return false'} All
+                    %ul
+                      %li#House
+                        %a{:id => 'house_filter_house', :class => 'house_filter', :href => '#'} House
+                      %li#Senate
+                        %a{:id => 'house_filter_senate', :class => 'house_filter', :href => '#'} Senate
+                      %li#All
+                        %a{:id => 'house_filter_all', :class => 'house_filter house_selected', :href => '#'} All
                 #mainContent
                   %table#main_table.display
                     %thead
