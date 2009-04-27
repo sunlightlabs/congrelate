@@ -190,16 +190,6 @@ class OpenSecrets
 end
 
 get '/contribution/form' do
-  popup_form_for source_for(:contribution)
-end
-
-get '/contribution/search' do
-  if params[:q]
-    @industries = Contribution.cycle(Contribution.latest_cycle).industries(params[:q]).all(:order => 'industry asc').map(&:industry)
-  end
-  if @industries and @industries.any?
-    haml :"sources/contribution/table", :locals => {:industries => @industries}
-  else
-    'No results found.'
-  end
+  @industries = Contribution.cycle(Contribution.latest_cycle).industries.all(:order => 'industry asc').map(&:industry)
+  popup_form_for source_for(:contribution), :industries => @industries
 end

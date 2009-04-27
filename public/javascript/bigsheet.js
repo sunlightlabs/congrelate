@@ -59,7 +59,7 @@ function init() {
 }
 
 function init_popup(source) {
-  // source search field
+  // for popups with a search field - the search form
   var popup_elem = 'div.popup_form.' + source;
   $(popup_elem + ' form.search_name_form').submit(function() {
     popup_spinner_on();
@@ -68,18 +68,21 @@ function init_popup(source) {
     $.ajax({
       success: function(data) {
         $('#search_name_table_' + source).html(data);
-        init_search_table(source);
+        $(popup_elem + ' tr.search_result td:not(td.' + source + '_box)').click(function() {    
+          $(this).parent('tr').find('input:checkbox').click();
+        });
+        $(popup_elem + ' tr.search_result td.' + source + '_box input').click(function() {
+          $(this).parent('td').parent('tr').toggleClass('selected');
+        });
         popup_spinner_off();
       },
       url: search_url
     });
     return false;
   });
-  
-  // popup search field
   $(popup_elem + ' div.search_field input.search').focus(function() {this.value = '';})
   
-  // Add to chart button
+  // For all popups - collecting the checked columns
   $(popup_elem + ' button.add_button').click(function() {
     popup_spinner_on();
     $(popup_elem + ' input:checked').each(function(i, box) {
@@ -89,16 +92,6 @@ function init_popup(source) {
     $(document).trigger('close.facebox');
   });
 
-}
-
-function init_search_table(source) {
-  var popup_elem = 'div.popup_form.' + source;
-  $(popup_elem + ' tr.search_result td:not(td.' + source + '_box)').click(function() {    
-    $(this).parent('tr').find('input:checkbox').click();
-  });
-  $(popup_elem + ' tr.search_result td.' + source + '_box input').click(function() {
-    $(this).parent('td').parent('tr').toggleClass('selected');
-  });
 }
 
 function toggle_checkbox() {

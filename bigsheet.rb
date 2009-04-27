@@ -113,6 +113,10 @@ helpers do
   
   # little helpers
   
+  def phrase_id(string)
+    string.gsub(' ','').underscore
+  end
+  
   def short_date(time)
     time.strftime '%m/%d/%y'
   end
@@ -157,16 +161,16 @@ helpers do
     class_for(source.keyword).respond_to?(:popup_form?) and class_for(source.keyword).popup_form?
   end
   
-  def inline_form_for(source)
-    haml :inline_form, :layout => false, :locals => {:source => source}
+  def inline_form_for(source, options = {})
+    haml :inline_form, :layout => false, :locals => {:source => source, :options => options}
   end
   
-  def popup_form_for(source)
-    haml :popup_form, :layout => false, :locals => {:source => source}
+  def popup_form_for(source, options = {})
+    haml :popup_form, :layout => false, :locals => {:source => source, :options => options}
   end
   
-  def form_for(source)
-    haml :"sources/#{source.keyword}/form", :layout => false, :locals => {:source => source}
+  def form_for(source, options = {})
+    haml :"sources/#{source.keyword}/form", :layout => false, :locals => {:source => source}.merge(options)
   end
   
 end
@@ -175,7 +179,7 @@ end
 template :inline_form do
   <<-INLINE_FORM
 %div{:class => "inline_form " + source.keyword}
-  = form_for source
+  = form_for source, options
   %h6
     Data source:
     %a{:href => source.source_url}= source.source_name
@@ -186,7 +190,7 @@ template :popup_form do
   <<-POPUP_FORM
 %div{:class => "popup_form " + source.keyword}
   %h2= source.name
-  = form_for source
+  = form_for source, options
   
   %script{:type => 'text/javascript'}
     = "init_popup('" + source.keyword + "');"

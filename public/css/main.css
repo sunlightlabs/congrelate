@@ -13,6 +13,8 @@ a:active{outline: none; color: #940a0a}
 
 a.house_selected {text-decoration: none; color: #563f3f; cursor: text;}
 
+strong {font-weight: bold}
+
 body{
   color:#563f3f;
   background: #fff;
