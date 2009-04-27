@@ -170,10 +170,18 @@ end
 
 get '/roll_call/search' do
   if !params[:q].blank?
-    @roll_calls = RollCall.search(params[:q]).listing.all(:limit => (params[:limit] || 50))
+    # rudimentary pagination
+    per_page = 10
+    @page = (params[:page] || 1).to_i
+    offset = (@page - 1) * per_page
+    count = RollCall.search(params[:q]).listing.count
+    @is_prev = @page > 1
+    @is_next = offset + per_page < count
+    @roll_calls = RollCall.search(params[:q]).listing.all(:limit => per_page, :offset => offset)
   end
+  
   if @roll_calls and @roll_calls.any?
-    haml :"sources/roll_call/table", :locals => {:roll_calls => @roll_calls}
+    haml :"sources/roll_call/table", :locals => {:roll_calls => @roll_calls, :is_prev => @is_prev, :is_next => @is_next, :page => @page}
   else
     'No results found.'
   end

@@ -62,23 +62,7 @@ function init_popup(source) {
   // for popups with a search field - the search form
   var popup_elem = 'div.popup_form.' + source;
   $(popup_elem + ' form.search_name_form').submit(function() {
-    popup_spinner_on();
-    var q = $('#search_name_field_' + source).val();
-    var search_url = '/' + source + '/search?q=' + q;
-    $.ajax({
-      success: function(data) {
-        $('#search_name_table_' + source).html(data);
-        $(popup_elem + ' tr.search_result td:not(td.' + source + '_box)').click(function() {    
-          $(this).parent('tr').find('input:checkbox').click();
-        });
-        $(popup_elem + ' tr.search_result td.' + source + '_box input').click(function() {
-          $(this).parent('td').parent('tr').toggleClass('selected');
-        });
-        popup_spinner_off();
-      },
-      url: search_url
-    });
-    return false;
+    return search_table(source, $('#search_name_field_' + source).val(), 1);
   });
   $(popup_elem + ' div.search_field input.search').focus(function() {this.value = '';})
   
@@ -92,6 +76,29 @@ function init_popup(source) {
     $(document).trigger('close.facebox');
   });
 
+}
+
+function search_table(source, q, page) {
+  var popup_elem = 'div.popup_form.' + source;
+  var search_url = '/' + source + '/search?q=' + q + '&page=' + page;
+  popup_spinner_on();
+  $.ajax({
+    success: function(data) {
+      $('#search_name_table_' + source).html(data);
+      $(popup_elem + ' tr.search_result td:not(td.' + source + '_box)').click(function() {    
+        $(this).parent('tr').find('input:checkbox').click();
+      });
+      $(popup_elem + ' tr.search_result td.' + source + '_box input').click(function() {
+        $(this).parent('td').parent('tr').toggleClass('selected');
+      });
+      $(popup_elem + ' div.page_button a').click(function() {
+        return search_table(source, $('#roll_call_query').val(), $(this).siblings('input:hidden').val());
+      });
+      popup_spinner_off();
+    },
+    url: search_url
+  });
+  return false;
 }
 
 function toggle_checkbox() {

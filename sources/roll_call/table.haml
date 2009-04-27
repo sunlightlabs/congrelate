@@ -1,3 +1,15 @@
+%input{:type => 'hidden', :name => 'q', :value => params[:q], :id => 'roll_call_query'}
+
+- if is_prev
+  .page_button.prev_button
+    %a{:href => '#', :onclick => 'return false'} &laquo; Back
+    %input{:type => 'hidden', :name => 'page', :value => page - 1}
+
+- if is_next
+  .page_button.next_button
+    %a{:href => '#', :onclick => 'return false'} More &raquo;
+    %input{:type => 'hidden', :name => 'page', :value => page + 1}
+
 %table
   %thead
     %tr.titles

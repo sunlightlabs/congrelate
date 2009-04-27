@@ -204,7 +204,8 @@ div.search_field form {
 
 div.search_table button {margin-left: 86%;}
 
-/* div#moreBtn {margin: 7px 5px 10px 0; text-align: right;} */
+div.prev_button {margin: 7px 5px 10px 0; text-align: left; float: left;}
+div.next_button {margin: 7px 5px 10px 0; text-align: right; float: right;}
 
 /*
 div#detailNav li{ float: left; margin-right: 25px; padding: 5px 10px 1px;}
