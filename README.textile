@@ -1,11 +1,5 @@
 Big Sheet
 
-(c) 2009 Sunlight Foundation
-
-h3. Gem dependencies
-
-  * sinatra, daywalker, haml, activerecord
-
 h3. Getting started
 
   * Create the databases and permissions as specified in configuration.rb.

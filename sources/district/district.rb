@@ -1,3 +1,5 @@
+require 'fastercsv'
+
 class District < ActiveRecord::Base
 
   def self.sort(fields)

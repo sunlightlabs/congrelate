@@ -1,3 +1,5 @@
+require 'daywalker'
+
 class Legislator < ActiveRecord::Base
   validates_presence_of :bioguide_id, :district, :state, :name
   

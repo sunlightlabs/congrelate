@@ -1,12 +1,8 @@
 require 'rubygems'
 require 'sinatra'
 
-require 'httparty'
-require 'daywalker'
 gem 'activerecord', '>=2.3'
 require 'activerecord'
-require 'hpricot'
-require 'fastercsv'
 
 set :views, File.dirname(__FILE__) + "/.."
 

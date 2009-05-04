@@ -1,3 +1,5 @@
+require 'hpricot'
+
 class RollCall < ActiveRecord::Base 
 
   has_many :votes, :dependent => :delete_all

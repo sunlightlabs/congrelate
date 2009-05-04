@@ -1,3 +1,5 @@
+require 'httparty'
+
 class Contribution < ActiveRecord::Base
 
   validates_presence_of :cycle, :crp_id, :bioguide_id, :industry
