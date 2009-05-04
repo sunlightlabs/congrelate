@@ -1,3 +1,5 @@
+# legislator: Sunlight Labs API key - http://services.sunlightlabs.com/api/
+# contribution: OpenSecrets API key - http://opensecrets.org/action/apis.php
 :development:
   :legislator: 
   :contribution: 
