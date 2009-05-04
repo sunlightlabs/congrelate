@@ -6,8 +6,6 @@ require 'sinatra'
 # Environment
 require 'config/environment'
 
-load_sources
-
 get '/' do
   @legislators = get_legislators
   @data = get_columns @legislators, initial_columns
