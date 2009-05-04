@@ -1,0 +1,6 @@
+%div{:class => "popup_form #{source.keyword}"}
+  %h2= source.name
+  = form_for source, options
+  
+  %script{:type => 'text/javascript'}
+    = "init_popup('#{source.keyword}');"
