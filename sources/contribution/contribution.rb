@@ -91,7 +91,7 @@ class Contribution < ActiveRecord::Base
     cycle = options[:cycle] || latest_cycle
     limit = options[:limit] || 150
     
-    secrets = OpenSecrets.new :api_key => OPENSECRETS_API_KEY, :cycle => cycle
+    secrets = OpenSecrets.new :api_key => api_key, :cycle => cycle
     
     create_count = 0
     contribution_count = 0

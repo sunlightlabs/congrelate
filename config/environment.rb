@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'sinatra'
+
 require 'httparty'
 require 'daywalker'
 gem 'activerecord', '>=2.3'
@@ -9,28 +10,8 @@ require 'fastercsv'
 
 set :views, File.dirname(__FILE__) + "/.."
 
-configure :production do
-  Daywalker.api_key = '[make production key]'
-  OPENSECRETS_API_KEY = 'e38f1739902531476d7d450ab966a3a7' # infinite
-end
-
-configure :staging do
-  Daywalker.api_key = 'sunlight9'
-  OPENSECRETS_API_KEY = 'e38f1739902531476d7d450ab966a3a7' # infinite
-end
-
-configure :development do
-  Daywalker.api_key = 'sunlight9'
-  OPENSECRETS_API_KEY = 'd55ecab9fdc27683d3512af9e2c4deb5' # limited
-end
-
-configure :test do
-  Daywalker.api_key = '[tests should not hit any remote API]'
-  OPENSECRETS_API_KEY = '[tests should not hit any remote API]'
-end
-
 configure do
-  details = YAML.load_file('config/database.yml')[Sinatra::Application.options.environment]
+  details = YAML.load_file('config/database.yml')[Sinatra::Application.environment]
   ActiveRecord::Base.establish_connection(
     :adapter => 'mysql',
     :reconnect => true,
@@ -41,6 +22,16 @@ configure do
   )
 end
 
-def load_models
-  Dir.glob('sources/**/*.rb').each {|model| load model}
+class Source < ActiveRecord::Base; end
+class Update < ActiveRecord::Base; validates_presence_of :status, :source, :elapsed_time; end
+
+def load_sources
+  api_keys = YAML.load_file('sources/api_keys.yml')[Sinatra::Application.environment]
+  Dir.glob('sources/*').reject {|file| file.include? '.yml'}.each do |dir|
+    Dir.glob(File.join(dir, '*.rb')).each {|model| load model}
+    keyword = dir.gsub 'sources/', ''
+    keyword.camelize.constantize.class_eval <<-EOC
+      def self.api_key; "#{api_keys[keyword.to_sym]}"; end
+    EOC
+  end
 end

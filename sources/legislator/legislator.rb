@@ -30,6 +30,7 @@ class Legislator < ActiveRecord::Base
   end
   
   def self.update
+    Daywalker.api_key = api_key
     api_legislators = Daywalker::Legislator.all :all_legislators => true
     
     created_count = 0

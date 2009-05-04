@@ -6,7 +6,7 @@ require 'sinatra'
 # Environment
 require 'config/environment'
 
-load_models
+load_sources
 
 get '/' do
   @legislators = get_legislators
@@ -15,7 +15,7 @@ get '/' do
 end
 
 get '/column.json' do
-  #response['Content-Type'] = 'text/json'
+  response['Content-Type'] = 'text/json'
   column = class_for(params[:source]).field_for(get_legislators, params[:column])
   column[:header] ||= params[:column].to_s.titleize
   column[:title] ||= params[:column].to_s.titleize
