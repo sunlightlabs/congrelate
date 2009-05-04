@@ -6,6 +6,8 @@ require 'sinatra'
 # Environment
 require 'config/environment'
 
+load_sources
+
 get '/' do
   @legislators = get_legislators
   @data = get_columns @legislators, initial_columns
@@ -168,29 +170,7 @@ helpers do
   end
   
   def form_for(source, options = {})
-    haml :"sources/#{source.keyword}/form", :layout => false, :locals => {:source => source}.merge(options)
+    haml :"../sources/#{source.keyword}/form", :layout => false, :locals => {:source => source}.merge(options)
   end
   
-end
-
-
-template :inline_form do
-  <<-INLINE_FORM
-%div{:class => "inline_form " + source.keyword}
-  = form_for source, options
-  %h6
-    Data source:
-    %a{:href => source.source_url}= source.source_name
-  INLINE_FORM
-end
-
-template :popup_form do
-  <<-POPUP_FORM
-%div{:class => "popup_form " + source.keyword}
-  %h2= source.name
-  = form_for source, options
-  
-  %script{:type => 'text/javascript'}
-    = "init_popup('" + source.keyword + "');"
-  POPUP_FORM
 end
