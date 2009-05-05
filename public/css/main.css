@@ -146,8 +146,8 @@ div#footer {
 }
 div#footer h2 {text-transform: uppercase; font-size: 140%; color: #fff; margin-bottom: 10px;}
 
-div.source_form {display: none; clear: left; float: left;}
-div.source_form li {width: 115px; float: left;}
+div.source_form.inline {display: none; clear: left; float: left;}
+div.source_form.inline li {width: 115px; float: left;}
 
 .clear{
   clear: both;
@@ -178,11 +178,11 @@ div#addBtns li {float: left; background: url(/images/btn_add.png) left bottom no
 div#addBtns ul {width: 100%; display: block; }
 
 
-div.inline_form h6 {clear: both}
+div.source_form.inline h6 {clear: both}
 
-div.popup_form {text-align: left;}
-div.popup_form h2 {font-size: 130%; margin: 10px 20px 20px 0; font-weight: bold;}
-div.popup_form h3 {float: left; margin-right: 15px; font-size: 115%; margin-top: 3px;}
+div.source_form.popup {text-align: left;}
+div.source_form.popup h2 {font-size: 130%; margin: 10px 20px 20px 0; font-weight: bold;}
+div.source_form.popup h3 {float: left; margin-right: 15px; font-size: 115%; margin-top: 3px;}
 
 h3 {font-weight: bold;}
 

@@ -1,20 +1,15 @@
-Big Sheet
+h1. Big Sheet
 
 h3. Getting started
 
-  * Create the databases and permissions as specified in configuration.rb.
-  * Run "rake db:migrate", then "rake sources:load".
-  * Execute "bigsheet.rb", or run "ruby bigsheet.rb" if that doesn't work.
+  * Copy config/database.yml.example to config/database.yml and modify as needed.
+  * Copy sources/api_keys.yml.example to sources/api_keys.yml and add your API keys.
+  * Run "rake db:migrate", then "rake sources:update". This may take a while.
+  * Run "bigsheet.rb" to start the server.
   * Visit "http://localhost:4567" in your browser.
 
 h3. Adding a new source
 
-  * Update sources.yml by hand with the new source, following the example of the sources already in there.  
-  * Run "rake sources:load to *overwrite* the contents of the 'sources' table with the contents of sources.yml.
-
-h3. Modifying the database
-  
-  * Create a new migration file in db/, following the example of prior migrations. Include an up and a down.
-  * Run "rake db:migrate VERSION=N", where N is the version number of the migration you just made.
-  * Run "rake db:migrate VERSION=M", where M is N - 1. This exercises the down method of the new migration.
-  * Run "rake db:migrate VERSION=N" again.
+  * Update sources.yml by hand with the details of the new source.
+  * Run "rake sources:load" to load sources.yml into the 'sources' table.
+  * Add any database migrations to /db, and run "rake db:migrate".

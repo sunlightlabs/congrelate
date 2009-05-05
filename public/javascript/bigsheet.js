@@ -11,7 +11,7 @@ function init() {
 
   // Add source data links
   $('a.source_form_link.inline_form').click(function() {
-    var form_id = this.id.replace('_link', '');
+    var form_id = this.id.replace('_form_link', '');
     $('div.source_form:not(#' + form_id + ')').hide('medium');
     $('div#' + form_id).toggle('medium');
     return false;
@@ -60,7 +60,7 @@ function init() {
 
 function init_popup(source) {
   // for popups with a search field - the search form
-  var popup_elem = 'div.popup_form.' + source;
+  var popup_elem = 'div#' + source;
   $(popup_elem + ' form.search_name_form').submit(function() {
     return search_table(source, $('#search_name_field_' + source).val(), 1);
   });
@@ -79,7 +79,7 @@ function init_popup(source) {
 }
 
 function search_table(source, q, page) {
-  var popup_elem = 'div.popup_form.' + source;
+  var popup_elem = 'div#' + source;
   var search_url = '/' + source + '/search?q=' + q + '&page=' + page;
   popup_spinner_on();
   $.ajax({

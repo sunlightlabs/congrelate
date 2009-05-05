@@ -84,5 +84,4 @@
                   %a{:class => "#{popup_form?(source) ? 'popup_form' : 'inline_form'} source_form_link", :href => '#', :id => "#{source.keyword}_form_link"}
                     = source.name
           - other_sources.select {|s| !popup_form? s}.each do |source|
-            %div.source_form{:id => "#{source.keyword}_form"}
-              = inline_form_for source
+            = inline_form_for source
