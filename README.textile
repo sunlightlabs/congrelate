@@ -1,6 +1,6 @@
 h1. Big Sheet
 
-... is gross because it is written in Rails.
+Just kidding!
 
 h3. Getting started
 
