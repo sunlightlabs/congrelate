@@ -1,5 +1,7 @@
 h1. Big Sheet
 
+... is gross because it is written in Rails.
+
 h3. Getting started
 
   * Copy config/database.yml.example to config/database.yml and modify as needed.
