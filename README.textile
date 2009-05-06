@@ -1,6 +1,6 @@
 h1. Big Sheet
 
-Just kidding!
+Joke's on you - it's in Sinatra.
 
 h3. Getting started
 
