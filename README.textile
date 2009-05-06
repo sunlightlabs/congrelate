@@ -1,5 +1,7 @@
 h1. Big Sheet
 
+Joke's on you - it's in Sinatra.
+
 h3. Getting started
 
   * Copy config/database.yml.example to config/database.yml and modify as needed.
