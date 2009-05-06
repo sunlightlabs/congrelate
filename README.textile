@@ -10,6 +10,13 @@ h3. Getting started
 
 h3. Adding a new source
 
+First, pick a keyword, unique among sources, that will identify the source. In the sources directory, create a directory with the keyword as the name, and place all relevant files in there.
+
+A source consists of:
+  * One or more model files.  One of the models must be named after the keyword (e.g. the "roll_call" source must have a RollCall class), but there can be other supplementary models.
+  * A form partial, in HAML.
+  * 
+
   * Update sources.yml by hand with the details of the new source.
   * Run "rake sources:load" to load sources.yml into the 'sources' table.
   * Add any database migrations to /db, and run "rake db:migrate".
