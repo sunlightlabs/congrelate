@@ -162,11 +162,11 @@ helpers do
   end
   
   def inline_form_for(source, options = {})
-    haml :inline_form, :layout => false, :locals => {:source => source, :options => options}
+    erb :inline_form, :layout => false, :locals => {:source => source, :options => options}
   end
   
   def popup_form_for(source, options = {})
-    haml :popup_form, :layout => false, :locals => {:source => source, :options => options}
+    erb :popup_form, :layout => false, :locals => {:source => source, :options => options}
   end
   
   def form_for(source, options = {})

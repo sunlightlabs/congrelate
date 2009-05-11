@@ -1,0 +1,8 @@
+<div class="source_form popup" id="<%= source.keyword %>">
+  <h2><%= source.name %></h2>
+  <%= form_for source, options %>
+  
+  <script type='text/javascript'>
+    init_popup('<%= source.keyword %>');
+  </script>
+</div>
