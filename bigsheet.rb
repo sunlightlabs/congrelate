@@ -170,7 +170,7 @@ helpers do
   end
   
   def form_for(source, options = {})
-    haml :"../sources/#{source.keyword}/form", :layout => false, :locals => {:source => source}.merge(options)
+    erb :"../sources/#{source.keyword}/form", :layout => false, :locals => {:source => source}.merge(options)
   end
   
 end

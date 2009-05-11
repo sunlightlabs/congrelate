@@ -1,0 +1,41 @@
+<div class="search_field">
+  <input id="contribution_top_industries" type="checkbox"/>
+  <input type="hidden" value="top_industries"/>
+  <label for="contribution_top_industries">
+    <strong>Top Industries</strong>
+  </label>
+  <button id="search_name_add_<%= source.keyword %>" class="add_button source_add" type="submit"> </button>
+</div>
+
+<div>
+  <div class="search_table">
+    <div id="search_name_table_<%= source.keyword %>" class="search_table_inner">
+      <table>
+        <thead>
+          <tr class="titles">
+            <th class="select"/><th/>
+            <th class="select"/><th/>
+            <th class="select"/><th/>
+          </tr>
+        </thead>
+        <tbody>
+          <% industries.in_groups_of(industries.size/4).transpose.each do |row| %>
+            <tr>
+              <% row.each do |industry| %>
+                <td>
+                  <input type="checkbox" id="industry_<%= phrase_id industry %>" />
+                  <input type="hidden" value="<%= industry %>"/>
+                </td>
+                <td>
+                  <label for="industry_<%= phrase_id industry %>">
+                    <%= industry %>
+                  </label>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
