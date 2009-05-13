@@ -11,7 +11,7 @@ load_sources
 get '/' do
   @legislators = get_legislators
   @data = get_columns @legislators, initial_columns
-  haml :index
+  erb :index
 end
 
 get '/column.json' do
@@ -162,15 +162,15 @@ helpers do
   end
   
   def inline_form_for(source, options = {})
-    haml :inline_form, :layout => false, :locals => {:source => source, :options => options}
+    erb :inline_form, :layout => false, :locals => {:source => source, :options => options}
   end
   
   def popup_form_for(source, options = {})
-    haml :popup_form, :layout => false, :locals => {:source => source, :options => options}
+    erb :popup_form, :layout => false, :locals => {:source => source, :options => options}
   end
   
   def form_for(source, options = {})
-    haml :"../sources/#{source.keyword}/form", :layout => false, :locals => {:source => source}.merge(options)
+    erb :"../sources/#{source.keyword}/form", :layout => false, :locals => {:source => source}.merge(options)
   end
   
 end

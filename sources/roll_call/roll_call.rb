@@ -183,7 +183,7 @@ get '/roll_call/search' do
   end
   
   if @roll_calls and @roll_calls.any?
-    haml :"sources/roll_call/table", :locals => {:roll_calls => @roll_calls, :is_prev => @is_prev, :is_next => @is_next, :page => @page}
+    erb :"../sources/roll_call/table", :locals => {:roll_calls => @roll_calls, :is_prev => @is_prev, :is_next => @is_next, :page => @page}
   else
     'No results found.'
   end
