@@ -34,20 +34,19 @@ div#mainBg {
 div.container {
   height: 311px;
   padding-left: 30px;
-  padding-top: 24px;
   margin: 0 70px;
-  min-width: 960px;
+  min-width: 935px;
   width: auto !important;
-  background: url(/images/ltSide.png) left 24px no-repeat;
+  background: url(/images/ltSide_2.png) left top no-repeat;
 }
 
 div.container2 {
-  background: url(/images/rtSide.png) right 1px no-repeat;
-  padding-right: 45px;
+  background: url(/images/rtSide_2.png) right top no-repeat;
+  padding-right: 25px;
 }
 
 div.container3 {
-  background: url(/images/middle.png) top left repeat-x;
+  background: url(/images/middle_2.png) top left repeat-x;
   height: 311px;
   //padding: 10px 20px;
 }
@@ -55,11 +54,11 @@ div.container3 {
 div.container4 {
     padding-top: 2px;
     height: 311px;
-  background: url(/images/container4.png) right 1px no-repeat;
+  /*background: url(/images/container4.png) right 1px no-repeat;*/
 }
 
 h1{
-    padding: 97px 0 30px 0;
+    padding: 80px 0 20px 0;
     width: 455px;
     height: 52px;
 }
@@ -79,6 +78,7 @@ div.container h2{
     float: left;
     margin-right: 20px;
     margin-top: 2px;
+    padding-left:10px;
 }
 
 div#filter li {
@@ -104,22 +104,27 @@ div#filter input#name{
 }
 
 div#headerNav{
-    background: url("/images/navBar.png") top center no-repeat; 
+    background: url("/images/navBar_2.png") top center no-repeat; 
     height: 53px; 
     width: 900px;
-    padding-top: 15px;
+    padding-top: 12px;
 }
 
 div#filterNav li#All{ border: none;}
 
 div#mainContent { padding: 10px 0;}
-div#mainContent table { width: 100%; }
+div#main_table_wrapper{ margin-bottom: 100px;}
+div#mainContent table#main_table { width: 100%;}
 
-tr.titles {color: #203646; text-transform: uppercase; font-size: 110%;}
+tr.titles {color: #203646; text-transform: uppercase; font-size: 115%;}
+tr.titles a{ text-transform: none; font-size: 80%; display: block; margin-bottom: 10px; margin-top: -5px;}
 table tr {height: 25px;}
 table tr.odd { background: #f4f4ef;}
-table tr td, table tr th { padding-left: 5px;}
+table tr td, table tr th { padding-left: 10px;}
 tfoot tr td { padding-top: 2px;}
+
+/*table tr th{ background: url(/images/btn_sort.jpg) left top no-repeat;}*/
+
 
 td.delete a{
     width: 16px;
@@ -138,16 +143,21 @@ td.delete{
 
 a#download{ float: right; background: url(/images/docIcon.jpg) left 2px no-repeat; padding-left: 23px;}
 
-div#footerWrapper{ background-color: #311d1d; bottom: 0; display: block; position: fixed; width: 100%;}
+div#footerMain{ bottom: 0; display: block; position: fixed; width: 100%;}
+div#footerWrapper{ background-color: #311d1d; display: block; bottom: 0;  position: fixed; width: 100%;}
+div#footerTab{ /*bottom: 50px; display: block;*/ position: relative; bottom: 42px; width: 120px; background-color: #311d1d; -moz-border-radius-topleft: 3px; -moz-border-radius-topright: 3px; -webkit-border-radius-topright: 3px; -webkit-border-radius-topleft: 3px;}
 
 div#footer {
   color: #c4beb5;
   margin: 15px 70px 0;
 }
-div#footer h2 {text-transform: uppercase; font-size: 140%; color: #fff; margin-bottom: 10px;}
+div#footer a{ color: #fff;}
+div#footerTab h2 { font-size: 140%; color: #fff; margin-bottom: 10px; padding:5px 0 0 23px;}
 
-div.source_form.inline {display: none; clear: left; float: left;}
-div.source_form.inline li {width: 115px; float: left;}
+div.source_form.inline {display: none; clear: left; }
+div.source_form.inline li {width: 135px; float: left; height: 35px; line-height: 12px; padding-right: 10px;}
+div.source_form.inline input { float: left; }
+div.source_form.inline label { margin-left: 15px; display: block;}
 
 .clear{
   clear: both;
@@ -174,7 +184,9 @@ button.add_button {
   cursor: pointer;
 }
 
-div#addBtns li {float: left; background: url(/images/btn_add.png) left bottom no-repeat; padding-left: 20px; margin-right: 30px; margin-bottom: 20px;}
+div#district{ margin-left: 20px;}
+
+div#addBtns li {float: left; background: url(/images/btn_add.png) left center no-repeat; padding-left: 24px; margin: -35px 30px 15px 20px;}
 div#addBtns ul {width: 100%; display: block; }
 
 
@@ -186,9 +198,9 @@ div.source_form.popup h3 {float: left; margin-right: 15px; font-size: 115%; marg
 
 h3 {font-weight: bold;}
 
-div.search_field input#name {
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
+div.search_field input#name, div#filter input {
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
   border: solid 1px #978f8f;
   height: 15px;
   padding: 2px 4px;
