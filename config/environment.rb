@@ -8,14 +8,7 @@ class Update < ActiveRecord::Base; validates_presence_of :status, :source, :elap
 
 configure do
   details = YAML.load_file('config/database.yml')[Sinatra::Application.environment]
-  ActiveRecord::Base.establish_connection(
-    :adapter => 'mysql',
-    :reconnect => true,
-    :username => details[:username],
-    :password => details[:password],
-    :database => details[:database],
-    :host => details[:host]
-  )
+  ActiveRecord::Base.establish_connection(details.merge(:reconnect => true))
 end
 
 def load_sources

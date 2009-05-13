@@ -2,3 +2,4 @@ data/*
 config/database.yml
 config/deploy.rb
 sources/api_keys.yml
+db/*.sqlite3
