@@ -1,14 +1,14 @@
-<div class="search_field">
-  <input id="contribution_top_industries" type="checkbox"/>
-  <input type="hidden" value="top_industries"/>
-  <label for="contribution_top_industries">
-    <strong>Top Industries</strong>
-  </label>
-  <button id="search_name_add_<%= source.keyword %>" class="add_button source_add" type="submit"> </button>
-</div>
 
 <div>
+  <button id="search_name_add_<%= source.keyword %>" class="add_button source_add" type="submit">Add to Chart</button>
   <div class="search_table">
+	<div id="mainChoice">
+		<input id="contribution_top_industries" type="checkbox"/>
+		<input type="hidden" value="top_industries"/>
+		<label for="contribution_top_industries">
+		    <strong>Top Industries</strong>
+		</label>
+	</div>	
     <div id="search_name_table_<%= source.keyword %>" class="search_table_inner">
       <table>
         <thead>
@@ -38,4 +38,5 @@
       </table>
     </div>
   </div>
+  <button id="search_name_add2_<%= source.keyword %>" class="add_button source_add" type="submit">Add to Chart</button>
 </div>
