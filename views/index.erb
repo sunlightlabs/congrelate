@@ -43,36 +43,16 @@
                           <option value=''>------</option>
                         </select>
                       </li>
-
-          
-                    <form id='legislator_form'>
-                      <ul>
-                        <li>
-                          <input class='party' id='legislator__party' type='checkbox' value='1' />
-                          <label for='legislator__party'>Party</label>
-                        </li>
-                        <li>
-                          <input class='gender' id='legislator__gender' type='checkbox' value='1' />
-                          <label for='legislator__gender'>Gender</label>
-                        </li>
-                        <li id='spinner' style='display: none; padding-top: 5px; padding-left: 10px;'>
-                          <img src='/images/spinner.gif' />
-                        </li>
-                      </ul>
-                    </form>
-                  </div>
-                  <div id='filterNav'>
-                    <ul>
-                      <li id='House'>
-                        <a class='house_filter' href='#' id='house_filter_house'>House</a>
-                      </li>
-                      <li id='Senate'>
-                        <a class='house_filter' href='#' id='house_filter_senate'>Senate</a>
-                      </li>
-                      <li id='All'>
-                        <a class='house_filter house_selected' href='#' id='house_filter_all'>All</a>
-                      </li>
-                    </ul>
+					  <li>
+						<select class='stateDropDown' id='filter_legislator_state' name='filter_legislator_state'>
+                          <option value=''>View House and Senate</option>
+                          <option value=''>House Only</option>
+						  <option value=''>Senate Only</option>
+                        </select>
+					  </li>
+					  <li id='spinner' style='display: none; padding-top: 5px; padding-left: 10px;'>
+					  	<img src='/images/spinner.gif' />
+					  </li>
                   </div>
                 </div>
                 <div id='mainContent'>
