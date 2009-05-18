@@ -4,21 +4,25 @@
   :username: bigsheet
   :password: bigsheet
   :host: localhost
+  :adapter: mysql
 
 :staging:
   :database: bigsheet_staging
   :username: bigsheet
   :password: bigsheet
   :host: localhost
+  :adapter: mysql
 
 :production:
   :database: bigsheet_production
   :username: bigsheet
   :password: bigsheet
   :host: localhost
+  :adapter: mysql
   
 :test:
   :database: bigsheet_test
   :username: bigsheet
   :password: bigsheet
   :host: localhost
+  :adapter: mysql
