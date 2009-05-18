@@ -35,18 +35,9 @@ function init() {
   $('select#filter_legislator_state').change(function() {
     filter_column(this.value, 1);
   });
-  $('a.house_filter').click(function() {
-    var elem = $(this);
-    if (elem.hasClass('house_selected'))
-      return false;
-      
-    var filters = {House: "\\d+", Senate: 'seat', All: ''};
-    var filter = filters[elem.html()];
-    filter_column(filter, 2, true);
-    
-    $('a.house_filter').removeClass('house_selected');
-    elem.addClass('house_selected');
-    return false;
+  $('select#filter_legislator_house').change(function() {      
+    var filters = {house: "\\d+", senate: 'seat', all: ''};
+    filter_column(filters[this.value], 2, true);
   });
   
   
