@@ -3,7 +3,7 @@ require 'fastercsv'
 class District < ActiveRecord::Base
 
   def self.sort(fields)
-    cols = ['blacks', 'whites', 'hispanics', 'asians', 'american_indians', 'males', 'females', 'unemployment', 'median_age', 'median_house_value', 'median_rent', 'median_household_income']
+    cols = ['blacks', 'whites', 'hispanics', 'asians', 'american_indians', 'males', 'females', 'median_age', 'median_house_value', 'median_rent', 'median_household_income']
     fields.sort {|a, b| cols.index(a) <=> cols.index(b)}
   end
   
@@ -239,8 +239,6 @@ class District < ActiveRecord::Base
     district.median_household_income = pages[:sl3][6][row][87]
     district.median_house_value = pages[:sl3][60][row][251]
     district.median_rent = pages[:sl3][59][row][202]
-    
-    district.unemployment = percent((pages[:sl3][4][row][145].to_i + pages[:sl3][4][row][152].to_i).to_f, population)
   end
   
   # turns a percent like 0.56789 into 56.8
