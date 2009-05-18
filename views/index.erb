@@ -18,87 +18,86 @@
     </script>
   </head>
   
-    <body class='home'>
+  <body class='home'>
     <div id='headerWrapper'>
       <div id='mainBg'>
         <div class='container'>
           <div class='container2'>
             <div class='container3'>
-				
-                <div id='mainHeader'>
-                  <h1>
-                    <a href='/'>Comparing Legislator Votes and their Constituencies</a>
-                  </h1>
+              <div id='mainHeader'>
+                <h1>
+                  <a href='/'>Comparing Legislator Votes and their Constituencies</a>
+                </h1>
+              </div>
+              <div id='headerNav'>
+                <div id='filter'>
+                  <h2>Filter Legislators</h2>
+                  <ul>
+                    <li>
+                      <input class='text' id='filter_legislator_name' maxlength='329' type='text' value='By Name' />
+                    </li>
+                    <li>
+                      <select class='stateDropDown' id='filter_legislator_state' name='filter_legislator_state'>
+                        <option value=''>By State</option>
+                        <option value=''>------</option>
+                      </select>
+                    </li>
+                    <li>
+                      <select class='houseDropDown' id='filter_legislator_house' name='filter_legislator_house'>
+                        <option value='all'>View House and Senate</option>
+                        <option value='house'>House Only</option>
+                        <option value='senate'>Senate Only</option>
+                      </select>
+                    </li>
+                    <li id='spinner' style='display: none; padding-top: 5px; padding-left: 10px;'>
+                      <img src='/images/spinner.gif'/>
+                    </li>
+                    <li>
+                      <button id="resetBtn" type="submit">Reset Table</button>
+                    </li>
+                  </ul>
                 </div>
-                <div id='headerNav'>
-                  <div id='filter'>
-                    <h2>Filter Legislators</h2>
-                    <ul>
-                      <li>
-                        <input class='text' id='filter_legislator_name' maxlength='329' type='text' value='By Name' />
-                      </li>
-                      <li>
-                        <select class='stateDropDown' id='filter_legislator_state' name='filter_legislator_state'>
-                          <option value=''>By State</option>
-                          <option value=''>------</option>
-                        </select>
-                      </li>
-					  <li>
-						<select class='stateDropDown' id='filter_legislator_state' name='filter_legislator_state'>
-                          <option value=''>View House and Senate</option>
-                          <option value=''>House Only</option>
-						  <option value=''>Senate Only</option>
-                        </select>
-					  </li>
-					  <li id='spinner' style='display: none; padding-top: 5px; padding-left: 10px;'>
-					  	<img src='/images/spinner.gif'/>
-					  </li>
-					  <li>
-						<button id="resetBtn" type="submit">Reset Table</button>
-					  </li>
-					</ul>
-                  </div>
-                </div>
-                <div id='mainContent'>
-                  <table class='display' id='main_table'>
-                    <thead>
-                      <tr class='titles'>
+              </div>
+              <div id='mainContent'>
+                <table class='display' id='main_table'>
+                  <thead>
+                    <tr class='titles'>
+                      <% sort_by_ref(@data.keys, source_keys).each do |source| %>
+                        <% sort_fields(@data[source].keys, source).each do |column| %>
+                          <th title="<%= @data[source][column][:title] %>" class="<%= source %>_<%= column %>">
+                            <%= @data[source][column][:header] ? @data[source][column][:header] : column.to_s.titleize %>
+                            <a href="#">remove</a>
+                          </th>
+            
+                        <% end %>
+                      <% end %>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% @legislators.each do |legislator| %>
+                      <tr class="<%= cycle_class %>" id="<%= legislator.bioguide_id %>">
                         <% sort_by_ref(@data.keys, source_keys).each do |source| %>
                           <% sort_fields(@data[source].keys, source).each do |column| %>
-                            <th title="<%= @data[source][column][:title] %>" class="<%= source %>_<%= column %>">
-                              <%= @data[source][column][:header] ? @data[source][column][:header] : column.to_s.titleize %>
-								<a href="#">remove</a>
-                            </th>
-							
+                            <td class="<%= source %>_<%= column %>">
+                              <%= @data[source][column][legislator.bioguide_id] %>
+                            </td>
                           <% end %>
                         <% end %>
                       </tr>
-                    </thead>
-                    <tbody>
-                      <% @legislators.each do |legislator| %>
-                        <tr class="<%= cycle_class %>" id="<%= legislator.bioguide_id %>">
-                          <% sort_by_ref(@data.keys, source_keys).each do |source| %>
-                            <% sort_fields(@data[source].keys, source).each do |column| %>
-                              <td class="<%= source %>_<%= column %>">
-                                <%= @data[source][column][legislator.bioguide_id] %>
-                              </td>
-                            <% end %>
-                          <% end %>
-                        </tr>
-                      <% end %>
-                    </tbody>
-                  </table>
+                    <% end %>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-	<div id='footerWrapper'>
+    <div id='footerWrapper'>
       <div id='footer'>
-		<div id="footerTab">
-			<h2>Add Data</h2>
-		</div>
+        <div id="footerTab">
+          <h2>Add Data</h2>
+        </div>
         <div id='dataContent'>
           <div id='addBtns'>
             <ul>
