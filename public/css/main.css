@@ -184,7 +184,15 @@ button.add_button {
   cursor: pointer;
 }
 
-button#resetBtn{ background: url(/images/btn_resetTable.png) left bottom no-repeat; border: none; width: 114px; height: 24px; text-indent: -9999em; cursor: pointer; margin-top:-4px; margin-left:155px;}
+button#resetBtn{ 
+  background: url(/images/btn_resetTable.png) left bottom no-repeat; 
+  border: none; 
+  width: 114px; 
+  height: 24px; 
+  text-indent: -9999em; 
+  cursor: pointer; 
+  margin-bottom:-4px;
+}
 
 div#district{ margin-left: 20px;}
 
