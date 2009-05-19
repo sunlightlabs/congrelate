@@ -65,7 +65,7 @@ class RollCall < ActiveRecord::Base
       
       # one hash to associate govtrack to bioguide ids
       legislators = {}
-      ActiveRecord::Base.connection.execute("select legislators.govtrack_id, legislators.bioguide_id from legislators").each_hash do |row|
+      ActiveRecord::Base.connection.execute("select legislators.govtrack_id, legislators.bioguide_id from legislators").each do |row|
         legislators[row['govtrack_id']] = row['bioguide_id']
       end
       
