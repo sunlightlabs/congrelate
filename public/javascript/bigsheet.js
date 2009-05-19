@@ -41,7 +41,7 @@ function init() {
     var filters = {house: "\\d+", senate: 'seat', all: ''};
     filter_column(filters[this.value], 2, true);
   });
-  $('button#resetBtn').click(resetFilters);
+  $('button#resetBtn').click(reset_filters);
     
   // column fields
   $('div.source_form input:checkbox, #legislator_form input:checkbox').change(toggle_checkbox);
@@ -127,7 +127,7 @@ function filter_column(q, column, regex) {
   mainTable.fnFilter(q, column, !regex);
 }
 
-function resetFilters() {
+function reset_filters() {
   for (var column in current_filters) {
     mainTable.fnFilter('', column);
     current_filters[column] = null;
