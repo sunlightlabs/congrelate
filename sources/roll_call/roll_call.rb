@@ -66,7 +66,7 @@ class RollCall < ActiveRecord::Base
       # one hash to associate govtrack to bioguide ids
       legislators = {}
       ActiveRecord::Base.connection.execute("select legislators.govtrack_id, legislators.bioguide_id from legislators").each do |row|
-        legislators[row['govtrack_id']] = row['bioguide_id']
+        legislators[row[0]] = row[1]
       end
       
       Dir.glob("data/govtrack/#{congress}/rolls/*.xml").each do |filename|
