@@ -136,7 +136,7 @@ class RollCall < ActiveRecord::Base
       ['FAILED', roll_call.errors]
     end
   rescue => e
-    ['FAILED', "#{e.class}: #{e.message}"]
+    ['FAILED', "#{e.class}: #{e.message} - #{e.inspect}"]
   end
   
   private

@@ -1,5 +1,7 @@
 var mainTable;
 
+var current_filters = [];
+
 function init() {
 
   prepare_table();
@@ -39,8 +41,8 @@ function init() {
     var filters = {house: "\\d+", senate: 'seat', all: ''};
     filter_column(filters[this.value], 2, true);
   });
-  
-  
+  $('button#resetBtn').click(resetFilters);
+    
   // column fields
   $('div.source_form input:checkbox, #legislator_form input:checkbox').change(toggle_checkbox);
   
@@ -121,7 +123,17 @@ function add_column(source, column) {
 }
 
 function filter_column(q, column, regex) {
+  current_filters[column] = q;
   mainTable.fnFilter(q, column, !regex);
+}
+
+function resetFilters() {
+  for (var column in current_filters) {
+    mainTable.fnFilter('', column);
+    current_filters[column] = null;
+  }
+  $('form#filter_form')[0].reset();
+  return false;
 }
 
 function remove_column(source, column) {

@@ -32,30 +32,32 @@
               <div id='headerNav'>
                 <div id='filter'>
                   <h2>Filter Legislators</h2>
-                  <ul>
-                    <li>
-                      <input class='text' id='filter_legislator_name' maxlength='329' type='text' value='By Name' />
-                    </li>
-                    <li>
-                      <select class='stateDropDown' id='filter_legislator_state' name='filter_legislator_state'>
-                        <option value=''>By State</option>
-                        <option value=''>------</option>
-                      </select>
-                    </li>
-                    <li>
-                      <select class='houseDropDown' id='filter_legislator_house' name='filter_legislator_house'>
-                        <option value='all'>View House and Senate</option>
-                        <option value='house'>House Only</option>
-                        <option value='senate'>Senate Only</option>
-                      </select>
-                    </li>
-                    <li id='spinner' style='display: none; padding-top: 5px; padding-left: 10px;'>
-                      <img src='/images/spinner.gif'/>
-                    </li>
-                    <li>
-                      <button id="resetBtn" type="submit">Reset Table</button>
-                    </li>
-                  </ul>
+                  <form id='filter_form'>
+                    <ul>
+                      <li>
+                        <input class='text' id='filter_legislator_name' maxlength='329' type='text' value='By Name' />
+                      </li>
+                      <li>
+                        <select class='stateDropDown' id='filter_legislator_state' name='filter_legislator_state'>
+                          <option value=''>By State</option>
+                          <option value=''>------</option>
+                        </select>
+                      </li>
+                      <li>
+                        <select class='houseDropDown' id='filter_legislator_house' name='filter_legislator_house'>
+                          <option value='all'>View House and Senate</option>
+                          <option value='house'>House Only</option>
+                          <option value='senate'>Senate Only</option>
+                        </select>
+                      </li>
+                      <li id='spinner' style='display: none; padding-top: 5px; padding-left: 10px;'>
+                        <img src='/images/spinner.gif'/>
+                      </li>
+                      <li>
+                        <button id="resetBtn">Reset Table</button>
+                      </li>
+                    </ul>
+                  </form>
                 </div>
               </div>
               <div id='mainContent'>
