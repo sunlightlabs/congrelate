@@ -6,3 +6,4 @@ db/*.sqlite3
 .DS_Store
 public/.DS_Store
 source/.DS_Store
+public/javascript/dataTables-big.js
