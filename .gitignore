@@ -3,3 +3,6 @@ config/database.yml
 config/deploy.rb
 sources/api_keys.yml
 db/*.sqlite3
+.DS_Store
+public/.DS_Store
+source/.DS_Store
