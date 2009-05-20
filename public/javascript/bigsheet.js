@@ -13,7 +13,7 @@ function init() {
   
   var states = state_map();
   var state_elem = $('#filter_legislator_state');
-  for (state in states)
+  for (var state in states)
     state_elem.append('<option value=\"' + state + '">' + states[state] + '</option>');
 
   // Add source data links
@@ -103,7 +103,7 @@ function add_column(source, column) {
   spinner_on();
   $.getJSON('/column.json', {source: source, column: column}, function(data) {
     var id = column_id(source, column);
-    for (bioguide_id in data) {
+    for (var bioguide_id in data) {
       if (bioguide_id != 'title' && bioguide_id != 'header') {
         if (data[bioguide_id] == null)
           data[bioguide_id] = '';

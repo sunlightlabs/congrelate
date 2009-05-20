@@ -1,52 +1,69 @@
-<ul>
-  <li>
-    <input id='district_blacks' name='district[blacks]' type='checkbox' value='1' />
-    <label for='district_blacks'>% Black</label>
-  </li>
+<div>
+  <button id="search_name_add_<%= source.keyword %>" class="add_button source_add" type="submit">
+    Add to Chart
+  </button>
+  <ul>
+    <li>
+      <input id='district_blacks' name='district[blacks]' type='checkbox' value='1' />
+      <input type="hidden" value='blacks' />
+      <label for='district_blacks'>% Black</label>
+    </li>
 
-  <li>
-    <input id='district_whites' name='district[whites]' type='checkbox' value='1' />
-    <label for='district_whites'>% White</label>
-  </li>
-  <li>
-    <input id='district_hispanics' name='district[hispanics]' type='checkbox' value='1' />
-    <label for='district_hispanics'>% Hispanic</label>
-  </li>
+    <li>
+      <input id='district_whites' name='district[whites]' type='checkbox' value='1' />
+      <input type="hidden" value='whites' />
+      <label for='district_whites'>% White</label>
+    </li>
+    <li>
+      <input id='district_hispanics' name='district[hispanics]' type='checkbox' value='1' />
+      <input type="hidden" value='hispanics' />
+      <label for='district_hispanics'>% Hispanic</label>
+    </li>
 
-  <li>
-    <input id='district_american_indians' name='district[american_indians]' type='checkbox' value='1' />
-    <label for='district_american_indians'>% American Indian</label>
-  </li>
-  <li>
-    <input id='district_asians' name='district[asians]' type='checkbox' value='1' />
-    <label for='district_asians'>% Asian</label>
-  </li>
+    <li>
+      <input id='district_american_indians' name='district[american_indians]' type='checkbox' value='1' />
+      <input type="hidden" value='american_indians' />
+      <label for='district_american_indians'>% American Indian</label>
+    </li>
+    <li>
+      <input id='district_asians' name='district[asians]' type='checkbox' value='1' />
+      <input type="hidden" value='asians' />
+      <label for='district_asians'>% Asian</label>
+    </li>
 
-  <li>
-    <input id='district_males' name='district[males]' type='checkbox' value='1' />
-    <label for='district_males'>% Male</label>
-  </li>
-  <li>
-    <input id='district_females' name='district[females]' type='checkbox' value='1' />
-    <label for='district_females'>% Female</label>
-  </li>
+    <li>
+      <input id='district_males' name='district[males]' type='checkbox' value='1' />
+      <input type="hidden" value='males' />
+      <label for='district_males'>% Male</label>
+    </li>
+    <li>
+      <input id='district_females' name='district[females]' type='checkbox' value='1' />
+      <input type="hidden" value='females' />
+      <label for='district_females'>% Female</label>
+    </li>
 
-  <li>
-    <input id='district_median_age' name='district[median_age]' type='checkbox' value='1' />
-    <label for='district_median_age'>Median Age</label>
-  </li>
+    <li>
+      <input id='district_median_age' name='district[median_age]' type='checkbox' value='1' />
+      <input type="hidden" value='median_age' />
+      <label for='district_median_age'>Median Age</label>
+    </li>
 
-  <li>
-    <input id='district_median_household_income' name='district[median_household_income]' type='checkbox' value='1' />
-    <label for='district_median_household_income'>Median Household Income</label>
-  </li>
-  <li>
-    <input id='district_median_house_value' name='district[median_house_value]' type='checkbox' value='1' />
-    <label for='district_median_house_value'>Median House Value</label>
-  </li>
+    <li>
+      <input id='district_median_household_income' name='district[median_household_income]' type='checkbox' value='1' />
+      <input type="hidden" value='median_household_income' />
+      <label for='district_median_household_income'>Median Household Income</label>
+    </li>
+    
+    <li>
+      <input id='district_median_house_value' name='district[median_house_value]' type='checkbox' value='1' />
+      <input type="hidden" value='median_house_value' />
+      <label for='district_median_house_value'>Median House Value</label>
+    </li>
 
-  <li>
-    <input id='district_median_rent' name='district[median_rent]' type='checkbox' value='1' />
-    <label for='district_median_rent'>Median Rent</label>
-  </li>
-</ul>
+    <li>
+      <input id='district_median_rent' name='district[median_rent]' type='checkbox' value='1' />
+      <input type="hidden" value='median_rent' />
+      <label for='district_median_rent'>Median Rent</label>
+    </li>
+  </ul>
+</div>
