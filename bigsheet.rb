@@ -29,6 +29,9 @@ get /\/table(?:\.([\w]+))?/ do
   when ['csv']
     response['Content-Type'] = 'text/csv'
     to_csv @data, @legislators
+  when ['xml']
+    response['Content-Type'] = 'text/xml'
+    to_xml @data, @legislators
   when ['json']
     response['Content-Type'] = 'text/json'
     to_json @data, @legislators
@@ -91,15 +94,18 @@ helpers do
     
     sources = sort_by_ref(data.keys, source_keys)
     header = []
+    header << 'Bioguide ID'
     sources.each do |source|
       sort_fields(data[source].keys, source).each do |column|
         header << (data[source][column][:header] ? data[source][column][:header] : column.to_s.titleize)
       end
     end
+    
     array << header
     
     legislators.each do |legislator|
       row = []
+      row << legislator.bioguide_id
       sources.each do |source|
         sort_fields(@data[source].keys, source).each do |column|
           row << data[source][column][legislator.bioguide_id]
