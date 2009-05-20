@@ -109,16 +109,13 @@
             <ul>
               <% other_sources.each do |source| %>
                 <li>
-                  <a class="<%= popup_form?(source) ? 'popup_form' : 'inline_form' %> source_form_link" href='#' id="<%= source.keyword %>_form_link">
+                  <a class="source_form_link" href='#' id="<%= source.keyword %>_form_link">
                     <%= source.name %>
                   </a>
                 </li>
               <% end %>
             </ul>
           </div>
-          <% other_sources.select {|s| !popup_form? s}.each do |source| %>
-            <%= inline_form_for source %>
-          <% end %>
         </div>
       </div>
     </div>

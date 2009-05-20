@@ -135,10 +135,6 @@ helpers do
     sources.map {|source| source.keyword.to_sym}
   end
   
-  def sources
-    @@sources ||= Source.all
-  end
-  
   def other_sources
     sources[1..-1]
   end
@@ -147,10 +143,14 @@ helpers do
     source.to_s.camelize.constantize
   end
   
+  def sources
+    @@sources ||= Source.all
+  end
+  
   def source_for(keyword)
     Source.find_by_keyword keyword.to_s
   end
-  
+
   def sort_fields(fields, source)
     class_for(source).sort(fields)
   end
@@ -161,14 +161,6 @@ helpers do
   
   def column_header(text)
     text.to_s.titleize
-  end
-  
-  def popup_form?(source)
-    class_for(source.keyword).respond_to?(:popup_form?) and class_for(source.keyword).popup_form?
-  end
-  
-  def inline_form_for(source, options = {})
-    erb :inline_form, :layout => false, :locals => {:source => source, :options => options}
   end
   
   def popup_form_for(source, options = {})

@@ -17,13 +17,7 @@ function init() {
     state_elem.append('<option value=\"' + state + '">' + states[state] + '</option>');
 
   // Add source data links
-  $('a.source_form_link.inline_form').click(function() {
-    var form_id = this.id.replace('_form_link', '');
-    $('div.source_form:not(#' + form_id + ')').hide('medium');
-    $('div#' + form_id).toggle('medium');
-    return false;
-  });
-  $('a.source_form_link.popup_form').click(function() {
+  $('a.source_form_link').click(function() {
     var source_id = this.id.replace('_form_link', '');
     jQuery.facebox({ajax: '/' + source_id + '/form'});
     return false;
@@ -56,9 +50,6 @@ function init() {
     var values = this.className.split('_');
     remove_column(values[0], values[1]);
   });
-  
-  // column fields
-  $('div.source_form input:checkbox, #legislator_form input:checkbox').change(toggle_checkbox);
   
   $(document).bind('reveal.facebox', function() {
     $("div#facebox table").show();
@@ -106,12 +97,6 @@ function search_table(source, q, page) {
     url: search_url
   });
   return false;
-}
-
-function toggle_checkbox() {
-  var source, column;
-  [source, column] = this.id.split('__');
-  toggle_column(this.checked, source, column);
 }
 
 function add_column(source, column) {
@@ -191,13 +176,6 @@ function spinner_off() {$('#spinner').hide();}
 
 function popup_spinner_on() {$('.popup_spinner').show();}
 function popup_spinner_off() {$('.popup_spinner').hide();}
-
-function toggle_column(checked, source, column) {
-  if (checked)
-    add_column(source, column);
-  else
-    remove_column(source, column);
-}
 
 function column_id(source, column) {
   return source + '_' + column;

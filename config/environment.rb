@@ -13,11 +13,12 @@ end
 
 def load_sources
   api_keys = YAML.load_file('sources/api_keys.yml')[Sinatra::Application.environment]
-  Dir.glob('sources/*').reject {|file| file.include? '.yml'}.each do |dir|
-    Dir.glob(File.join(dir, '*.rb')).each {|model| load model}
-    keyword = dir.gsub 'sources/', ''
-    keyword.camelize.constantize.class_eval <<-EOC
-      def self.api_key; "#{api_keys[keyword.to_sym]}"; end
+  Source.all.each do |source|
+    
+    Dir.glob(File.join('sources', source.keyword, '*.rb')).each {|model| load model}
+    source.keyword.camelize.constantize.class_eval <<-EOC
+      def self.api_key; "#{api_keys[source.keyword.to_sym]}"; end
     EOC
   end
 end
+

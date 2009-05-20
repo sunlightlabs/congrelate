@@ -168,10 +168,6 @@ class Contribution < ActiveRecord::Base
   def self.latest_cycle
     Time.now.year / 2 * 2
   end
-  
-  def self.popup_form?
-    true
-  end
 
 end
 

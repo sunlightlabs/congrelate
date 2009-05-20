@@ -160,10 +160,6 @@ class RollCall < ActiveRecord::Base
     "#{type.upcase}#{number}"
   end
   
-  def self.popup_form?
-    true
-  end
-  
 end
 
 get '/roll_call/form' do
