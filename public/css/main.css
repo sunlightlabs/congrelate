@@ -182,10 +182,11 @@ button.add_button {
   height: 26px; 
   text-indent: -9999em; 
   cursor: pointer;
+  margin-bottom:15px;
 }
 
 button#resetBtn{ 
-  background: url(/images/btn_resetTable.png) left bottom no-repeat; 
+  background: url(/images/btn_resetTable.png) right bottom no-repeat; 
   border: none; 
   width: 114px; 
   height: 24px; 
@@ -229,10 +230,18 @@ div.search_table {clear: left; border-top: 1px solid #C4BDBD; border-bottom: 1px
 div.search_table table {width: 100%;}
 div.search_field form {margin-bottom: 20px; }
 
+div.search_table input{ margin: 0 0 0 10px;}
+div.search_table td{ margin-right: 15px; line-height: 15px; } 
+
+#facebox div.search_table td {padding: 8px 10px 8px;}
+
 div.search_table button, button#search_name_add_contribution, button#search_name_add2_contribution {margin-left: 86%;}
 
-div.prev_button {margin: 7px 5px 10px 0; text-align: left; float: left;}
-div.next_button {margin: 7px 5px 10px 0; text-align: right; float: right;}
+
+div#pageNav { margin: 0 auto; width: 100px;}
+div.prev_button {float: left;}
+div.next_button {text-align: right;}
+
 
 /*
 div#detailNav li{ float: left; margin-right: 25px; padding: 5px 10px 1px;}
