@@ -1,6 +1,11 @@
 var mainTable;
 
 var current_filters = [];
+var current_columns = {
+  'legislator[name]': 1,
+  'legislator[state]': 1,
+  'legislator[district]': 1
+};
 
 function init() {
 
@@ -129,7 +134,16 @@ function add_column(source, column) {
     
     spinner_off();
     prepare_table();
+    
+    current_columns[source + "[" + column + "]"] = 1;
   });
+}
+
+function remove_column(source, column) {
+  spinner_on();
+  $('.' + column_id(source, column)).remove();
+  spinner_off();
+  delete current_columns[source + "[" + column + "]"];
 }
 
 function filter_column(q, column, regex) {
@@ -140,17 +154,25 @@ function filter_column(q, column, regex) {
 function reset_filters() {
   for (var column in current_filters) {
     mainTable.fnFilter('', column);
-    current_filters[column] = null;
+    delete current_filters[column];
   }
   $('form#filter_form')[0].reset();
   return false;
 }
 
-function remove_column(source, column) {
-  spinner_on();
-  $('.' + column_id(source, column)).remove();
-  spinner_off();
+function table_url(format) {
+  if (format) format = "." + format;
+  var query_string = query_string_for(current_columns);
+  return "/table" + format + "?" + query_string;
 }
+
+function query_string_for(options) {
+  var string = [];
+  for (var key in options)
+    string.push(key + "=" + options[key]);
+  return string.join("&");
+}
+
 
 function spinner_on() {$('#spinner').show();}
 function spinner_off() {$('#spinner').hide();}
@@ -241,3 +263,5 @@ function state_map() {
 function escape_single_quotes(string) {
   return string.replace(/\'/g, '\\\'');
 }
+
+// extensions to dataTables
