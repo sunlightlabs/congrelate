@@ -48,6 +48,9 @@ function init() {
   });
   $('button#resetBtn').click(reset_filters);
   
+  // download links
+  update_links();
+  
   // table functions
   $('tr.titles th a').click(function() {
     var values = this.className.split('_');
@@ -136,6 +139,7 @@ function add_column(source, column) {
     prepare_table();
     
     current_columns[source + "[" + column + "]"] = 1;
+    update_links();
   });
 }
 
@@ -143,7 +147,9 @@ function remove_column(source, column) {
   spinner_on();
   $('.' + column_id(source, column)).remove();
   spinner_off();
+  
   delete current_columns[source + "[" + column + "]"];
+  update_links();
 }
 
 function filter_column(q, column, regex) {
@@ -164,6 +170,12 @@ function table_url(format) {
   if (format) format = "." + format;
   var query_string = query_string_for(current_columns);
   return "/table" + format + "?" + query_string;
+}
+
+function update_links() {
+  $('li.download a').each(function(i, a) {
+    a.href = table_url(a.id);
+  });
 }
 
 function query_string_for(options) {
