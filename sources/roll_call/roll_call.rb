@@ -162,10 +162,6 @@ class RollCall < ActiveRecord::Base
   
 end
 
-get '/roll_call/form' do
-  popup_form_for source_for(:roll_call)
-end
-
 get '/roll_call/search' do
   if !params[:q].blank?
     # rudimentary pagination

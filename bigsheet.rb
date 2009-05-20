@@ -6,7 +6,7 @@ require 'sinatra'
 # Environment
 require 'config/environment'
 
-load_sources
+
 
 get '/' do
   @legislators = get_legislators
@@ -161,14 +161,6 @@ helpers do
   
   def column_header(text)
     text.to_s.titleize
-  end
-  
-  def popup_form_for(source, options = {})
-    erb :popup_form, :layout => false, :locals => {:source => source, :options => options}
-  end
-  
-  def form_for(source, options = {})
-    erb :"../sources/#{source.keyword}/form", :layout => false, :locals => {:source => source}.merge(options)
   end
   
 end

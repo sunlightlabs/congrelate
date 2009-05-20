@@ -301,7 +301,3 @@ class District < ActiveRecord::Base
   end
 
 end
-
-get '/district/form' do
-  popup_form_for source_for(:district)
-end

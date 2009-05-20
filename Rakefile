@@ -10,7 +10,6 @@ end
 desc "Loads environment"
 task :environment do
   require 'config/environment'
-  load_sources
 end
 
 namespace :sources do

@@ -85,6 +85,10 @@ class Contribution < ActiveRecord::Base
     data
   end
   
+  def self.form_data
+    {:industries => Contribution.cycle(Contribution.latest_cycle).industries.all(:order => 'industry asc').map(&:industry)}
+  end
+  
   def self.format_amount(amount)
     "$#{amount}"
   end
@@ -184,10 +188,4 @@ class OpenSecrets
   def industries(crp_id, url_options = {})
     self.class.get '/', :query => url_options.merge(:method => 'candIndustry', :cid => crp_id, :apikey => api_key, :cycle => cycle)
   end
-  
-end
-
-get '/contribution/form' do
-  @industries = Contribution.cycle(Contribution.latest_cycle).industries.all(:order => 'industry asc').map(&:industry)
-  popup_form_for source_for(:contribution), :industries => @industries
 end

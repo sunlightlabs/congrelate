@@ -56,7 +56,7 @@ function init() {
   });
 }
 
-function init_popup(source) {
+function init_source_form(source) {
   // for popups with a search field - the search form
   var popup_elem = 'div#' + source;
   $(popup_elem + ' form.search_name_form').submit(function() {
