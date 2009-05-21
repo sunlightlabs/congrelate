@@ -5,6 +5,8 @@ require 'json'
 class Legislator < ActiveRecord::Base
   has_many :committees, :through => :committee_memberships
   has_many :committee_memberships
+  has_many :parent_committees, :through => :committee_memberships, :source => :committee, :conditions => 'parent_id IS NULL'
+  has_many :subcommittees, :through => :committee_memberships, :source => :committee, :conditions => 'parent_id IS NOT NULL'
   
   validates_presence_of :bioguide_id, :district, :state, :name
   
@@ -22,7 +24,11 @@ class Legislator < ActiveRecord::Base
   def self.field_for(legislators, column)
     field = {}
     legislators.each do |legislator|
-      field[legislator.bioguide_id] = legislator.send(column)
+      if column == 'committees'
+        field[legislator.bioguide_id] = legislator.parent_committees.map(&:short_name).join(', ')
+      else
+        field[legislator.bioguide_id] = legislator.send column
+      end
     end
     field
   end
@@ -139,6 +145,10 @@ class Committee < ActiveRecord::Base
   
   has_many :subcommittees, :class_name => 'Committee', :foreign_key => :parent_id
   belongs_to :parent_committee, :class_name => 'Committee', :foreign_key => :parent_id
+  
+  def short_name
+    name.sub /^[\w\s]+ommm?ittee on /, ''
+  end
 end
 
 class CommitteeMembership < ActiveRecord::Base
