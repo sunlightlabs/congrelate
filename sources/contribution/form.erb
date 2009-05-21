@@ -23,15 +23,7 @@
           <% industries.in_groups_of(industries.size/4).transpose.each do |row| %>
             <tr>
               <% row.each do |industry| %>
-                <td>
-                  <input type="checkbox" id="industry_<%= phrase_id industry %>" />
-                  <input type="hidden" value="<%= industry %>"/>
-                </td>
-                <td>
-                  <label for="industry_<%= phrase_id industry %>">
-                    <%= industry %>
-                  </label>
-                </td>
+                <td><%= field_checkbox :contribution, industry %></td>
               <% end %>
             </tr>
           <% end %>
