@@ -1,6 +1,11 @@
 require 'daywalker'
+require 'open-uri'
+require 'json'
 
 class Legislator < ActiveRecord::Base
+  has_many :committees, :through => :committee_memberships
+  has_many :committee_memberships
+  
   validates_presence_of :bioguide_id, :district, :state, :name
   
   named_scope :active, :conditions => {:in_office => true}
@@ -33,19 +38,22 @@ class Legislator < ActiveRecord::Base
   
   def self.update
     Daywalker.api_key = api_key
-    api_legislators = Daywalker::Legislator.all :all_legislators => true
+    api_legislators = Daywalker::Legislator.all
     
     created_count = 0
     updated_count = 0
     
+    mistakes = []
+    
     api_legislators.each do |api_legislator|
       legislator = Legislator.find_or_initialize_by_bioguide_id api_legislator.bioguide_id
+      
       if legislator.new_record?
         created_count += 1
-        puts "[#{api_legislator.bioguide_id}] Created"
+        puts "[Legislator #{legislator.bioguide_id}] Created"
       else
         updated_count += 1
-        puts "[#{api_legislator.bioguide_id}] Updated"
+        puts "[Legislator #{legislator.bioguide_id}] Updated"
       end
       
       legislator.attributes = {
@@ -61,11 +69,49 @@ class Legislator < ActiveRecord::Base
         :votesmart_id => api_legislator.votesmart_id,
         :fec_id => api_legislator.fec_id
       }
+      
+      begin
+        open "http://services.sunlightlabs.com/api/committees.allForLegislator?apikey=#{api_key}&bioguide_id=#{legislator.bioguide_id}" do |response|
+          committees = JSON.parse(response.read)
+          committees['response']['committees'].each do |comm|
+            committee = Committee.find_or_initialize_by_keyword comm['committee']['id']
+            committee.attributes = {:chamber => comm['committee']['chamber'], :name => comm['committee']['name']}
+            puts "  [Committee #{committee.new_record? ? 'Created' : 'Updated'}] #{committee.name}"
+            committee.save!
+            
+            unless membership = legislator.committee_memberships.find_by_committee_id(committee.id)
+              membership = legislator.committee_memberships.build :committee_id => committee.id
+              puts "    - Added Membership"
+            end
+            
+            if comm['committee']['subcommittees']
+              comm['committee']['subcommittees'].each do |subcomm|
+                subcommittee = Committee.find_or_initialize_by_keyword subcomm['committee']['id']
+                subcommittee.attributes = {:chamber => subcomm['committee']['chamber'], :name => subcomm['committee']['name'], :parent_id => committee.id}
+                puts "    [Subcommittee #{subcommittee.new_record? ? 'Created' : 'Updated'}] #{subcommittee.name}"
+                subcommittee.save!
+                
+                unless membership = legislator.committee_memberships.find_by_committee_id(subcommittee.id)
+                  membership = legislator.committee_memberships.build :committee_id => subcommittee.id
+                  puts "      - Added Membership"
+                end
+              end
+            end
+          end
+          
+        end
+      rescue OpenURI::HTTPError => e
+        mistakes << "Error getting committees for legislator #{legislator.bioguide_id}"
+      end
+      
       legislator.save!
     end
-    ['SUCCESS', "#{created_count} legislators created, #{updated_count} updated"]
+    
+    success_msg = "#{created_count} legislators created, #{updated_count} updated"
+    success_msg << "\n" + mistakes.join("\n") if mistakes.any?
+    ['SUCCESS', success_msg]
   rescue => e
-    ['FAILED', e.message]
+    ['FAILED', e.inspect]
   end
   
   private
@@ -94,4 +140,17 @@ class Legislator < ActiveRecord::Base
   def self.gender_for(api_legislator)
     api_legislator.gender.to_s.first.capitalize
   end
+end
+
+class Committee < ActiveRecord::Base
+  has_many :legislators, :through => :committee_memberships
+  has_many :committee_memberships
+  
+  has_many :subcommittees, :class_name => 'Committee', :foreign_key => :parent_id
+  belongs_to :parent_committee, :class_name => 'Committee', :foreign_key => :parent_id
+end
+
+class CommitteeMembership < ActiveRecord::Base
+  belongs_to :committee
+  belongs_to :legislator
 end
