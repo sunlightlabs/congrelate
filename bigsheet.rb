@@ -119,9 +119,7 @@ helpers do
   
   # little helpers
   
-  def phrase_id(string)
-    string.gsub(' ','').underscore
-  end
+  
   
   def short_date(time)
     time.strftime '%m/%d/%y'
@@ -133,10 +131,6 @@ helpers do
   
   def source_keys
     sources.map {|source| source.keyword.to_sym}
-  end
-  
-  def other_sources
-    sources[1..-1]
   end
   
   def class_for(source)
@@ -155,12 +149,24 @@ helpers do
     class_for(source).sort(fields)
   end
   
+  def field_checkbox(source, column, title = nil)
+    id = "#{source}_#{phrase_id column}"
+    title ||= column.to_s.titleize
+    <<-EOFC
+    <div class="field_checkbox">
+      <input id="#{id}" name="#{source}[#{column}]" type="checkbox" value="1" />
+      <input type="hidden" value="#{column}" />
+      <label for="#{id}">#{title}</label>
+    </div>
+    EOFC
+  end
+  
   def cycle_class
     @cycle_class = {nil => :odd, :odd => :even, :even => :odd}[@cycle_class]
   end
   
-  def column_header(text)
-    text.to_s.titleize
+  def phrase_id(string)
+    string.to_s.gsub(' ','').underscore
   end
   
 end
