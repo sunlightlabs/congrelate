@@ -43,17 +43,6 @@ class RollCall < ActiveRecord::Base
     field
   end
   
-  def self.data_for(legislators, columns)
-    data = {}
-    columns.each {|column, use| data[column] = {} if use == '1'}
-    
-    data.keys.each do |column|
-      data[column] = field_for legislators, column
-    end
-    
-    data
-  end
-  
   def self.update(options = {})
     congress = options[:congress] || self.current_congress
     

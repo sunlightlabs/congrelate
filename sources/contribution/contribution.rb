@@ -49,42 +49,6 @@ class Contribution < ActiveRecord::Base
     field
   end
   
-  def self.data_for(legislators, columns)
-    data = {}
-    cycle = latest_cycle
-    
-    columns.each {|column, use| data[column] = {} if use == '1'}
-    
-    top_industries = nil
-    
-    if data['top_industries']
-      data.delete 'top_industries'
-      top_industries = {}
-    end
-    
-    data.keys.each do |industry|
-      contribution_data = {}
-      contributions = Contribution.find_all_by_cycle_and_industry cycle, industry
-      contributions.each {|contribution| contribution_data[contribution.bioguide_id] = format_amount(contribution.amount)}
-      
-      legislators.each do |legislator|
-        data[industry][legislator.bioguide_id] = contribution_data[legislator.bioguide_id]
-      end
-      
-      data[industry][:header] = "#{industry} (#{cycle})"
-      data[industry][:title] = "Contributions by #{industry} to this candidate in the #{cycle} election cycle."
-    end
-    
-    if top_industries
-      data['top_industries'] = {}
-      legislators.each do |legislator|
-        data['top_industries'][legislator.bioguide_id] = Contribution.cycle(cycle).legislator(legislator.bioguide_id).industries(nil).all(:order => 'amount desc', :limit => 3).map(&:industry).join(', ')
-      end
-    end
-    
-    data
-  end
-  
   def self.form_data
     {:industries => Contribution.cycle(Contribution.latest_cycle).industries.all(:order => 'industry asc').map(&:industry)}
   end

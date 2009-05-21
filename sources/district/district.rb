@@ -18,25 +18,7 @@ class District < ActiveRecord::Base
     field
   end
   
-  def self.data_for(legislators, columns)
-    data = {}
-    
-    # only use columns that were checked
-    columns.each {|column, use| data[column] = {} if use == '1'}
-    
-    legislators.each do |legislator|
-      leg_district = ['Senior Seat', 'Junior Seat'].include?(legislator.district) ? 'state' : legislator.district
-      if district = District.find_by_state_and_district(legislator.state, leg_district)
-        data.keys.each do |column|
-          data[column][legislator.bioguide_id] = district.send(column)
-        end
-      end
-    end
-    data
-  end
-  
   def self.update(options = {})
-    # preparations
     data_dir = "data/census/2000"
     old_dir = Dir.pwd
     
