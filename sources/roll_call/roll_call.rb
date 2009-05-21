@@ -169,3 +169,8 @@ get '/roll_call/search' do
     'No results found.'
   end
 end
+
+class Vote < ActiveRecord::Base
+  belongs_to :roll_call
+  validates_presence_of :roll_call_identifier, :position
+end

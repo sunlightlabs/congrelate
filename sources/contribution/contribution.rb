@@ -153,3 +153,9 @@ class OpenSecrets
     self.class.get '/', :query => url_options.merge(:method => 'candIndustry', :cid => crp_id, :apikey => api_key, :cycle => cycle)
   end
 end
+
+class Candidate < ActiveRecord::Base
+  validates_presence_of :bioguide_id, :crp_id, :cycle
+  validates_uniqueness_of :bioguide_id, :scope => :cycle
+  validates_uniqueness_of :crp_id, :scope => :cycle
+end
