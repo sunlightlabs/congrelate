@@ -241,30 +241,3 @@ div.search_table button, button#search_name_add_contribution, button#search_name
 div#pageNav { margin: 0 auto; width: 100px;}
 div.prev_button {float: left;}
 div.next_button {text-align: right;}
-
-
-/*
-div#detailNav li{ float: left; margin-right: 25px; padding: 5px 10px 1px;}
-div#detailNav li a{ text-decoration: none;}
-div#detailNav ul { border-bottom: 1px solid #dcd8d8; width: 100%; padding-bottom: 27px; margin-bottom: 30px;}
-div#detailNav li.active{ border: 1px solid #7f7171; border-bottom: 0; background: #fff; -moz-border-radius:3px; -webkit-border-radius: 3px; color: #6a5a59; font-weight: bold;}
-*/
-
-/*
-div#chartTools{ display: block; margin-top: 20px; background: #dcd7d2; padding: 5px 10px;}
-
-div#addLegislatorsForm li, div#addLegislatorsForm ul{ float: left; }
-
-div#addLegislatorsForm {margin: 20px 0 10px; display: none;}
-div#addLegislatorsForm li {margin-right: 20px;}
-div#addLegislatorsForm button {float: left;}
-*/
-
-/*
-a#addLegislators {
-    background: url(/images/btn_add.png) left 2px no-repeat; 
-    float: left;
-    height: 19px; 
-    padding-left: 23px;
-}
-*/

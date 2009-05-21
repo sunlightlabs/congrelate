@@ -183,7 +183,6 @@ function column_id(source, column) {
 
 function prepare_table() {
   mainTable = $('#main_table').dataTable({
-    bProcessing: true,
     bPaginate: false,
     bInfo: false,
     bFilter: false,
