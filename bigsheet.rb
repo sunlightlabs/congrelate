@@ -149,9 +149,9 @@ helpers do
     class_for(source).sort(fields)
   end
   
-  def field_checkbox(source, column, title = nil)
+  def field_checkbox(source, column, options = {})
     id = "#{source}_#{phrase_id column}"
-    title ||= column.to_s.titleize
+    title = options[:title] || column.to_s.titleize
     <<-EOFC
     <div class="field_checkbox">
       <input id="#{id}" name="#{source}[#{column}]" type="checkbox" value="1" />
