@@ -7,7 +7,7 @@
           <strong>Top Industries</strong>
       </label>
     </div>
-    <div id="search_name_table_<%= source.keyword %>" class="search_table_inner">
+    <div id="search_name_table_<%= source.keyword %>" class="search_table_inner scrollable">
       <table>
         <thead>
           <tr class="titles">
@@ -20,7 +20,9 @@
           <% industries.in_groups_of(industries.size/4).transpose.each do |row| %>
             <tr>
               <% row.each do |industry| %>
-                <td><%= field_checkbox :contribution, industry %></td>
+                <td>
+                  <%= field_checkbox :contribution, industry %>
+                </td>
               <% end %>
             </tr>
           <% end %>

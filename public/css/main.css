@@ -121,7 +121,11 @@ table tr.odd { background: #f4f4ef;}
 table tr td, table tr th { padding-left: 10px;}
 tfoot tr td { padding-top: 2px;}
 
-/*table tr th{ background: url(/images/btn_sort.jpg) left top no-repeat;}*/
+table tr.selected {
+  background-color: #ddd; 
+  border: 1px solid #bbb; 
+  border-width: 1px 0;
+}
 
 
 td.delete a{
@@ -226,17 +230,21 @@ form#search_name_form_roll_call h3{ margin-top: 4px;}
 
 div.search_table {clear: left; border-top: 1px solid #C4BDBD; border-bottom: 1px solid #C4BDBD; padding-top: 10px; margin-top:10px; padding-bottom: 10px; margin-bottom:10px;}
 div.search_table table {width: 100%;}
-div.search_table_inner {max-height: 400px; overflow: auto;}
-div.search_field form {margin-bottom: 20px; }
+div.search_field form {margin-bottom: 20px;}
+div.scrollable {max-height: 350px; overflow: auto;}
 
-div#search_name_table_roll_call input{ margin: 0 0 0 10px;}
-div#search_name_table_roll_call td{ margin-right: 15px; line-height: 15px; } 
+div.search_table input {margin: 0 0 0 10px;}
+div.search_table td {margin-right: 15px; line-height: 15px; padding: 8px 10px 8px;}
 
-#facebox div#search_name_table_roll_call td {padding: 8px 10px 8px;}
-#facebox .footer {clear: both}
-
-div.search_table button, button#search_name_add_contribution, button#search_name_add2_contribution {margin-left: 86%;}
-
+#facebox table {
+  border-collapse: collapse;
+}
+#facebox .footer {
+  padding-top: 5px;
+  margin-top: 10px;
+  text-align: right;
+  clear: both
+}
 
 div#pageNav { margin: 0 auto; width: 100px;}
 div.prev_button {float: left;}

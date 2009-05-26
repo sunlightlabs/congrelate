@@ -81,7 +81,7 @@ function search_table(source, q, page) {
   popup_spinner_on();
   $.ajax({
     success: function(data) {
-      $('#search_name_table_' + source).html(data);
+      $(popup_elem + ' .search_table_inner').html(data);
       $(popup_elem + ' tr.search_result td:not(td.' + source + '_box)').click(function() {    
         $(this).parent('tr').find('input:checkbox').click();
       });
