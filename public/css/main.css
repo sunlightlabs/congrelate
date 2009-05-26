@@ -199,8 +199,14 @@ button#resetBtn{
 
 div#district{ margin-left: 20px;}
 
-div#addBtns li {float: left; background: url(/images/btn_add.png) left center no-repeat; padding-left: 24px; margin: -35px 30px 15px 20px;}
-div#addBtns ul {width: 100%; display: block; }
+div#addBtns li {
+  float: left; 
+   margin: -35px 30px 15px 20px;
+}
+div#addBtns li a {
+  padding-left: 24px; background: url(/images/btn_add.png) left center no-repeat; 
+}
+div#addBtns ul {width: 100%; display: block;}
 
 
 div.source_form {text-align: left;}
