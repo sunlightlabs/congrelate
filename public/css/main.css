@@ -121,7 +121,7 @@ table tr.odd { background: #f4f4ef;}
 table tr td, table tr th { padding-left: 10px;}
 tfoot tr td { padding-top: 2px;}
 
-table tr.selected {
+table tr.selected td {
   background-color: #ddd; 
   border: 1px solid #bbb; 
   border-width: 1px 0;
