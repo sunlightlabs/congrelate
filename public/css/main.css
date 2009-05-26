@@ -217,7 +217,7 @@ div.source_form button.add_button {float: right}
 
 h3 {font-weight: bold;}
 
-div.search_field input#name, div#filter input, input#search_name_field_roll_call {
+div.search_field input#name, div#filter input, input.search {
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border: solid 1px #978f8f;
@@ -225,14 +225,14 @@ div.search_field input#name, div#filter input, input#search_name_field_roll_call
   padding: 2px 4px;
 }
 
-input#search_name_field_roll_call {
+input.search {
     float: left;
     margin-top: 3px;
     padding: 1px 4px 2px;
     margin-right: 5px;
 }
 
-form#search_name_form_roll_call h3{ margin-top: 4px;}
+div.search_field h3{ margin-top: 4px;}
 
 div.search_table {clear: left; border-top: 1px solid #C4BDBD; border-bottom: 1px solid #C4BDBD; padding-top: 10px; margin-top:10px; padding-bottom: 10px; margin-bottom:10px;}
 div.search_table table {width: 100%;}
