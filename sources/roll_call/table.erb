@@ -25,19 +25,3 @@
     <% end %>
   </tbody>
 </table>
-
-<div id="pageNav">
-<% if is_prev %>
-  <div class="page_button prev_button">
-    <a href='#'>&laquo; Back</a>
-    <input type="hidden" name="page" value="<%= page - 1%>" />
-  </div>
-<% end %>
-
-<% if is_next %>
-  <div class="page_button next_button">
-    <a href="#">More &raquo;</a>
-    <input type="hidden" name="page" value="<%= page + 1%>" />
-  </div>
-<% end %>
-</div>
