@@ -11,8 +11,8 @@
 
     <script src='/javascript/bigsheet.js' type='text/javascript'></script>
     <script src='/facebox/facebox.js' type='text/javascript'></script>
-    <script src='/javascript/dataTables.js' type='text/javascript'></script>
-    <script src='/javascript/autocomplete.js' type='text/javascript'></script>
+    <script src='/javascript/tablesorter.js' type='text/javascript'></script>
+    <script src='/javascript/ui-table-filter.js' type='text/javascript'></script>
     <script type='text/javascript'>
       $(document).ready(init);
     </script>
@@ -44,10 +44,10 @@
                         </select>
                       </li>
                       <li>
-                        <select class='houseDropDown' id='filter_legislator_house' name='filter_legislator_house'>
-                          <option value='all'>View House and Senate</option>
-                          <option value='house'>House Only</option>
-                          <option value='senate'>Senate Only</option>
+                        <select class='districtDropDown' id='filter_legislator_district' name='filter_legislator_district'>
+                          <option value=''>View House and Senate</option>
+                          <option value='House'>House Only</option>
+                          <option value='Senate'>Senate Only</option>
                         </select>
                       </li>
                       <li id='spinner' style='display: none; padding-top: 5px; padding-left: 10px;'>
@@ -59,9 +59,9 @@
                       </li>
                     </ul>
                   </form>
-				  <div id="resetTable">
-                      <button id="resetBtn">Reset Table</button>
-                   </div>
+                  <div id="resetTable">
+                    <button id="resetBtn">Reset Table</button>
+                  </div>
                 </div>
               </div>
               <div id='mainContent'>
@@ -81,7 +81,7 @@
                   </thead>
                   <tbody>
                     <% @legislators.each do |legislator| %>
-                      <tr class="<%= cycle_class %>" id="<%= legislator.bioguide_id %>">
+                      <tr id="<%= legislator.bioguide_id %>">
                         <% sort_by_ref(@data.keys, source_keys).each do |source| %>
                           <% sort_fields(@data[source].keys, source).each do |column| %>
                             <td class="<%= source %>_<%= column %>">

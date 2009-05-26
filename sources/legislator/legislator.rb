@@ -24,10 +24,13 @@ class Legislator < ActiveRecord::Base
   def self.field_for(legislators, column)
     field = {}
     legislators.each do |legislator|
-      if column == 'committees'
-        field[legislator.bioguide_id] = legislator.parent_committees.map(&:short_name).join(', ')
+      field[legislator.bioguide_id] = case column
+      when 'committees'
+        legislator.parent_committees.map(&:short_name).join(', ')
+      when 'district'
+        "#{legislator.house.capitalize} - #{legislator.district}"
       else
-        field[legislator.bioguide_id] = legislator.send column
+        legislator.send column
       end
     end
     field

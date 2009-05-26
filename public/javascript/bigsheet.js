@@ -31,14 +31,13 @@ function init() {
     if (this.value == '')
       this.value = 'By Name';
   }).keyup(function() {
-    filter_column(this.value, 0);
+    filter_column(this.value, 'legislator_name');
   });
   $('select#filter_legislator_state').change(function() {
-    filter_column(this.value, 1);
+    filter_column(this.value, 'legislator_state');
   });
-  $('select#filter_legislator_house').change(function() {      
-    var filters = {house: "\\d+", senate: 'seat', all: ''};
-    filter_column(filters[this.value], 2, true);
+  $('select#filter_legislator_district').change(function() {      
+    filter_column(this.value, 'legislator_district');
   });
   $('button#resetBtn').click(reset_filters);
   
@@ -137,20 +136,6 @@ function remove_column(source, column) {
   update_links();
 }
 
-function filter_column(q, column, regex) {
-  current_filters[column] = q;
-  mainTable.fnFilter(q, column, !regex);
-}
-
-function reset_filters() {
-  for (var column in current_filters) {
-    mainTable.fnFilter('', column);
-    delete current_filters[column];
-  }
-  $('form#filter_form')[0].reset();
-  return false;
-}
-
 function table_url(format) {
   if (format) format = "." + format;
   var query_string = query_string_for(current_columns);
@@ -181,17 +166,42 @@ function column_id(source, column) {
   return source + '_' + column;
 }
 
-function prepare_table() {
-  mainTable = $('#main_table').dataTable({
-    bPaginate: false,
-    bInfo: false,
-    bFilter: false,
-    bProcessing: false,
-    oLanguage: {sZeroRecords: "No matching legislators."},
-    aaSorting: [[1, 'asc'], [2, 'asc']]
+function escape_single_quotes(string) {
+  return string.replace(/\'/g, '\\\'');
+}
+
+function filter_column(q, column) {
+  current_filters[column] = q;
+  filter_table(q, column);
+}
+
+function reset_filters() {
+  for (var column in current_filters) {
+    filter_table('', column);
+    delete current_filters[column];
+  }
+  $('form#filter_form')[0].reset();
+  return false;
+}
+
+/** Functions that deal with the raw table plugins **/
+
+function prepare_table() {  
+  $('#main_table').tablesorter({
+    widgets: ['zebra']
   });
 }
 
+function update_table() {
+  $('#main_table').update();
+}
+
+function filter_table(q, column) {
+  // uiTableFilter expects the column argument to be a class name on the TH tag of that column
+  $.uiTableFilter($('#main_table'), q, column);
+}
+
+/** Reference map **/
 function state_map() {
   return {
     AL: "Alabama",
@@ -248,9 +258,3 @@ function state_map() {
     WY: "Wyoming"
   }
 }
-
-function escape_single_quotes(string) {
-  return string.replace(/\'/g, '\\\'');
-}
-
-// extensions to dataTables
