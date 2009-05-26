@@ -72,7 +72,6 @@
                         <% sort_fields(@data[source].keys, source).each do |column| %>
                           <th title="<%= @data[source][column][:title] %>" class="<%= source %>_<%= column %>">
                             <%= @data[source][column][:header] ? @data[source][column][:header] : column.to_s.titleize %>
-                            <a href="#" class="<%= source %>_<%= column %>">remove</a>
                           </th>
             
                         <% end %>

@@ -113,7 +113,7 @@ function add_column(source, column) {
           $('tr#' + bioguide_id).append('<td class="' + id + '">' + data[bioguide_id] + '</tr>');
       }
     }
-    $('#main_table tr.titles').append("<th class='" + id + "' title='" + escape_single_quotes(data['title']) + "'>" + data['header'] + "<a href='#' class='" + id + "'>remove</a></th>");
+    $('#main_table tr.titles').append("<th class='" + id + "' title='" + escape_single_quotes(data['title']) + "'>" + data['header'] + "<br/><a href='#' class='" + id + "'>remove</a></th>");
     
     $('th.' + id + ' a').click(function() {
       remove_column(source, column);

@@ -115,7 +115,7 @@ div#main_table_wrapper{ margin-bottom: 100px;}
 div#mainContent table#main_table { width: 100%;}
 
 tr.titles {color: #203646; text-transform: uppercase; font-size: 115%;}
-tr.titles a{ text-transform: none; font-size: 80%; display: block; margin-bottom: 10px; margin-top: -5px;}
+tr.titles a{ text-transform: none; font-size: 80%; margin-bottom: 10px; margin-top: -5px;}
 table tr {height: 25px;}
 table tr.odd { background: #f4f4ef;}
 table tr td, table tr th { padding-left: 10px;}
