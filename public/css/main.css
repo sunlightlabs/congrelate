@@ -136,16 +136,6 @@ table tr.selected td {
   border-width: 1px 0;
 }
 
-
-td.delete a{
-    width: 16px;
-    height: 16px;
-    background: url(/images/btn_delete.png) left bottom no-repeat;
-    text-indent: -9999em;
-    display: block;
-    margin-right: 10px;
-}
-
 td.delete{
     padding-left: 10px;
     width: 16px;
@@ -274,11 +264,11 @@ th.headerSortUp {background-image: url(/images/asc.gif);}
 th.headerSortDown {background-image: url(/images/desc.gif);}
 th.header span {float: left;}
 th.header a.remove {
-  background-image: url(/images/btn_delete.png);
+  background-image: url(/images/deleteBtn.png);
   background-repeat: no-repeat; background-position: center center;
-  width: 10px; height: 10px; 
+  width: 10px; height: 10px;
   display: block; float: left;
   margin: 2px; margin-left: 5px;
-  text-indent: -9999em; padding: 3px;
+  text-indent: -9999em; padding: 5px;
 }
-th.header a.remove:hover {background-color: #dbb}
+th.header a.remove:hover {background-image: url(/images/deleteBtn_hover.png)}
