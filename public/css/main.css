@@ -112,7 +112,7 @@ input#filter_field {
   width: 400px;
 }
 div#filter div.download {
-  float: right;
+  float: right; padding-right: 10px;
 }
 div#filter div.download h2 {
   margin: 0; padding: 0; margin-right: 10px;
