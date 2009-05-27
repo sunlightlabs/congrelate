@@ -152,7 +152,7 @@ class Committee < ActiveRecord::Base
   belongs_to :parent_committee, :class_name => 'Committee', :foreign_key => :parent_id
   
   def short_name
-    name.sub /^[\w\s]+ommm?ittee on /, ''
+    name.sub /^[\w\s]+ommm?ittee on (the )?/, ''
   end
 end
 
