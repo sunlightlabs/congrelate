@@ -19,7 +19,7 @@ function init() {
   
   // filter fields
   $('input#filter_field').keyup(function() {
-    filter_table(this.value);
+    filter_table(strip_search(this.value));
   }).focus(function() {
     if (!$(this).hasClass('activated')) {
       $(this).addClass('activated');
@@ -164,6 +164,10 @@ function escape_single_quotes(string) {
 
 function unencode(string) {
   return string.replace('&amp;', '&');
+}
+
+function strip_search(string) {
+  return string.replace(/[\"]/g, '');
 }
 
 /** Functions that deal with the raw table plugins **/
