@@ -31,35 +31,19 @@
               <div id='headerNav'>
                 <div id='filter'>
                   <h2>Filter Legislators</h2>
-                  <form id='filter_form'>
-                    <ul>
-                      <li>
-                        <input class='text' id='filter_legislator_name' maxlength='329' type='text' value='By Name' />
-                      </li>
-                      <li>
-                        <select class='stateDropDown' id='filter_legislator_state' name='filter_legislator_state'>
-                          <option value=''>By State</option>
-                          <option value=''>------</option>
-                        </select>
-                      </li>
-                      <li>
-                        <select class='districtDropDown' id='filter_legislator_district' name='filter_legislator_district'>
-                          <option value=''>View House and Senate</option>
-                          <option value='House'>House Only</option>
-                          <option value='Senate'>Senate Only</option>
-                        </select>
-                      </li>
-                      <li id='spinner' style='display: none; padding-top: 5px; padding-left: 10px;'>
-                        <img src='/images/spinner.gif'/>
-                      </li>
-                      <li class='download'>
-                        <a href="#" id='csv'>CSV</a> |
-                        <a href="#" id='json'>JSON</a>
-                      </li>
-                    </ul>
-                  </form>
-                  <div id="resetTable">
-                    <button id="resetBtn">Reset Table</button>
+                  <ul>
+                    <li>
+                      <input class='text' id='filter_field' maxlength='329' type='text' value='' />
+                    </li>
+                    <li id='spinner' style='display: none; padding-top: 5px; padding-left: 10px;'>
+                      <img src='/images/spinner.gif'/>
+                    </li>
+                  </ul>
+                  
+                  <div class="download">
+                    <h2>Download</h2>
+                    <a href="#" id='csv'>CSV</a> |
+                    <a href="#" id='json'>JSON</a>
                   </div>
                 </div>
               </div>

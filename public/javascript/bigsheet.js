@@ -1,6 +1,5 @@
 var mainTable;
 
-var current_filters = [];
 var current_columns = {
   'legislator[name]': 1,
   'legislator[state]': 1,
@@ -11,12 +10,7 @@ function init() {
 
   prepare_table();
   
-  var states = state_map();
-  var state_elem = $('#filter_legislator_state');
-  for (var state in states)
-    state_elem.append('<option value=\"' + state + '">' + states[state] + '</option>');
-
-  // Add source data links
+    // Add source data links
   $('a.source_form_link').click(function() {
     var source_id = this.id.replace('_form_link', '');
     jQuery.facebox({ajax: '/' + source_id + '/form'});
@@ -24,22 +18,9 @@ function init() {
   });
   
   // filter fields
-  $('input#filter_legislator_name').focus(function() {
-    if (this.value == 'By Name')
-      this.value = '';
-  }).blur(function() {
-    if (this.value == '')
-      this.value = 'By Name';
-  }).keyup(function() {
-    filter_column(this.value, 'legislator_name');
+  $('input#filter_field').keyup(function() {
+    filter_table(this.value);
   });
-  $('select#filter_legislator_state').change(function() {
-    filter_column(this.value, 'legislator_state');
-  });
-  $('select#filter_legislator_district').change(function() {      
-    filter_column(this.value, 'legislator_district');
-  });
-  $('button#resetBtn').click(reset_filters);
   
   // download links
   update_links();
@@ -143,7 +124,7 @@ function table_url(format) {
 }
 
 function update_links() {
-  $('li.download a').each(function(i, a) {
+  $('div.download a').each(function(i, a) {
     a.href = table_url(a.id);
   });
 }
@@ -170,20 +151,6 @@ function escape_single_quotes(string) {
   return string.replace(/\'/g, '\\\'');
 }
 
-function filter_column(q, column) {
-  current_filters[column] = q;
-  filter_table(q, column);
-}
-
-function reset_filters() {
-  for (var column in current_filters) {
-    filter_table('', column);
-    delete current_filters[column];
-  }
-  $('form#filter_form')[0].reset();
-  return false;
-}
-
 /** Functions that deal with the raw table plugins **/
 
 function prepare_table() {  
@@ -199,62 +166,4 @@ function update_table() {
 function filter_table(q, column) {
   // uiTableFilter expects the column argument to be a class name on the TH tag of that column
   $.uiTableFilter($('#main_table'), q, column);
-}
-
-/** Reference map **/
-function state_map() {
-  return {
-    AL: "Alabama",
-    AK: "Alaska",
-    AZ: "Arizona",
-    AR: "Arkansas",
-    CA: "California",
-    CO: "Colorado",
-    CT: "Connecticut",
-    DE: "Delaware",
-    DC: "District of Columbia",
-    FL: "Florida",
-    GA: "Georgia",
-    HI: "Hawaii",
-    ID: "Idaho",
-    IL: "Illinois",
-    IN: "Indiana",
-    IA: "Iowa",
-    KS: "Kansas",
-    KY: "Kentucky",
-    LA: "Louisiana",
-    ME: "Maine",
-    MD: "Maryland",
-    MA: "Massachusetts",
-    MI: "Michigan",
-    MN: "Minnesota",
-    MS: "Mississippi",
-    MO: "Missouri",
-    MT: "Montana",
-    NE: "Nebraska",
-    NV: "Nevada",
-    NH: "New Hampshire",
-    NJ: "New Jersey",
-    NM: "New Mexico",
-    NY: "New York",
-    NC: "North Carolina",
-    ND: "North Dakota",
-    OH: "Ohio",
-    OK: "Oklahoma",
-    OR: "Oregon",
-    PA: "Pennsylvania",
-    PR: "Puerto Rico",
-    RI: "Rhode Island",
-    SC: "South Carolina",
-    SD: "South Dakota",
-    TN: "Tennessee",
-    TX: "Texas",
-    UT: "Utah",
-    VT: "Vermont",
-    VA: "Virginia",
-    WA: "Washington",
-    WV: "West Virginia",
-    WI: "Wisconsin",
-    WY: "Wyoming"
-  }
 }

@@ -69,14 +69,14 @@ h1 a{
     background: url("/images/headerText.png") bottom left no-repeat;
 }
 
-div.container h2{
-    color: #534444;
-    font-weight: bold;
-    font-size: 110%;
-    float: left;
-    margin-right: 20px;
-    margin-top: 2px;
-    padding-left:10px;
+div.container h2 {
+  color: #534444;
+  font-weight: bold;
+  font-size: 110%;
+  float: left;
+  margin-right: 20px;
+  margin-top: 0px;
+  padding-left:10px;
 }
 
 div#filter li {
@@ -108,7 +108,15 @@ div#headerNav{
     padding-top: 12px;
 }
 
-div#filterNav li#All{ border: none;}
+input#filter_field {
+  width: 400px;
+}
+div#filter div.download {
+  float: right;
+}
+div#filter div.download h2 {
+  margin: 0; padding: 0; margin-right: 10px;
+}
 
 div#mainContent { padding: 10px 0;}
 div#main_table_wrapper{ margin-bottom: 100px;}
@@ -143,9 +151,6 @@ td.delete{
     height: 16px;
 }
 
-a#download{ float: right; background: url(/images/docIcon.jpg) left 2px no-repeat; padding-left: 23px;}
-
-
 div#footerWrapper{ background-color: #311d1d; display: block; bottom: 0;  position: fixed; width: 100%;}
 div#footerTab{ /*bottom: 50px; display: block;*/ position: relative; bottom: 42px; width: 120px; background-color: #311d1d; -moz-border-radius-topleft: 3px; -moz-border-radius-topright: 3px; -webkit-border-radius-topright: 3px; -webkit-border-radius-topleft: 3px;}
 
@@ -164,9 +169,6 @@ div.source_form.inline label { margin-left: 15px; display: block;}
 .clear {
   clear: both;
 }
-
-select.stateDropdown {margin-top: 2px;}
-input.party, input.gender {margin-top: 4px;}
 
 button.go_button {
   background: url(/images/btn_go.png) left top no-repeat; 
@@ -197,7 +199,7 @@ button#resetBtn{
   margin-bottom:-4px;
 }
 
-div#district{ margin-left: 20px;}
+div#district {margin-left: 20px;}
 
 div#addBtns li {
   float: left; 
@@ -271,11 +273,11 @@ th.headerSortUp {background-image: url(/images/asc.gif);}
 th.headerSortDown {background-image: url(/images/desc.gif);}
 th.header span {float: left;}
 th.header a.remove {
-  background-image: url(/images/red_x.gif);
+  background-image: url(/images/btn_delete.png);
   background-repeat: no-repeat; background-position: center center;
   width: 10px; height: 10px; 
   display: block; float: left;
   margin: 2px; margin-left: 5px;
   text-indent: -9999em; padding: 3px;
 }
-th.header a.remove:hover {background-color: #ddd}
+th.header a.remove:hover {background-color: #dbb}
