@@ -269,6 +269,6 @@ th.header a.remove {
   width: 10px; height: 10px;
   display: block; float: left;
   margin: 2px; margin-left: 5px;
-  text-indent: -9999em; padding: 5px;
+  text-indent: -9999em; padding: 4px 5px 5px;
 }
 th.header a.remove:hover {background-image: url(/images/deleteBtn_hover.png)}
