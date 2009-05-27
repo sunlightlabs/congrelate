@@ -264,14 +264,11 @@ th.header {
   padding-left: 20px;
   cursor: pointer;
 }
-th.headerSortUp {
-  background-image: url(/images/asc.gif);
+th.header:hover, th.headerSortUp, th.headerSortDown {
   background-color: #ddd;
 }
-th.headerSortDown {
-  background-image: url(/images/desc.gif);
-  background-color: #ddd;
-}
+th.headerSortUp {background-image: url(/images/asc.gif);}
+th.headerSortDown {background-image: url(/images/desc.gif);}
 th.header span {float: left;}
 th.header a.remove {
   background-image: url(/images/red_x.gif);
