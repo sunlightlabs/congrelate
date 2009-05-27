@@ -20,7 +20,12 @@ function init() {
   // filter fields
   $('input#filter_field').keyup(function() {
     filter_table(this.value);
-  });
+  }).focus(function() {
+    if (!$(this).hasClass('activated')) {
+      $(this).addClass('activated');
+      $(this).val('');
+    }
+  });;
   
   // download links
   update_links();

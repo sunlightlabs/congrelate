@@ -109,8 +109,9 @@ div#headerNav{
 }
 
 input#filter_field {
-  width: 400px;
-}
+  width: 400px; color: #aaa;
+} input#filter_field.activated {color: black;}
+
 div#filter div.download {
   float: right; padding-right: 10px;
 }
