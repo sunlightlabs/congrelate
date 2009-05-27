@@ -26,7 +26,9 @@ class Legislator < ActiveRecord::Base
     legislators.each do |legislator|
       field[legislator.bioguide_id] = case column
       when 'committees'
-        legislator.parent_committees.map(&:short_name).join(', ')
+        legislator.parent_committees.map {|committee| 
+          %Q{<a href="#" class="filter">#{committee.short_name}</a>}
+        }.join(', ')
       when 'district'
         "#{legislator.house.capitalize} - #{legislator.district}"
       else
