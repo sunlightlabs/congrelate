@@ -105,6 +105,13 @@ function add_column(source, column) {
       remove_column(source, column);
     });
     
+    $('#main_table a.filter').click(function() {
+      var filter = $('input#filter_field');
+      filter.focus();
+      filter.val(unencode($(this).html()));
+      filter.keyup();
+    });
+    
     spinner_off();
     prepare_table();
     
@@ -141,7 +148,6 @@ function query_string_for(options) {
   return string.join("&");
 }
 
-
 function spinner_on() {$('#spinner').show();}
 function spinner_off() {$('#spinner').hide();}
 
@@ -156,16 +162,16 @@ function escape_single_quotes(string) {
   return string.replace(/\'/g, '\\\'');
 }
 
+function unencode(string) {
+  return string.replace('&amp;', '&');
+}
+
 /** Functions that deal with the raw table plugins **/
 
 function prepare_table() {  
   $('#main_table').tablesorter({
     widgets: ['zebra']
   });
-}
-
-function update_table() {
-  $('#main_table').update();
 }
 
 function filter_table(q, column) {
