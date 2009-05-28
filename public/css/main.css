@@ -114,7 +114,7 @@ div#filterNav li#All{ border: none;}
 
 div#mainContent { padding: 10px 0;}
 div#main_table_wrapper{ margin-bottom: 100px;}
-div#mainContent table#main_table { width: 100%;}
+div#mainContent table#main_table { width: 100%; margin-bottom: 100px;}
 
 tr.titles {color: #203646; text-transform: uppercase; font-size: 115%;}
 tr.titles a{ text-transform: none; font-size: 80%; display: block; margin-bottom: 10px; margin-top: -5px;}
@@ -198,6 +198,7 @@ button#resetBtn{
 div#district{ margin-left: 20px;}
 
 div#addBtns li {float: left; background: url(/images/btn_add.png) left center no-repeat; padding-left: 24px; margin: -35px 30px 15px 20px;}
+div#addBtns li a{ padding-top:3px;}
 div#addBtns ul {width: 100%; display: block; }
 
 
