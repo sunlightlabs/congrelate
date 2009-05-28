@@ -29,7 +29,9 @@ class Contribution < ActiveRecord::Base
     
     if column == 'top_industries'
       legislators.each do |legislator|
-        field[legislator.bioguide_id] = Contribution.cycle(cycle).legislator(legislator.bioguide_id).industries(nil).all(:order => 'amount desc', :limit => 3).map(&:industry).join(', ')
+        field[legislator.bioguide_id] = Contribution.cycle(cycle).legislator(legislator.bioguide_id).industries(nil).all(:order => 'amount desc', :limit => 3).map {|contribution| 
+          %Q{<a href="#" class="filter">#{contribution.industry}</a>}
+        }.join(', ')
       end
     else
       industry = column
@@ -53,9 +55,20 @@ class Contribution < ActiveRecord::Base
     {:industries => Contribution.cycle(Contribution.latest_cycle).industries.all(:order => 'industry asc').map(&:industry)}
   end
   
-  def self.format_amount(amount)
-    "$#{amount}"
+  # taken from http://codesnippets.joyent.com/posts/show/1812
+  def self.format_amount(number, options={})
+    options = {:currency_symbol => "$", :delimiter => ",", :decimal_symbol => ".", :currency_before => true}.merge(options)    
+    
+    int, frac = ("%.2f" % number).split('.')
+    int.gsub!(/(\d)(?=(\d\d\d)+(?!\d))/, "\\1#{options[:delimiter]}")
+    
+    if options[:currency_before]
+      options[:currency_symbol] + int + options[:decimal_symbol] + frac
+    else
+      int + options[:decimal_symbol] + frac + options[:currency_symbol]
+    end
   end
+
   
   def self.update(options = {})
     cycle = options[:cycle] || latest_cycle

@@ -24,10 +24,15 @@ class Legislator < ActiveRecord::Base
   def self.field_for(legislators, column)
     field = {}
     legislators.each do |legislator|
-      if column == 'committees'
-        field[legislator.bioguide_id] = legislator.parent_committees.map(&:short_name).join(', ')
+      field[legislator.bioguide_id] = case column
+      when 'committees'
+        legislator.parent_committees.map {|committee| 
+          %Q{<a href="#" class="filter">#{committee.short_name}</a>}
+        }.join(', ')
+      when 'district'
+        "#{legislator.house.capitalize} - #{legislator.district}"
       else
-        field[legislator.bioguide_id] = legislator.send column
+        legislator.send column
       end
     end
     field
@@ -147,7 +152,7 @@ class Committee < ActiveRecord::Base
   belongs_to :parent_committee, :class_name => 'Committee', :foreign_key => :parent_id
   
   def short_name
-    name.sub /^[\w\s]+ommm?ittee on /, ''
+    name.sub /^[\w\s]+ommm?ittee on (the )?/, ''
   end
 end
 

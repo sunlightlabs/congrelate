@@ -11,8 +11,6 @@ a:visited{outline: none; color: #940a0a}
 a:hover{outline: none; color: #940a0a}
 a:active{outline: none; color: #940a0a}
 
-a.house_selected {text-decoration: none; color: #563f3f; cursor: text;}
-
 strong {font-weight: bold}
 
 body{
@@ -71,14 +69,14 @@ h1 a{
     background: url("/images/headerText.png") bottom left no-repeat;
 }
 
-div.container h2{
-    color: #534444;
-    font-weight: bold;
-    font-size: 110%;
-    float: left;
-    margin-right: 20px;
-    margin-top: 2px;
-    padding-left:10px;
+div.container h2 {
+  color: #534444;
+  font-weight: bold;
+  font-size: 110%;
+  float: left;
+  margin-right: 20px;
+  margin-top: 0px;
+  padding-left:10px;
 }
 
 div#filter li {
@@ -110,29 +108,32 @@ div#headerNav{
     padding-top: 12px;
 }
 
-div#filterNav li#All{ border: none;}
+input#filter_field {
+  width: 400px; color: #aaa;
+} input#filter_field.activated {color: black;}
+
+div#filter div.download {
+  float: right; padding-right: 10px;
+}
+div#filter div.download h2 {
+  margin: 0; padding: 0; margin-right: 10px;
+}
 
 div#mainContent { padding: 10px 0;}
 div#main_table_wrapper{ margin-bottom: 100px;}
 div#mainContent table#main_table { width: 100%; margin-bottom: 100px;}
 
 tr.titles {color: #203646; text-transform: uppercase; font-size: 115%;}
-tr.titles a{ text-transform: none; font-size: 80%; display: block; margin-bottom: 10px; margin-top: -5px;}
+tr.titles a{ text-transform: none; font-size: 80%;}
 table tr {height: 25px;}
 table tr.odd { background: #f4f4ef;}
 table tr td, table tr th { padding-left: 10px;}
 tfoot tr td { padding-top: 2px;}
 
-/*table tr th{ background: url(/images/btn_sort.jpg) left top no-repeat;}*/
-
-
-td.delete a{
-    width: 16px;
-    height: 16px;
-    background: url(/images/btn_delete.png) left bottom no-repeat;
-    text-indent: -9999em;
-    display: block;
-    margin-right: 10px;
+table tr.selected td {
+  background-color: #ddd; 
+  border: 1px solid #bbb; 
+  border-width: 1px 0;
 }
 
 td.delete{
@@ -141,17 +142,14 @@ td.delete{
     height: 16px;
 }
 
-a#download{ float: right; background: url(/images/docIcon.jpg) left 2px no-repeat; padding-left: 23px;}
-
-div#footerMain{ bottom: 0; display: block; position: fixed; width: 100%;}
 div#footerWrapper{ background-color: #311d1d; display: block; bottom: 0;  position: fixed; width: 100%;}
 div#footerTab{ /*bottom: 50px; display: block;*/ position: relative; bottom: 42px; width: 120px; background-color: #311d1d; -moz-border-radius-topleft: 3px; -moz-border-radius-topright: 3px; -webkit-border-radius-topright: 3px; -webkit-border-radius-topleft: 3px;}
 
-div#footer {
+div#footerMain {
   color: #c4beb5;
   margin: 15px 70px 0;
 }
-div#footer a{ color: #fff;}
+div#footerMain a { color: #fff;}
 div#footerTab h2 { font-size: 140%; color: #fff; margin-bottom: 10px; padding:5px 0 0 23px;}
 
 div.source_form.inline {display: none; clear: left; }
@@ -159,12 +157,9 @@ div.source_form.inline li {width: 135px; float: left; height: 35px; line-height:
 div.source_form.inline input { float: left; }
 div.source_form.inline label { margin-left: 15px; display: block;}
 
-.clear{
+.clear {
   clear: both;
 }
-
-select.stateDropdown {margin-top: 2px;}
-input.party, input.gender {margin-top: 4px;}
 
 button.go_button {
   background: url(/images/btn_go.png) left top no-repeat; 
@@ -195,22 +190,27 @@ button#resetBtn{
   margin-bottom:-4px;
 }
 
-div#district{ margin-left: 20px;}
+div#district {margin-left: 20px;}
 
-div#addBtns li {float: left; background: url(/images/btn_add.png) left center no-repeat; padding-left: 24px; margin: -35px 30px 15px 20px;}
-div#addBtns li a{ padding-top:3px;}
-div#addBtns ul {width: 100%; display: block; }
+div#addBtns li {
+  float: left; 
+   margin: -35px 30px 15px 20px;
+}
+div#addBtns li a {
+  padding-left: 24px; background: url(/images/btn_add.png) left center no-repeat; padding-top:3px;
+}
+div#addBtns ul {width: 100%; display: block;}
 
 
-div.source_form.inline h6 {clear: both}
-
-div.source_form.popup {text-align: left;}
-div.source_form.popup h2 {font-size: 130%; margin: 10px 20px 20px 0; font-weight: bold;}
-div.source_form.popup h3 {float: left; margin-right: 15px; font-size: 115%; margin-top: 3px;}
+div.source_form {text-align: left;}
+div.source_form h2 {font-size: 130%; margin: 10px 20px 20px 0; font-weight: bold;}
+div.source_form h3 {float: left; margin-right: 15px; font-size: 115%; margin-top: 3px;}
+div.source_form h6 {float: left}
+div.source_form button.add_button {float: right}
 
 h3 {font-weight: bold;}
 
-div.search_field input#name, div#filter input, input#search_name_field_roll_call {
+div.search_field input#name, div#filter input, input.search {
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border: solid 1px #978f8f;
@@ -218,27 +218,57 @@ div.search_field input#name, div#filter input, input#search_name_field_roll_call
   padding: 2px 4px;
 }
 
-input#search_name_field_roll_call{
+input.search {
     float: left;
     margin-top: 3px;
     padding: 1px 4px 2px;
     margin-right: 5px;
 }
 
-form#search_name_form_roll_call h3{ margin-top: 4px;}
+div.search_field h3{ margin-top: 4px;}
 
 div.search_table {clear: left; border-top: 1px solid #C4BDBD; border-bottom: 1px solid #C4BDBD; padding-top: 10px; margin-top:10px; padding-bottom: 10px; margin-bottom:10px;}
 div.search_table table {width: 100%;}
-div.search_field form {margin-bottom: 20px; }
+div.search_field form {margin-bottom: 20px;}
+div.scrollable {max-height: 350px; overflow: auto;}
 
-div#search_name_table_roll_call input{ margin: 0 0 0 10px;}
-div#search_name_table_roll_call td{ margin-right: 15px; line-height: 15px; } 
+div.search_table input {margin: 0 0 0 10px;}
+div.search_table td {margin-right: 15px; line-height: 15px; padding: 8px 10px 8px;}
 
-#facebox div#search_name_table_roll_call td {padding: 8px 10px 8px;}
-
-div.search_table button, button#search_name_add_contribution, button#search_name_add2_contribution {margin-left: 86%;}
-
+#facebox table {
+  border-collapse: collapse;
+}
+#facebox .footer {
+  padding-top: 5px;
+  margin-top: 10px;
+  text-align: right;
+  clear: both
+}
 
 div#pageNav { margin: 0 auto; width: 100px;}
 div.prev_button {float: left;}
 div.next_button {text-align: right;}
+
+/* Table CSS */
+th.header {
+  background-image: url(/images/bg.gif);
+  background-repeat: no-repeat;
+  background-position: center left;
+  padding-left: 20px;
+  cursor: pointer;
+}
+th.header:hover, th.headerSortUp, th.headerSortDown {
+  background-color: #ddd;
+}
+th.headerSortUp {background-image: url(/images/asc.gif);}
+th.headerSortDown {background-image: url(/images/desc.gif);}
+th.header span {float: left;}
+th.header a.remove {
+  background-image: url(/images/deleteBtn.png);
+  background-repeat: no-repeat; background-position: center center;
+  width: 10px; height: 10px;
+  display: block; float: left;
+  margin: 2px; margin-left: 5px;
+  text-indent: -9999em; padding: 4px 5px 5px;
+}
+th.header a.remove:hover {background-image: url(/images/deleteBtn_hover.png)}

@@ -1,6 +1,5 @@
 var mainTable;
 
-var current_filters = [];
 var current_columns = {
   'legislator[name]': 1,
   'legislator[state]': 1,
@@ -11,12 +10,7 @@ function init() {
 
   prepare_table();
   
-  var states = state_map();
-  var state_elem = $('#filter_legislator_state');
-  for (var state in states)
-    state_elem.append('<option value=\"' + state + '">' + states[state] + '</option>');
-
-  // Add source data links
+    // Add source data links
   $('a.source_form_link').click(function() {
     var source_id = this.id.replace('_form_link', '');
     jQuery.facebox({ajax: '/' + source_id + '/form'});
@@ -24,23 +18,14 @@ function init() {
   });
   
   // filter fields
-  $('input#filter_legislator_name').focus(function() {
-    if (this.value == 'By Name')
-      this.value = '';
-  }).blur(function() {
-    if (this.value == '')
-      this.value = 'By Name';
-  }).keyup(function() {
-    filter_column(this.value, 0);
-  });
-  $('select#filter_legislator_state').change(function() {
-    filter_column(this.value, 1);
-  });
-  $('select#filter_legislator_house').change(function() {      
-    var filters = {house: "\\d+", senate: 'seat', all: ''};
-    filter_column(filters[this.value], 2, true);
-  });
-  $('button#resetBtn').click(reset_filters);
+  $('input#filter_field').keyup(function() {
+    filter_table(strip_search(this.value));
+  }).focus(function() {
+    if (!$(this).hasClass('activated')) {
+      $(this).addClass('activated');
+      $(this).val('');
+    }
+  });;
   
   // download links
   update_links();
@@ -82,7 +67,7 @@ function search_table(source, q, page) {
   popup_spinner_on();
   $.ajax({
     success: function(data) {
-      $('#search_name_table_' + source).html(data);
+      $(popup_elem + ' .search_table_inner').html(data);
       $(popup_elem + ' tr.search_result td:not(td.' + source + '_box)').click(function() {    
         $(this).parent('tr').find('input:checkbox').click();
       });
@@ -114,10 +99,17 @@ function add_column(source, column) {
           $('tr#' + bioguide_id).append('<td class="' + id + '">' + data[bioguide_id] + '</tr>');
       }
     }
-    $('#main_table tr.titles').append("<th class='" + id + "' title='" + escape_single_quotes(data['title']) + "'>" + data['header'] + "<a href='#' class='" + id + "'>remove</a></th>");
+    $('#main_table tr.titles').append("<th class='" + id + "' title='" + escape_single_quotes(data['title']) + "'><span>" + data['header'] + "</span><a href='#' title='Remove Column' class='remove " + id + "'></a></th>");
     
-    $('th.' + id + ' a').click(function() {
+    $('th.' + id + ' a.remove').click(function() {
       remove_column(source, column);
+    });
+    
+    $('#main_table a.filter').click(function() {
+      var filter = $('input#filter_field');
+      filter.focus();
+      filter.val(unencode($(this).html()));
+      filter.keyup();
     });
     
     spinner_off();
@@ -137,20 +129,6 @@ function remove_column(source, column) {
   update_links();
 }
 
-function filter_column(q, column, regex) {
-  current_filters[column] = q;
-  mainTable.fnFilter(q, column, !regex);
-}
-
-function reset_filters() {
-  for (var column in current_filters) {
-    mainTable.fnFilter('', column);
-    delete current_filters[column];
-  }
-  $('form#filter_form')[0].reset();
-  return false;
-}
-
 function table_url(format) {
   if (format) format = "." + format;
   var query_string = query_string_for(current_columns);
@@ -158,7 +136,7 @@ function table_url(format) {
 }
 
 function update_links() {
-  $('li.download a').each(function(i, a) {
+  $('div.download a').each(function(i, a) {
     a.href = table_url(a.id);
   });
 }
@@ -170,7 +148,6 @@ function query_string_for(options) {
   return string.join("&");
 }
 
-
 function spinner_on() {$('#spinner').show();}
 function spinner_off() {$('#spinner').hide();}
 
@@ -181,76 +158,27 @@ function column_id(source, column) {
   return source + '_' + column;
 }
 
-function prepare_table() {
-  mainTable = $('#main_table').dataTable({
-    bPaginate: false,
-    bInfo: false,
-    bFilter: false,
-    bProcessing: false,
-    oLanguage: {sZeroRecords: "No matching legislators."},
-    aaSorting: [[1, 'asc'], [2, 'asc']]
-  });
-}
-
-function state_map() {
-  return {
-    AL: "Alabama",
-    AK: "Alaska",
-    AZ: "Arizona",
-    AR: "Arkansas",
-    CA: "California",
-    CO: "Colorado",
-    CT: "Connecticut",
-    DE: "Delaware",
-    DC: "District of Columbia",
-    FL: "Florida",
-    GA: "Georgia",
-    HI: "Hawaii",
-    ID: "Idaho",
-    IL: "Illinois",
-    IN: "Indiana",
-    IA: "Iowa",
-    KS: "Kansas",
-    KY: "Kentucky",
-    LA: "Louisiana",
-    ME: "Maine",
-    MD: "Maryland",
-    MA: "Massachusetts",
-    MI: "Michigan",
-    MN: "Minnesota",
-    MS: "Mississippi",
-    MO: "Missouri",
-    MT: "Montana",
-    NE: "Nebraska",
-    NV: "Nevada",
-    NH: "New Hampshire",
-    NJ: "New Jersey",
-    NM: "New Mexico",
-    NY: "New York",
-    NC: "North Carolina",
-    ND: "North Dakota",
-    OH: "Ohio",
-    OK: "Oklahoma",
-    OR: "Oregon",
-    PA: "Pennsylvania",
-    PR: "Puerto Rico",
-    RI: "Rhode Island",
-    SC: "South Carolina",
-    SD: "South Dakota",
-    TN: "Tennessee",
-    TX: "Texas",
-    UT: "Utah",
-    VT: "Vermont",
-    VA: "Virginia",
-    WA: "Washington",
-    WV: "West Virginia",
-    WI: "Wisconsin",
-    WY: "Wyoming"
-  }
-}
-
 function escape_single_quotes(string) {
   return string.replace(/\'/g, '\\\'');
 }
 
-// extensions to dataTables
+function unencode(string) {
+  return string.replace('&amp;', '&');
+}
+
+function strip_search(string) {
+  return string.replace(/[\"]/g, '');
+}
+
+/** Functions that deal with the raw table plugins **/
+
+function prepare_table() {  
+  $('#main_table').tablesorter({
+    widgets: ['zebra']
+  });
+}
+
+function filter_table(q, column) {
+  // uiTableFilter expects the column argument to be a class name on the TH tag of that column
+  $.uiTableFilter($('#main_table'), q, column);
+}
