@@ -26,9 +26,9 @@ function init() {
     if (last_filter != filter) {
       this.zid = setTimeout(function() {
         filter_table(strip_search(filter));
-      }, 300);
+      }, 500);
       last_filter = filter;
-    }    
+    }
   }).focus(function() {
     if (!$(this).hasClass('activated')) {
       $(this).addClass('activated');
@@ -108,7 +108,15 @@ function add_column(source, column) {
           $('tr#' + bioguide_id).append('<td class="' + id + '">' + data[bioguide_id] + '</tr>');
       }
     }
-    $('#main_table tr.titles').append("<th class='" + id + "' title='" + escape_single_quotes(data['title']) + "'><span>" + data['header'] + "</span><a href='#' title='Remove Column' class='remove " + id + "'></a></th>");
+    
+    var sort_class = data['type'] ? " {sorter: '" + data['type'] + "'}" : "";
+    
+    $('#main_table tr.titles').append(
+      "<th class=\"" + id + sort_class + "\" title=\"" + escape_single_quotes(data['title']) + "\">" + 
+      "<span>" + data['header'] + "</span>" + 
+      "<a href=\"#\" title=\"Remove Column\" class=\"remove " + id + "\"></a>" + 
+      "</th>"
+    );
     
     $('th.' + id + ' a.remove').click(function() {
       remove_column(source, column);

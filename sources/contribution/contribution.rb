@@ -46,6 +46,7 @@ class Contribution < ActiveRecord::Base
       
       field[:header] = "#{industry} (#{cycle})"
       field[:title] = "Contributions by #{industry} to this candidate in the #{cycle} election cycle."
+      field[:type] = "currency" # force table sorting as currency
     end
     
     field
