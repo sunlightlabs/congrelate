@@ -6,6 +6,8 @@ var current_columns = {
   'legislator[district]': 1
 };
 
+var last_filter = "";
+
 function init() {
 
   prepare_table();
@@ -19,7 +21,14 @@ function init() {
   
   // filter fields
   $('input#filter_field').keyup(function() {
-    filter_table(strip_search(this.value));
+    if (this.zid) clearTimeout(this.zid);
+    var filter = this.value;
+    if (last_filter != filter) {
+      this.zid = setTimeout(function() {
+        filter_table(strip_search(filter));
+      }, 300);
+      last_filter = filter;
+    }    
   }).focus(function() {
     if (!$(this).hasClass('activated')) {
       $(this).addClass('activated');
