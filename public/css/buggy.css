@@ -1,0 +1,30 @@
+div.container {  background: none; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="/images/ltSide_2.png", sizingMethod="crop"); }
+h1 a {  background: none; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="/images/headerText.png", sizingMethod="crop"); }
+
+div.container2{  background: url("/images/rtSide_2_8.png") right top no-repeat; }
+div.container3{  background: url("/images/middle_2_8.png") top left repeat-x; }
+
+button.go_button {  background: none; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="/images/btn_go.png", sizingMethod="crop"); }
+button.add_button {  background: none; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="/images/btn_addChart.png", sizingMethod="crop"); }
+
+th.header a.remove:hover {  background: none; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="/images/deleteBtn_hover.png", sizingMethod="crop"); }
+th.header a.remove {  background: none; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="/images/deleteBtn.png", sizingMethod="crop"); }
+
+div#addBtns li a {  background: none; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="/images/btn_add.png", sizingMethod="crop"); }
+
+div#addBtns li a { background: url("/images/btn_add_8.png") left center no-repeat; }
+
+
+div#footerWrapper{ 
+	background-color: #311d1d; 
+	bottom: auto; 
+	width: 100%; 
+	position: absolute;
+	top: expression( ( 0 - footerWrapper.offsetHeight + ( document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight ) + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop ) ) + 'px' );
+}
+
+div#addBtns li{ 
+    margin-top: 0;
+    position: relative;
+    top: -35px;
+}

@@ -122,8 +122,7 @@ div#filter h2 {
 }
 
 div#mainContent { padding: 10px 0;}
-div#main_table_wrapper{ margin-bottom: 100px;}
-div#mainContent table#main_table { width: 100%;}
+div#mainContent table#main_table { width: 100%; margin-bottom: 100px;}
 
 tr.titles {color: #203646; text-transform: uppercase; font-size: 115%;}
 tr.titles a{ text-transform: none; font-size: 80%;}
@@ -199,7 +198,7 @@ div#addBtns li {
    margin: -35px 30px 15px 20px;
 }
 div#addBtns li a {
-  padding-left: 24px; background: url(/images/btn_add.png) left center no-repeat; 
+  padding-left: 24px; background: url(/images/btn_add.png) left center no-repeat; padding-top:3px;
 }
 div#addBtns ul {width: 100%; display: block;}
 
