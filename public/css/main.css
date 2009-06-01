@@ -112,10 +112,12 @@ input#filter_field {
   width: 400px; color: #aaa;
 } input#filter_field.activated {color: black;}
 
+div#filter div.permalink {float: right;}
+
 div#filter div.download {
-  float: right; padding-right: 10px;
+  float: right; padding-left: 30px; padding-right: 10px;
 }
-div#filter div.download h2 {
+div#filter h2 {
   margin: 0; padding: 0; margin-right: 10px;
 }
 

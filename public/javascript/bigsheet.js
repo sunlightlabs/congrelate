@@ -129,16 +129,16 @@ function remove_column(source, column) {
   update_links();
 }
 
+function update_links() {
+  $('div.download a, div.permalink a').each(function(i, a) {
+    a.href = table_url(a.id);
+  });
+}
+
 function table_url(format) {
   if (format) format = "." + format;
   var query_string = query_string_for(current_columns);
   return "/table" + format + "?" + query_string;
-}
-
-function update_links() {
-  $('div.download a').each(function(i, a) {
-    a.href = table_url(a.id);
-  });
 }
 
 function query_string_for(options) {

@@ -36,8 +36,7 @@ get /\/table(?:\.([\w]+))?/ do
     response['Content-Type'] = 'text/json'
     to_json @data, @legislators
   else
-    status 404
-    'Unsupported format.'
+    erb :index
   end
 end
 
