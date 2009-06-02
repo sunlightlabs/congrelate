@@ -30,7 +30,7 @@ class Contribution < ActiveRecord::Base
     if column == 'top_industries'
       legislators.each do |legislator|
         field[legislator.bioguide_id] = Contribution.cycle(cycle).legislator(legislator.bioguide_id).industries(nil).all(:order => 'amount desc', :limit => 3).map {|contribution| 
-          %Q{<a href="#" class="filter">#{contribution.industry}</a>}
+          %Q{<a href="#" class="filter" title="Filter by #{contribution.industry}">#{contribution.industry}</a>}
         }.join(', ')
       end
     else

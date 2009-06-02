@@ -115,9 +115,8 @@ helpers do
     array
   end
   
+  
   # little helpers
-  
-  
   
   def short_date(time)
     time.strftime '%m/%d/%y'
