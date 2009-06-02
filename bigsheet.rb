@@ -149,7 +149,7 @@ helpers do
   
   def field_checkbox(source, column, options = {})
     id = "#{source}_#{phrase_id column}"
-    title = options[:title] || column.to_s.titleize
+    title = options[:title] || column.to_s.titleize.gsub('&Amp;', '&amp;')
     <<-EOFC
     <div class="field_checkbox">
       <input id="#{id}" name="#{source}[#{column}]" type="checkbox" value="1" />
