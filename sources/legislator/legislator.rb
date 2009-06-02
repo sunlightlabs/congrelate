@@ -29,6 +29,10 @@ class Legislator < ActiveRecord::Base
         legislator.parent_committees.map {|committee| 
           %Q{<a href="#" class="filter" title="Filter by #{committee.name}">#{committee.short_name}</a>}
         }.join(', ')
+      when 'subcommittees'
+        legislator.subcommittees.map {|committee| 
+          %Q{<a href="#" class="filter" title="Filter by #{committee.name}">#{committee.short_name}</a>}
+        }.join(', ')
       when 'district'
         "#{legislator.house.capitalize} - #{legislator.district}"
       else
