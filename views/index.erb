@@ -64,6 +64,7 @@
                             <span>
                               <%= @data[source][column][:header] ? @data[source][column][:header] : column.to_s.titleize %>
                             </span>
+                            <a href="#" title="Remove Column" class="remove <%= source %>_<%= column %>"></a>
                           </th>
                         <% end %>
                       <% end %>
