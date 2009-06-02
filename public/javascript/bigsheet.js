@@ -23,18 +23,18 @@ function init() {
   $('input#filter_field').keyup(function() {
     if (this.zid) clearTimeout(this.zid);
     var filter = this.value;
-    if (current_filter != filter) {
-      this.zid = setTimeout(function() {
-        filter_table(strip_search(filter));
-        if ($('#main_table tr.legislator:visible').size() == 0) {
-          $('div.no_results').show();
-        } else {
-          $('div.no_results').hide();
-        }
-      }, 500);
-      current_filter = filter;
-      update_links();
-    }
+    
+    this.zid = setTimeout(function() {
+      filter_table(strip_search(filter));
+      if ($('#main_table tr.legislator:visible').size() == 0) {
+        $('div.no_results').show();
+      } else {
+        $('div.no_results').hide();
+      }
+    }, 500);
+    current_filter = filter;
+    update_links();
+    
   }).focus(function() {
     if (!$(this).hasClass('activated')) {
       $(this).addClass('activated');
@@ -214,9 +214,6 @@ function strip_search(string) {
 function prepare_table() {  
   $('#main_table').tablesorter({
     widgets: ['zebra']
-  });
-  $('#main_table').bind('sortEnd', function() {
-    
   });
 }
 
