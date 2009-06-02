@@ -131,16 +131,18 @@ table tr.odd { background: #f4f4ef;}
 table tr td, table tr th { padding-left: 10px;}
 tfoot tr td { padding-top: 2px;}
 
-table tr.selected td {
+div.source_form table tr {cursor: pointer;}
+div.source_form table tr.selected td,
+div.source_form table tr:hover td {
   background-color: #ddd; 
-  border: 1px solid #bbb; 
+  border: 1px solid #999;
   border-width: 1px 0;
 }
 
-td.delete{
-    padding-left: 10px;
-    width: 16px;
-    height: 16px;
+td.delete {
+  padding-left: 10px;
+  width: 16px;
+  height: 16px;
 }
 
 div.no_results {width: 700px; margin: 0 auto;}
