@@ -6,7 +6,7 @@ var current_columns = {
   'legislator[district]': 1
 };
 
-var last_filter = "";
+var current_filter = "";
 
 function init() {
 
@@ -23,18 +23,21 @@ function init() {
   $('input#filter_field').keyup(function() {
     if (this.zid) clearTimeout(this.zid);
     var filter = this.value;
-    if (last_filter != filter) {
+    if (current_filter != filter) {
       this.zid = setTimeout(function() {
         filter_table(strip_search(filter));
       }, 500);
-      last_filter = filter;
+      current_filter = filter;
+      update_links();
     }
   }).focus(function() {
     if (!$(this).hasClass('activated')) {
       $(this).addClass('activated');
       $(this).val('');
     }
-  });;
+  });
+  if ($('input#filter_field').hasClass('activated'))
+    $('input#filter_field').keyup();
   
   // download links
   update_links();
@@ -153,9 +156,16 @@ function update_links() {
 }
 
 function table_url(format) {
-  if (format) format = "." + format;
+  if (format) 
+    format = "." + format;
+  else
+    format = "";
+    
   var query_string = query_string_for(current_columns);
-  return "/table" + format + "?" + query_string;
+  var url = "/table" + format + "?";
+  if (current_filter)
+    url += "filter=" + current_filter + "&";
+  return url + query_string;
 }
 
 function query_string_for(options) {
