@@ -140,6 +140,8 @@ function add_column(source, column) {
     
     current_columns[source + "[" + column + "]"] = 1;
     update_links();
+    
+    $('input#filter_field').focus();
   });
 }
 
