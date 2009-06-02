@@ -143,6 +143,8 @@ td.delete{
     height: 16px;
 }
 
+div.no_results {width: 700px; margin: 0 auto;}
+
 div#footerWrapper{ background-color: #311d1d; display: block; bottom: 0;  position: fixed; width: 100%;}
 div#footerTab{ /*bottom: 50px; display: block;*/ position: relative; bottom: 42px; width: 120px; background-color: #311d1d; -moz-border-radius-topleft: 3px; -moz-border-radius-topright: 3px; -webkit-border-radius-topright: 3px; -webkit-border-radius-topleft: 3px;}
 

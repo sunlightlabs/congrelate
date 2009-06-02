@@ -72,7 +72,7 @@
                   </thead>
                   <tbody>
                     <% @legislators.each do |legislator| %>
-                      <tr id="<%= legislator.bioguide_id %>">
+                      <tr id="<%= legislator.bioguide_id %>" class="legislator">
                         <% sort_by_ref(@data.keys, source_keys).each do |source| %>
                           <% sort_fields(@data[source].keys, source).each do |column| %>
                             <td class="<%= source %>_<%= column %>">
@@ -84,6 +84,9 @@
                     <% end %>
                   </tbody>
                 </table>
+                <div class="no_results" style="display: none">
+                  Your search doesn't match any rows. Try searching by a state (e.g. <a href="#" class="filter">ny</a>, <a href="#" class="filter">pa</a>), legislator name (e.g. <a href="#" class="filter">kennedy</a>, <a href="#" class="filter">boehner</a>), or words in any of the other columns in the table.
+                </div>
               </div>
             </div>
           </div>
