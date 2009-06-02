@@ -166,4 +166,8 @@ helpers do
     string.to_s.gsub(' ','').underscore
   end
   
+  def ordinal(number)
+    number.ordinalize.gsub number.to_s, ''
+  end
+  
 end
