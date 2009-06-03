@@ -48,8 +48,12 @@
 #facebox .tl, #facebox tr, #facebox .bl, #facebox .br {
   height: 10px;
   width: 10px;
-  overflow: hidden;
+  //overflow: hidden;
   padding: 0;
+}
+
+#facebox tr{ 
+    overflow: auto;
 }
 
 #facebox_overlay {
