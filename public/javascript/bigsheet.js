@@ -215,7 +215,10 @@ function strip_search(string) {
 
 /** Functions that deal with the raw table plugins **/
 
-function prepare_table() {  
+function prepare_table() {
+  // clear onclick events on table headers, so they don't layer on each other
+  $('#main_table th').unbind();
+  
   $('#main_table').tablesorter({
     widgets: ['zebra']
   });
