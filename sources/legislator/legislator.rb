@@ -17,7 +17,7 @@ class Legislator < ActiveRecord::Base
   }
   
   def self.sort(fields)
-    cols = ['name', 'state', 'district', 'gender', 'party']
+    cols = ['name', 'state', 'district', 'gender', 'party', 'committees', 'subcommittees']
     fields.sort {|a, b| cols.index(a) <=> cols.index(b)}
   end
   
@@ -27,7 +27,11 @@ class Legislator < ActiveRecord::Base
       field[legislator.bioguide_id] = case column
       when 'committees'
         legislator.parent_committees.map {|committee| 
-          %Q{<a href="#" class="filter">#{committee.short_name}</a>}
+          %Q{<a href="#" class="filter" title="Filter by #{committee.name}">#{committee.short_name}</a>}
+        }.join(', ')
+      when 'subcommittees'
+        legislator.subcommittees.map {|committee| 
+          %Q{<a href="#" class="filter" title="Filter by #{committee.name}">#{committee.short_name}</a>}
         }.join(', ')
       when 'district'
         "#{legislator.house.capitalize} - #{legislator.district}"

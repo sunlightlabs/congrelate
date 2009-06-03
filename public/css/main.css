@@ -112,10 +112,12 @@ input#filter_field {
   width: 400px; color: #aaa;
 } input#filter_field.activated {color: black;}
 
+div#filter div.permalink {float: right;}
+
 div#filter div.download {
-  float: right; padding-right: 10px;
+  float: right; padding-left: 30px; padding-right: 10px;
 }
-div#filter div.download h2 {
+div#filter h2 {
   margin: 0; padding: 0; margin-right: 10px;
 }
 
@@ -129,17 +131,28 @@ table tr.odd { background: #f4f4ef;}
 table tr td, table tr th { padding-left: 10px;}
 tfoot tr td { padding-top: 2px;}
 
-table tr.selected td {
+div.source_form table.list tr {cursor: pointer;}
+div.source_form table.list tr.selected td,
+div.source_form table.list tr:hover td {
   background-color: #ddd; 
-  border: 1px solid #bbb; 
+  border: 1px solid #999;
   border-width: 1px 0;
 }
 
-td.delete{
-    padding-left: 10px;
-    width: 16px;
-    height: 16px;
+div.source_form table.grid td {padding: 10px; border: 1px solid #bbb; border-width: 1px 0;}
+div.source_form label {cursor: pointer;}
+div.source_form table.grid td.selected {
+  background-color: #ddd;
+  border: 1px solid #999;
 }
+
+td.delete {
+  padding-left: 10px;
+  width: 16px;
+  height: 16px;
+}
+
+div.no_results {width: 700px; margin: 0 auto;}
 
 div#footerWrapper{ background-color: #311d1d; display: block; bottom: 0;  position: fixed; width: 100%;}
 div#footerTab{ /*bottom: 50px; display: block;*/ position: relative; bottom: 42px; width: 120px; background-color: #311d1d; -moz-border-radius-topleft: 3px; -moz-border-radius-topright: 3px; -webkit-border-radius-topright: 3px; -webkit-border-radius-topleft: 3px;}
@@ -202,10 +215,12 @@ div#addBtns ul {width: 100%; display: block;}
 
 
 div.source_form {text-align: left;}
-div.source_form h2 {font-size: 130%; margin: 10px 20px 20px 0; font-weight: bold;}
+div.source_form h2 {font-size: 130%; margin: 10px 20px 5px 0; font-weight: bold;}
 div.source_form h3 {float: left; margin-right: 15px; font-size: 115%; margin-top: 3px;}
 div.source_form h6 {float: left}
 div.source_form button.add_button {float: right}
+div.source_form div.recency {margin-bottom: 10px;}
+div.source_form div.popup_footer {margin-top: 10px;}
 
 h3 {font-weight: bold;}
 

@@ -15,6 +15,7 @@ class District < ActiveRecord::Base
         field[legislator.bioguide_id] = district.send(column)
       end
     end
+    field[:type] = "digit"
     field
   end
   

@@ -6,6 +6,8 @@ var current_columns = {
   'legislator[district]': 1
 };
 
+var current_filter = "";
+
 function init() {
 
   prepare_table();
@@ -19,21 +21,40 @@ function init() {
   
   // filter fields
   $('input#filter_field').keyup(function() {
-    filter_table(strip_search(this.value));
+    if (this.zid) clearTimeout(this.zid);
+    var filter = this.value;
+    
+    this.zid = setTimeout(function() {
+      filter_table(strip_search(filter));
+      if ($('#main_table tr.legislator:visible').size() == 0) {
+        $('div.no_results').show();
+      } else {
+        $('div.no_results').hide();
+      }
+    }, 500);
+    current_filter = filter;
+    update_links();
+    
   }).focus(function() {
     if (!$(this).hasClass('activated')) {
       $(this).addClass('activated');
       $(this).val('');
     }
-  });;
+  });
+  if ($('input#filter_field').hasClass('activated'))
+    $('input#filter_field').keyup();
   
   // download links
   update_links();
   
+  // filter links
+  filter_links();
+  
   // table functions
-  $('tr.titles th a').click(function() {
-    var values = this.className.split('_');
-    remove_column(values[0], values[1]);
+  $('tr.titles th a.remove').click(function() {
+    var source = $(this).siblings('input.source').val();
+    var column = $(this).siblings('input.column').val();
+    remove_column(source, column);
   });
   
   $(document).bind('reveal.facebox', function() {
@@ -49,13 +70,15 @@ function init_source_form(source) {
   });
   $(popup_elem + ' div.search_field input.search').focus(function() {this.value = '';})
   
+  // for popups with a grid of checkboxes
+  $(popup_elem + ' table.grid td input:checkbox').click(function() {
+    $(this).parents('table.grid td').toggleClass('selected');
+  });
   // For all popups - collecting the checked columns
   $(popup_elem + ' button.add_button').click(function() {
-    popup_spinner_on();
     $(popup_elem + ' input:checked').each(function(i, box) {
       add_column(source, $(this).siblings('input:hidden').val());
     });
-    popup_spinner_off();
     $(document).trigger('close.facebox');
   });
 
@@ -68,14 +91,11 @@ function search_table(source, q, page) {
   $.ajax({
     success: function(data) {
       $(popup_elem + ' .search_table_inner').html(data);
-      $(popup_elem + ' tr.search_result td:not(td.' + source + '_box)').click(function() {    
+      $(popup_elem + ' table.list tr.search_result td:not(td.' + source + '_box)').click(function() {    
         $(this).parent('tr').find('input:checkbox').click();
       });
-      $(popup_elem + ' tr.search_result td.' + source + '_box input').click(function() {
+      $(popup_elem + ' table.list tr.search_result td.' + source + '_box input').click(function() {
         $(this).parent('td').parent('tr').toggleClass('selected');
-      });
-      $(popup_elem + ' div.page_button a').click(function() {
-        return search_table(source, $('#roll_call_query').val(), $(this).siblings('input:hidden').val());
       });
       popup_spinner_off();
     },
@@ -99,24 +119,31 @@ function add_column(source, column) {
           $('tr#' + bioguide_id).append('<td class="' + id + '">' + data[bioguide_id] + '</tr>');
       }
     }
-    $('#main_table tr.titles').append("<th class='" + id + "' title='" + escape_single_quotes(data['title']) + "'><span>" + data['header'] + "</span><a href='#' title='Remove Column' class='remove " + id + "'></a></th>");
+    
+    var sort_class = data['type'] ? " {sorter: '" + data['type'] + "'}" : "";
+    
+    $('#main_table tr.titles').append(
+      "<th class=\"" + id + sort_class + "\" title=\"" + escape_single_quotes(data['title']) + "\">" + 
+      "<span>" + data['header'] + "</span>" + 
+      "<a href=\"#\" title=\"Remove Column\" class=\"remove\"></a>" + 
+      "<input type=\"hidden\" class=\"source\" value=\"" + source + "\" />" + 
+      "<input type=\"hidden\" class=\"column\" value=\"" + column + "\" />" + 
+      "</th>"
+    );
     
     $('th.' + id + ' a.remove').click(function() {
       remove_column(source, column);
     });
     
-    $('#main_table a.filter').click(function() {
-      var filter = $('input#filter_field');
-      filter.focus();
-      filter.val(unencode($(this).html()));
-      filter.keyup();
-    });
+    filter_links();
     
     spinner_off();
     prepare_table();
     
     current_columns[source + "[" + column + "]"] = 1;
     update_links();
+    
+    $('input#filter_field').focus();
   });
 }
 
@@ -129,16 +156,32 @@ function remove_column(source, column) {
   update_links();
 }
 
-function table_url(format) {
-  if (format) format = "." + format;
-  var query_string = query_string_for(current_columns);
-  return "/table" + format + "?" + query_string;
-}
-
 function update_links() {
-  $('div.download a').each(function(i, a) {
+  $('div.download a, div.permalink a').each(function(i, a) {
     a.href = table_url(a.id);
   });
+}
+
+function filter_links() {
+  $('a.filter').click(function() {
+    var filter = $('input#filter_field');
+    filter.focus();
+    filter.val(unencode($(this).html()));
+    filter.keyup();
+  });
+}
+
+function table_url(format) {
+  if (format) 
+    format = "." + format;
+  else
+    format = "";
+    
+  var query_string = query_string_for(current_columns);
+  var url = "/table" + format + "?";
+  if (current_filter)
+    url += "filter=" + current_filter + "&";
+  return url + query_string;
 }
 
 function query_string_for(options) {
@@ -155,7 +198,7 @@ function popup_spinner_on() {$('.popup_spinner').show();}
 function popup_spinner_off() {$('.popup_spinner').hide();}
 
 function column_id(source, column) {
-  return source + '_' + column;
+  return source + '_' + column.replace(/[^\w\d]/g, '_');
 }
 
 function escape_single_quotes(string) {
@@ -172,7 +215,10 @@ function strip_search(string) {
 
 /** Functions that deal with the raw table plugins **/
 
-function prepare_table() {  
+function prepare_table() {
+  // clear onclick events on table headers, so they don't layer on each other
+  $('#main_table th').unbind();
+  
   $('#main_table').tablesorter({
     widgets: ['zebra']
   });

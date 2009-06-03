@@ -7,7 +7,6 @@ require 'sinatra'
 require 'config/environment'
 
 
-
 get '/' do
   @legislators = get_legislators
   @data = get_columns @legislators, initial_columns
@@ -36,8 +35,7 @@ get /\/table(?:\.([\w]+))?/ do
     response['Content-Type'] = 'text/json'
     to_json @data, @legislators
   else
-    status 404
-    'Unsupported format.'
+    erb :index
   end
 end
 
@@ -117,9 +115,8 @@ helpers do
     array
   end
   
+  
   # little helpers
-  
-  
   
   def short_date(time)
     time.strftime '%m/%d/%y'
@@ -150,23 +147,34 @@ helpers do
   end
   
   def field_checkbox(source, column, options = {})
-    id = "#{source}_#{phrase_id column}"
-    title = options[:title] || column.to_s.titleize
+    id = column_id source, column
+    label = options[:hide_label] ? '' : field_label(source, column, options)
     <<-EOFC
     <div class="field_checkbox">
       <input id="#{id}" name="#{source}[#{column}]" type="checkbox" value="1" />
       <input type="hidden" value="#{column}" />
-      <label for="#{id}">#{title}</label>
+      #{label}
     </div>
     EOFC
+  end
+  
+  def field_label(source, column, options = {})
+    id = column_id source, column
+    title = options[:title] || column.to_s.titleize.gsub('&Amp;', '&amp;')
+    title = "<strong>#{title}</strong>" if options[:bold]
+    "<label class=\"#{id}\" for=\"#{id}\">#{title}</label>"
   end
   
   def cycle_class
     @cycle_class = {nil => :odd, :odd => :even, :even => :odd}[@cycle_class]
   end
   
-  def phrase_id(string)
-    string.to_s.gsub(' ','').underscore
+  def column_id(source, column)
+    "#{source}_#{column.to_s.gsub(/[^\w\d]/,'_')}"
+  end
+  
+  def ordinal(number)
+    number.ordinalize.gsub number.to_s, ''
   end
   
 end
