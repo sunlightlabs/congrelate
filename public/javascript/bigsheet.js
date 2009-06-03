@@ -51,8 +51,8 @@ function init() {
   filter_links();
   
   // table functions
-  $('tr.titles th a').click(function() {
-    var values = this.className.split('_');
+  $('tr.titles th a.remove').click(function() {
+    var values = this.className.replace('remove ', '').split('_');
     remove_column(values[0], values[1]);
   });
   
