@@ -17,7 +17,7 @@ class Legislator < ActiveRecord::Base
   }
   
   def self.sort(fields)
-    cols = ['name', 'state', 'district', 'gender', 'party']
+    cols = ['name', 'state', 'district', 'gender', 'party', 'committees', 'subcommittees']
     fields.sort {|a, b| cols.index(a) <=> cols.index(b)}
   end
   
