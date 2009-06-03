@@ -59,11 +59,13 @@
                     <tr class='titles'>
                       <% sort_by_ref(@data.keys, source_keys).each do |source| %>
                         <% sort_fields(@data[source].keys, source).each do |column| %>
-                          <th title="<%= @data[source][column][:title] %>" class="<%= source %>_<%= column %><%= @data[source][column][:type] ? " {sorter: '#{@data[source][column][:type]}'}" : "" %>">
+                          <th title="<%= @data[source][column][:title] %>" class="<%= column_id source, column %><%= @data[source][column][:type] ? " {sorter: '#{@data[source][column][:type]}'}" : "" %>">
                             <span>
                               <%= @data[source][column][:header] ? @data[source][column][:header] : column.to_s.titleize %>
                             </span>
-                            <a href="#" title="Remove Column" class="remove <%= source %>_<%= column %>"></a>
+                            <a href="#" title="Remove Column" class="remove"></a>
+                            <input type="hidden" class="source" value="<%= source %>" />
+                            <input type="hidden" class="column" value="<%= column %>" />
                           </th>
                         <% end %>
                       <% end %>

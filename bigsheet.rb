@@ -147,7 +147,7 @@ helpers do
   end
   
   def field_checkbox(source, column, options = {})
-    id = "#{source}_#{phrase_id column}"
+    id = column_id source, column
     label = options[:hide_label] ? '' : field_label(source, column, options)
     <<-EOFC
     <div class="field_checkbox">
@@ -159,7 +159,7 @@ helpers do
   end
   
   def field_label(source, column, options = {})
-    id = "#{source}_#{phrase_id column}"
+    id = column_id source, column
     title = options[:title] || column.to_s.titleize.gsub('&Amp;', '&amp;')
     title = "<strong>#{title}</strong>" if options[:bold]
     "<label class=\"#{id}\" for=\"#{id}\">#{title}</label>"
@@ -169,8 +169,8 @@ helpers do
     @cycle_class = {nil => :odd, :odd => :even, :even => :odd}[@cycle_class]
   end
   
-  def phrase_id(string)
-    string.to_s.gsub(' ','').underscore
+  def column_id(source, column)
+    "#{source}_#{column.to_s.gsub(/[^\w\d]/,'_')}"
   end
   
   def ordinal(number)

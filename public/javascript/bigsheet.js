@@ -52,8 +52,9 @@ function init() {
   
   // table functions
   $('tr.titles th a.remove').click(function() {
-    var values = this.className.replace('remove ', '').split('_');
-    remove_column(values[0], values[1]);
+    var source = $(this).siblings('input.source').val();
+    var column = $(this).siblings('input.column').val();
+    remove_column(source, column);
   });
   
   $(document).bind('reveal.facebox', function() {
@@ -124,7 +125,9 @@ function add_column(source, column) {
     $('#main_table tr.titles').append(
       "<th class=\"" + id + sort_class + "\" title=\"" + escape_single_quotes(data['title']) + "\">" + 
       "<span>" + data['header'] + "</span>" + 
-      "<a href=\"#\" title=\"Remove Column\" class=\"remove " + id + "\"></a>" + 
+      "<a href=\"#\" title=\"Remove Column\" class=\"remove\"></a>" + 
+      "<input type=\"hidden\" class=\"source\" value=\"" + source + "\" />" + 
+      "<input type=\"hidden\" class=\"column\" value=\"" + column + "\" />" + 
       "</th>"
     );
     
@@ -195,7 +198,7 @@ function popup_spinner_on() {$('.popup_spinner').show();}
 function popup_spinner_off() {$('.popup_spinner').hide();}
 
 function column_id(source, column) {
-  return source + '_' + column;
+  return source + '_' + column.replace(/[^\w\d]/g, '_');
 }
 
 function escape_single_quotes(string) {
