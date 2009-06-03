@@ -2,14 +2,30 @@
   Legislator data is updated daily, and should be current.
 </div>
 
-<div> 
-  <%= field_checkbox :legislator, :name %>
-  <%= field_checkbox :legislator, :state %>
-  <%= field_checkbox :legislator, :district %>
-  <%= field_checkbox :legislator, :party %>
-  <%= field_checkbox :legislator, :gender %>
-  <br/>
-  
-  <%= field_checkbox :legislator, :committees, :title => 'Committee Memberships' %>
-  <%= field_checkbox :legislator, :subcommittees, :title => 'Subcommittee Memberships' %>
-</div>
+<table class="grid">
+  <tr>
+    <td>
+      <%= field_checkbox :legislator, :name %>
+    </td>
+    <td>
+      <%= field_checkbox :legislator, :state %>
+    </td>
+    <td>
+      <%= field_checkbox :legislator, :district %>
+    </td>
+    <td>
+      <%= field_checkbox :legislator, :party %>
+    </td>
+    <td>
+      <%= field_checkbox :legislator, :gender %>
+    </td>
+  </tr>
+  <tr>
+    <td colspan='2'>
+      <%= field_checkbox :legislator, :committees, :title => 'Committee Memberships' %>
+    </td>
+    <td colspan='3'>
+      <%= field_checkbox :legislator, :subcommittees, :title => 'Subcommittee Memberships' %>
+    </td>
+  </tr>
+</table>  

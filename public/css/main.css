@@ -131,12 +131,20 @@ table tr.odd { background: #f4f4ef;}
 table tr td, table tr th { padding-left: 10px;}
 tfoot tr td { padding-top: 2px;}
 
-div.source_form table tr {cursor: pointer;}
-div.source_form table tr.selected td,
-div.source_form table tr:hover td {
+div.source_form table.list tr {cursor: pointer;}
+div.source_form table.list tr.selected td,
+div.source_form table.list tr:hover td {
   background-color: #ddd; 
   border: 1px solid #999;
   border-width: 1px 0;
+}
+
+div.source_form table.grid td {padding: 10px; border: 1px solid #bbb; border-width: 1px 0;}
+div.source_form table.grid td,
+div.source_form table.grid label {cursor: pointer;}
+div.source_form table.grid td.selected {
+  background-color: #ddd;
+  border: 1px solid #999;
 }
 
 td.delete {
@@ -213,6 +221,7 @@ div.source_form h3 {float: left; margin-right: 15px; font-size: 115%; margin-top
 div.source_form h6 {float: left}
 div.source_form button.add_button {float: right}
 div.source_form div.recency {margin-bottom: 10px;}
+div.source_form div.popup_footer {margin-top: 10px;}
 
 h3 {font-weight: bold;}
 

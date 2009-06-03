@@ -69,13 +69,15 @@ function init_source_form(source) {
   });
   $(popup_elem + ' div.search_field input.search').focus(function() {this.value = '';})
   
+  // for popups with a grid of checkboxes
+  $(popup_elem + ' table.grid td input:checkbox').click(function() {
+    $(this).parents('table.grid td').toggleClass('selected');
+  });
   // For all popups - collecting the checked columns
   $(popup_elem + ' button.add_button').click(function() {
-    popup_spinner_on();
     $(popup_elem + ' input:checked').each(function(i, box) {
       add_column(source, $(this).siblings('input:hidden').val());
     });
-    popup_spinner_off();
     $(document).trigger('close.facebox');
   });
 
@@ -88,14 +90,11 @@ function search_table(source, q, page) {
   $.ajax({
     success: function(data) {
       $(popup_elem + ' .search_table_inner').html(data);
-      $(popup_elem + ' tr.search_result td:not(td.' + source + '_box)').click(function() {    
+      $(popup_elem + ' table.list tr.search_result td:not(td.' + source + '_box)').click(function() {    
         $(this).parent('tr').find('input:checkbox').click();
       });
-      $(popup_elem + ' tr.search_result td.' + source + '_box input').click(function() {
+      $(popup_elem + ' table.list tr.search_result td.' + source + '_box input').click(function() {
         $(this).parent('td').parent('tr').toggleClass('selected');
-      });
-      $(popup_elem + ' div.page_button a').click(function() {
-        return search_table(source, $('#roll_call_query').val(), $(this).siblings('input:hidden').val());
       });
       popup_spinner_off();
     },

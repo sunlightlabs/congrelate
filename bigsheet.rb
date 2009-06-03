@@ -148,14 +148,20 @@ helpers do
   
   def field_checkbox(source, column, options = {})
     id = "#{source}_#{phrase_id column}"
-    title = options[:title] || column.to_s.titleize.gsub('&Amp;', '&amp;')
+    label = options[:hide_label] ? '' : field_label(source, column, options)
     <<-EOFC
     <div class="field_checkbox">
       <input id="#{id}" name="#{source}[#{column}]" type="checkbox" value="1" />
       <input type="hidden" value="#{column}" />
-      <label for="#{id}">#{title}</label>
+      #{label}
     </div>
     EOFC
+  end
+  
+  def field_label(source, column, options = {})
+    id = "#{source}_#{phrase_id column}"
+    title = options[:title] || column.to_s.titleize.gsub('&Amp;', '&amp;')
+    "<label for=\"#{id}\">#{title}</label>"
   end
   
   def cycle_class
