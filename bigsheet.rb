@@ -161,7 +161,8 @@ helpers do
   def field_label(source, column, options = {})
     id = "#{source}_#{phrase_id column}"
     title = options[:title] || column.to_s.titleize.gsub('&Amp;', '&amp;')
-    "<label for=\"#{id}\">#{title}</label>"
+    title = "<strong>#{title}</strong>" if options[:bold]
+    "<label class=\"#{id}\" for=\"#{id}\">#{title}</label>"
   end
   
   def cycle_class

@@ -4,33 +4,17 @@
 
 <div>
   <div class="search_table">
-    <div id="mainChoice">
-      <input id="contribution_top_industries" type="checkbox"/>
-      <input type="hidden" value="top_industries"/>
-      <label for="contribution_top_industries">
-          <strong>Top Industries</strong>
-      </label>
-    </div>
     <div id="search_name_table_<%= source.keyword %>" class="search_table_inner scrollable">
-      <table>
-        <thead>
-          <tr class="titles">
-            <th class="select"/><th/>
-            <th class="select"/><th/>
-            <th class="select"/><th/>
+      <table class="grid">
+        <% (['top_industries'] + industries).in_groups_of(4).each do |row| %>
+          <tr>
+            <% row.each do |industry| %>
+              <td>
+                <%= field_checkbox :contribution, industry, :bold => (industry == 'top_industries') %>
+              </td>
+            <% end %>
           </tr>
-        </thead>
-        <tbody>
-          <% industries.in_groups_of(industries.size/4).transpose.each do |row| %>
-            <tr>
-              <% row.each do |industry| %>
-                <td>
-                  <%= field_checkbox :contribution, industry %>
-                </td>
-              <% end %>
-            </tr>
-          <% end %>
-        </tbody>
+        <% end %>
       </table>
     </div>
   </div>

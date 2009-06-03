@@ -140,8 +140,7 @@ div.source_form table.list tr:hover td {
 }
 
 div.source_form table.grid td {padding: 10px; border: 1px solid #bbb; border-width: 1px 0;}
-div.source_form table.grid td,
-div.source_form table.grid label {cursor: pointer;}
+div.source_form label {cursor: pointer;}
 div.source_form table.grid td.selected {
   background-color: #ddd;
   border: 1px solid #999;
