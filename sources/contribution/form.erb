@@ -9,9 +9,11 @@
         <% (['top_industries'] + industries).in_groups_of(4).each do |row| %>
           <tr>
             <% row.each do |industry| %>
-              <td>
-                <%= field_checkbox :contribution, industry, :bold => (industry == 'top_industries') %>
-              </td>
+              <% if industry %>
+                <td>
+                  <%= field_checkbox :contribution, industry, :bold => (industry == 'top_industries') %>
+                </td>
+              <% end %>
             <% end %>
           </tr>
         <% end %>
