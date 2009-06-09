@@ -139,6 +139,7 @@ div.source_form table.list tr:hover td {
   border-width: 1px 0;
 }
 
+
 div.source_form table.grid td {padding: 10px; border: 1px solid #bbb; border-width: 1px 0;}
 div.source_form label {cursor: pointer;}
 div.source_form table.grid td.selected {
@@ -262,6 +263,8 @@ div.search_table td {margin-right: 15px; line-height: 15px; padding: 8px 10px 8p
 div#pageNav { margin: 0 auto; width: 100px;}
 div.prev_button {float: left;}
 div.next_button {text-align: right;}
+
+div.top_industries {padding: 10px;}
 
 /* Table CSS */
 th.header {
