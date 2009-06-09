@@ -1,28 +1,28 @@
-# Enforced: mysql adapter, with reconnect turned on
+# Required: mysql adapter, with reconnect turned on
 :development:
-  :database: bigsheet_development
-  :username: bigsheet
-  :password: bigsheet
+  :database: congrelate_development
+  :username: congrelate
+  :password: congrelate
   :host: localhost
   :adapter: mysql
 
 :staging:
-  :database: bigsheet_staging
-  :username: bigsheet
-  :password: bigsheet
+  :database: congrelate_staging
+  :username: congrelate
+  :password: congrelate
   :host: localhost
   :adapter: mysql
 
 :production:
-  :database: bigsheet_production
-  :username: bigsheet
-  :password: bigsheet
+  :database: congrelate_production
+  :username: congrelate
+  :password: congrelate
   :host: localhost
   :adapter: mysql
   
 :test:
-  :database: bigsheet_test
-  :username: bigsheet
-  :password: bigsheet
+  :database: congrelate_test
+  :username: congrelate
+  :password: congrelate
   :host: localhost
   :adapter: mysql

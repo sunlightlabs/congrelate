@@ -1,5 +1,5 @@
 ENV['RACK_ENV'] = 'staging'
 
-require 'bigsheet'
+require 'congrelate'
 
 run Sinatra::Application

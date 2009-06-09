@@ -1,5 +1,5 @@
 # Change repo and domain for your setup
-set :repository, "git@github.com:yourusername/bigsheet.git"
+set :repository, "git://github.com/yourusername/congrelate.git"
 set :domain, 'yourdomain.com'
 
 

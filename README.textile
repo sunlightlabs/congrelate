@@ -8,7 +8,7 @@ h3. Getting started
   * Copy config/database.yml.example to config/database.yml and modify as needed.
   * Copy sources/api_keys.yml.example to sources/api_keys.yml and add your API keys.
   * Run "rake db:migrate", then "rake sources:update". This may take a while.
-  * Run "bigsheet.rb" to start the server.
+  * Run "congrelate.rb" to start the server.
   * Visit "http://localhost:4567" in your browser.
 
 h3. Adding a new source
