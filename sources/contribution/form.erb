@@ -2,14 +2,18 @@
   This data is for the <strong><%= Contribution.latest_cycle %></strong> election cycle.
 </div>
 
+<div class="top_industries">
+  <%= field_checkbox :contribution, 'top_industries', :bold => 'top_industries' %>
+</div>
+
 <div class="scrollable">
   <table class="grid">
-    <% (['top_industries'] + industries).in_groups_of(4).each do |row| %>
+    <% industries.in_groups_of(4).each do |row| %>
       <tr>
         <% row.each do |industry| %>
           <% if industry %>
             <td>
-              <%= field_checkbox :contribution, industry, :bold => (industry == 'top_industries') %>
+              <%= field_checkbox :contribution, industry %>
             </td>
           <% end %>
         <% end %>
