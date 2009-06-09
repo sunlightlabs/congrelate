@@ -16,3 +16,5 @@ h3. Adding a new source
   * Update sources.yml by hand with the details of the new source.
   * Run "rake sources:load" to load sources.yml into the 'sources' table.
   * Add any database migrations to /db, and run "rake db:migrate".
+
+...
