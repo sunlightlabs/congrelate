@@ -89,7 +89,7 @@ div#filter li {
 
 label {padding-left: 5px;}
 
-button.clearBtn{ text-indent: -9999em; display: block; background: url(/images/btn_clear.png) top left no-repeat; border: none; width: 74px; height: 25px; float: left; margin-left: 15px; }
+button.clearBtn{ text-indent: -9999em; display: block; background: url(/images/btn_clear.png) top left no-repeat; border: none; width: 74px; height: 25px; float: left; margin-left: 15px; cursor: pointer;}
 input#filter_field{ float: left;}
 
 div#filterNav li{
