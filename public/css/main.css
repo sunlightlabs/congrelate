@@ -295,3 +295,20 @@ th.header a.remove {
   text-indent: -9999em; padding: 4px 5px 5px;
 }
 th.header a.remove:hover {background-image: url(/images/deleteBtn_hover.png)}
+
+
+
+div#featureBox{ background-color: #f9f9f9; border: 1px solid #ececed; padding: 20px; -moz-border-radius: 3px; -webkit-border-radius: 3px; margin-bottom: 30px;}
+div#featureBox p{ line-height: 20px;}
+h2#welcomeText { font-size: 200%; display: block; margin-bottom: 15px; float: none; font-weight: normal;}
+div#ltFeature{ width: 70%; float: left; margin-right: 8%;}
+button.startedBtn{ background: url(/images/btn_getstarted.png) bottom right no-repeat; display: block; cursor: pointer; width: 179px; height: 65px; border: none; text-indent: -9999em; margin-top: 50px;}
+
+h3#homeH3 { font-size: 150%; font-weight: normal;}
+
+form#feedback label { font-weight: bold; width: 90px; display: block; float: left;}
+form#feedback li{ margin: 10px 0;}
+form#feedback input, form#feedback textarea { background: #f9f9f9; padding: 2px; border: solid 1px #978f8f; -moz-border-radius:3px; -webkit-border-radius: 3px; width: 300px;}
+
+form#feedback{ margin: 20px 0;}
+button.feedbackBtn{ background: url(images/btn_submit.png) bottom left no-repeat; width: 108px; height: 37px; border: none; text-indent: -9999em; margin: 20px 0 40px 90px; display: block;}
