@@ -3,16 +3,16 @@ set :repository, "git://github.com/yourusername/congrelate.git"
 set :domain, 'yourdomain.com'
 
 
-set :user, 'bigsheet'
+set :user, 'congrelate'
 set :environment, 'staging'
 set :branch, 'master'
-set :application, "bigsheet_#{environment}"
+set :application, "congrelate_#{environment}"
 
 # Number of thin processes
 set :instances, 2 
 
 set :scm, :git
-set :deploy_to, "/home/bigsheet/#{application}"
+set :deploy_to, "/home/congrelate/#{application}"
 set :deploy_via, :remote_cache
 set :runner, user
 set :admin_runner, runner
