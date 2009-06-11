@@ -1,10 +1,15 @@
 namespace :db do
   desc "Migrate the database"
-  task :migrate => :environment do
+  task :migrate => :bootstrap_environment do
     ActiveRecord::Base.logger = Logger.new STDOUT
     ActiveRecord::Migration.verbose = true
     ActiveRecord::Migrator.migrate 'migrations', (ENV['VERSION'] ? ENV['VERSION'].to_i : nil)
   end
+end
+
+desc "Loads bootstrap environment"
+task :bootstrap_environment do
+  require 'config/bootstrap_environment'
 end
 
 desc "Loads environment"
