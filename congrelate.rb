@@ -2,6 +2,8 @@
 
 require 'rubygems'
 require 'sinatra'
+require 'htmlentities'
+
 
 # Environment
 require 'config/environment'
@@ -160,7 +162,9 @@ helpers do
   
   def field_label(source, column, options = {})
     id = column_id source, column
-    title = options[:title] || column.to_s.titleize.gsub('&Amp;', '&amp;')
+    coder = HTMLEntities.new    
+    title = options[:title] || coder.decode(column.to_s).titleize
+    #title = options[:title] || column.to_s.titleize #.gsub('&Amp;', '&')
     title = "<strong>#{title}</strong>" if options[:bold]
     "<label class=\"#{id}\" for=\"#{id}\">#{title}</label>"
   end
