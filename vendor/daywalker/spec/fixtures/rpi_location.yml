@@ -1,0 +1,5 @@
+--- !ruby/object:Graticule::Location 
+latitude: 42.731245
+longitude: -73.684236
+precision: :unknown
+street: 110 8th St, Troy NY 12180

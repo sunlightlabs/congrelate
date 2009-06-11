@@ -1,0 +1,9 @@
+HTTP/1.1 400 Bad Request
+Date: Mon, 16 Feb 2009 10:28:34 GMT
+Server: Apache/2.2.3 (Debian) mod_python/3.2.10 Python/2.4.4 PHP/5.2.0-8+etch11
+Content-Type: text/html; charset=utf-8
+Vary: Accept-Encoding
+Connection: close
+Transfer-Encoding: chunked
+
+No Such Object Exists

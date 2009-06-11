@@ -1,0 +1,50 @@
+= daywalker
+
+A Ruby wrapper for the Sunlight Labs API: http://wiki.sunlightlabs.com/Sunlight_API_Documentation
+
+== Install
+
+  # Run the following if you haven't already:
+  gem sources -a http://gems.github.com
+  # Install the gem(s):
+  sudo gem install technicalpickles-daywalker
+
+== Get an API key
+
+Before starting you need to register for an API key: http://services.sunlightlabs.com/api/register/
+
+After registering, you will receive an email prompting you to activate the API key.
+
+== Examples
+
+    require 'rubygems'
+    require 'daywalker'
+    require 'pp'
+
+    Daywalker.api_key = 'this is so sekrit'
+
+    pp Daywalker::District.all_by_zipcode('27511')
+
+    pp Daywalker::District.unique_by_latitude_and_longitude(40.739157, -73.990929)
+
+    pp Daywalker::District.unique_by_address('One City Hall Square, Boston, MA 02201')
+
+    pp Daywalker::Legislator.all_by_zip('02201')
+
+    pp Daywalker::Legislator.unique(:state => 'NY', :district => 4)
+
+    pp Daywalker::Legislator.unique_by_state_and_district('NY', 4)
+
+    pp Daywalker::Legislator.all(:state => 'NY', :title => :senator)
+
+    pp Daywalker::Legislator.all_by_state_and_title('NY', :senator)
+  
+
+== FAQ
+
+Q:: Why not use the existing gem, available at http://github.com/luigi/sunlight/tree/master ?
+A:: Mostly, I didn't have a good experience when just poking around the Sunlight Labs API. I was dense and didn't activate my API key at first, but it didn't notice that. Even after activating, I wasn't getting any data back.
+
+== COPYRIGHT
+
+Copyright (c) 2009 Josh Nichols. See LICENSE for details.

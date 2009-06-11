@@ -1,0 +1,9 @@
+HTTP/1.1 400 Bad Request
+Date: Wed, 04 Feb 2009 03:40:12 GMT
+Server: Apache/2.2.3 (Debian) mod_python/3.2.10 Python/2.4.4 PHP/5.2.0-8+etch11
+Content-Type: text/html; charset=utf-8
+Vary: Accept-Encoding
+Connection: close
+Transfer-Encoding: chunked
+
+Missing Parameter: 'latitude'
