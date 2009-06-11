@@ -161,10 +161,11 @@ helpers do
   end
   
   def field_label(source, column, options = {})
-    id = column_id source, column
     coder = HTMLEntities.new    
-    title = options[:title] || coder.decode(column.to_s).titleize
-    #title = options[:title] || column.to_s.titleize #.gsub('&Amp;', '&')
+    column = coder.decode(column.to_s)
+    
+    id = column_id source, column
+    title = options[:title] || column.titleize
     title = "<strong>#{title}</strong>" if options[:bold]
     "<label class=\"#{id}\" for=\"#{id}\">#{title}</label>"
   end
