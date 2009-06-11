@@ -60,6 +60,14 @@ function init() {
   $(document).bind('reveal.facebox', function() {
     $("div#facebox table").show();
   });
+  
+  // Activate the clear button
+  $('button#clear_button').click(function() {
+    $('input#filter_field').attr("value","");
+    $('input#filter_field').addClass('activated');
+    filter_table('');
+    $('input#filter_field').focus();
+  });
 }
 
 function init_source_form(source) {
