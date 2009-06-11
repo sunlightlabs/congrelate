@@ -1,4 +1,5 @@
 require 'httparty'
+require 'htmlentities'
 
 class Contribution < ActiveRecord::Base
 
@@ -35,9 +36,13 @@ class Contribution < ActiveRecord::Base
       end
     else
       industry = column
+      coder = HTMLEntities.new    
       
       contribution_data = {}
       contributions = Contribution.find_all_by_cycle_and_industry cycle, industry
+      if contributions.empty?
+        contributions = Contribution.find_all_by_cycle_and_industry cycle, coder.encode(industry)
+      end
       contributions.each {|contribution| contribution_data[contribution.bioguide_id] = format_amount(contribution.amount)}
       
       legislators.each do |legislator|

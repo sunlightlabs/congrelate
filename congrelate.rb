@@ -149,6 +149,7 @@ helpers do
   end
   
   def field_checkbox(source, column, options = {})
+    
     id = column_id source, column
     label = options[:hide_label] ? '' : field_label(source, column, options)
     <<-EOFC
