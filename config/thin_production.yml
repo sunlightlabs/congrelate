@@ -1,0 +1,14 @@
+---
+  environment: production
+  chdir: /home/congrelate/congrelate_production/current
+  rackup: /home/congrelate/congrelate_production/current/config/thin_production.ru
+  address: 127.0.0.1
+  user: congrelate
+  group: congrelate
+  port: 40000
+  pid: /home/congrelate/congrelate_production/shared/pid/thin.pid
+  log: /home/congrelate/congrelate_production/shared/log/thin.log
+  max_conns: 1024
+  timeout: 30
+  max_persistent_conns: 512
+  daemonize: true
