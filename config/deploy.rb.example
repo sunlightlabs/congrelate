@@ -1,10 +1,14 @@
-# Change repo and domain for your setup
-set :repository, "git://github.com/yourusername/congrelate.git"
-set :domain, 'yourdomain.com'
+set :environment, (ENV['target'] || 'staging')
 
+# Change repo and domain for your setup
+if environment == 'production'
+  set :domain, 'yourproductiondomain.com'
+else
+  set :domain, 'yourstagingdomain.com'
+end
+set :repository, "git://github.com/yourusername/congrelate.git"
 
 set :user, 'congrelate'
-set :environment, 'staging'
 set :branch, 'master'
 set :application, "congrelate_#{environment}"
 
