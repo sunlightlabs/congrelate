@@ -16,7 +16,7 @@ set :application, "congrelate_#{environment}"
 set :instances, 2 
 
 set :scm, :git
-set :deploy_to, "/home/congrelate/#{application}"
+set :deploy_to, "/home/congrelate/www/#{application}"
 set :deploy_via, :remote_cache
 set :runner, user
 set :admin_runner, runner

@@ -1,13 +1,13 @@
 ---
   environment: staging
-  chdir: /home/congrelate/congrelate_staging/current
-  rackup: /home/congrelate/congrelate_staging/current/config/thin_staging.ru
+  chdir: /home/congrelate/www/congrelate_staging/current
+  rackup: /home/congrelate/www/congrelate_staging/current/config/thin_staging.ru
   address: 127.0.0.1
   user: congrelate
   group: congrelate
   port: 8200
-  pid: /home/congrelate/congrelate_staging/shared/pid/thin.pid
-  log: /home/congrelate/congrelate_staging/shared/log/thin.log
+  pid: /home/congrelate/www/congrelate_staging/shared/pid/thin.pid
+  log: /home/congrelate/www/congrelate_staging/shared/log/thin.log
   max_conns: 1024
   timeout: 30
   max_persistent_conns: 512
