@@ -4,7 +4,7 @@
   rackup: /home/congrelate/www/congrelate/current/config/thin_production.ru
   address: 127.0.0.1
   user: congrelate
-  group: congrelate
+  group: websites
   port: 40000
   pid: /home/congrelate/www/congrelate/shared/pid/thin.pid
   log: /home/congrelate/www/congrelate/shared/log/thin.log
