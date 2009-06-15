@@ -226,7 +226,7 @@ div.source_form h2 {font-size: 130%; margin: 10px 20px 5px 0; font-weight: bold;
 div.source_form h3 {float: left; margin-right: 15px; font-size: 115%; margin-top: 3px;}
 div.source_form h6 {float: left}
 div.source_form button.add_button {float: right}
-div.source_form div.recency {margin-bottom: 10px;}
+div.source_form div.recency {margin: 15px 0px 15px 0px; font-size: 115%;}
 div.source_form div.popup_footer {margin-top: 10px;}
 
 h3 {font-weight: bold;}
