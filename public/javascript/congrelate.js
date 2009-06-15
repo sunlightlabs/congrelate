@@ -242,7 +242,8 @@ function prepare_table() {
   $('#main_table th').unbind();
   
   $('#main_table').tablesorter({
-    widgets: ['zebra']
+    widgets: ['zebra'],
+    sortInitialOrder: 'desc'
   });
 }
 

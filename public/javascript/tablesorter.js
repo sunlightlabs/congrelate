@@ -5,7 +5,7 @@
  * @requires jQuery v1.2.3
  * 
  * Copyright (c) 2007 Christian Bach
- * Examples and docs at: http://tablesorter.com
+ * Examples and docs at: http://tableier.com
  * Dual licensed under the MIT and GPL licenses:
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.gnu.org/licenses/gpl.html
@@ -299,7 +299,9 @@
 		
 				$tableHeaders.each(function(index) {
 							
-					this.count = 0;
+          // Eric Mill - hacked to force initial sort order as desc
+          // sortInitialOrder option flag didn't work as advertised at top of file
+					this.count = 1; 
 					this.column = index;
 					this.order = formatSortingOrder(table.config.sortInitialOrder);
 					
