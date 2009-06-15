@@ -14,9 +14,9 @@ class RollCall < ActiveRecord::Base
     bill_q = q.gsub(/[^\w\d]/, '')
     {:conditions => [
         'question like ? or question like ? or question like ? or
-        bill_identifier = ? or identifier like ?',
+        bill_identifier = ? or identifier like ? or bill_title like ?',
         "#{q}%", "% #{q}%", "%(#{q}%",
-        "#{bill_q}", "%#{q}%"
+        "#{bill_q}", "%#{q}%", "%#{q}%"
       ]
     }
   }
@@ -48,7 +48,8 @@ class RollCall < ActiveRecord::Base
     
     FileUtils.mkdir_p "data/govtrack/#{congress}"
     
-    if system("rsync -az govtrack.us::govtrackdata/us/#{congress}/rolls data/govtrack/#{congress}")
+    if system("rsync -az govtrack.us::govtrackdata/us/#{congress}/rolls data/govtrack/#{congress}") and
+       system("rsync -az govtrack.us::govtrackdata/us/#{congress}/bills.index.xml data/govtrack/#{congress}/bills.index.xml")
       roll_call_count = 0
       missing_bioguides = []
       
@@ -58,12 +59,27 @@ class RollCall < ActiveRecord::Base
         legislators[row[0]] = row[1]
       end
       
+      # a hash to assign bill titles to roll_calls
+      bill_titles = {}
+      doc = Hpricot(open("data/govtrack/#{congress}/bills.index.xml"))
+      (doc/:bill).each do |bill|
+        bill_titles[bill_id_for(bill.attributes["type"], bill.attributes["number"])] = bill.attributes["title"]
+      end
+      
+      
       Dir.glob("data/govtrack/#{congress}/rolls/*.xml").each do |filename|
         identifier = File.basename filename, '.xml'
         
         # For now, never update an existing roll call or associated vote data
         # Later, use the updated timestamp to know whether the object should be updated
-        next if RollCall.find_by_identifier(identifier)
+        # Update an existing roll call with its bill_title
+        if roll_call = RollCall.find_by_identifier(identifier)
+          if roll_call.bill_title.blank?
+            roll_call.bill_title = bill_titles[roll_call.bill_identifier]
+            roll_call.save!
+          end
+          next
+        end
 
         roll_call = RollCall.new :identifier => identifier
         doc = open(filename) {|f| Hpricot f}
@@ -77,7 +93,9 @@ class RollCall < ActiveRecord::Base
         
         # associated bill identifier, if any
         if bill = doc.at(:bill)
-          roll_call.bill_identifier = bill_id_for bill[:type], bill[:number]
+          bill_id = bill_id_for bill[:type], bill[:number]
+          roll_call.bill_identifier = bill_id
+          roll_call.bill_title = bill_titles[bill_id]
         end
         
         puts "\n[#{identifier}] #{roll_call.question}"
