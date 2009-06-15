@@ -78,7 +78,7 @@ class Contribution < ActiveRecord::Base
   
   def self.update(options = {})
     cycle = options[:cycle] || latest_cycle
-    limit = options[:limit] || 150
+    limit = options[:limit] || Legislator.count
     
     secrets = OpenSecrets.new :api_key => api_key, :cycle => cycle
     
