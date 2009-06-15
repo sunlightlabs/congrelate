@@ -5,8 +5,8 @@ var current_columns = {
   'legislator[state]': 1,
   'legislator[district]': 1
 };
-
 var current_filter = "";
+var intro_cleared = false;
 
 function init() {
 
@@ -26,6 +26,7 @@ function init() {
     
     this.zid = setTimeout(function() {
       filter_table(strip_search(filter));
+      clear_intro();
       if ($('#main_table tr.legislator:visible').size() == 0) {
         $('div.no_results').show();
       } else {
@@ -70,11 +71,16 @@ function init() {
   });
   
   // Clearing the intro
-  $('button.startedBtn').click(function() {
+  $('button.startedBtn').click(clear_intro);
+}
+
+function clear_intro() {
+  if (!intro_cleared) {
     $('div.intro').hide();
     $('table.display').show();
+    intro_cleared = true;
     return false;
-  });
+  }
 }
 
 function init_source_form(source) {
@@ -133,6 +139,7 @@ function add_column(source, column) {
         if (row)
           $('tr#' + bioguide_id).append('<td class="' + id + '">' + data[bioguide_id] + '</tr>');
       }
+      clear_intro();
     }
     
     var sort_class = data['type'] ? " {sorter: '" + data['type'] + "'}" : "";
