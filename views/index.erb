@@ -64,9 +64,10 @@
                 </div>
               </div>
               <div id='mainContent'>
-                <table class='display' id='main_table'>
+              
+                <table class="display" id="main_table" style="<%= 'display: none' if @show_intro %>">
                   <thead>
-                    <tr class='titles'>
+                    <tr class="titles">
                       <% sort_by_ref(@data.keys, source_keys).each do |source| %>
                         <% sort_fields(@data[source].keys, source).each do |column| %>
                           <th title="<%= @data[source][column][:title] %>" class="<%= column_id source, column %><%= @data[source][column][:type] ? " {sorter: '#{@data[source][column][:type]}'}" : "" %>">
@@ -95,8 +96,25 @@
                     <% end %>
                   </tbody>
                 </table>
+                
                 <div class="no_results" style="display: none">
                   Your search doesn't match any rows. Try searching by a state (e.g. <a href="#" class="filter">ny</a>, <a href="#" class="filter">pa</a>), legislator name (e.g. <a href="#" class="filter">kennedy</a>, <a href="#" class="filter">boehner</a>), or words in any of the other columns in the table.
+                </div>
+                
+                <div class="intro" style="display: <%= @show_intro ? 'block' : 'none' %>">
+                  <div id="ltFeature">
+                    <h2 id="welcomeText">Welcome</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc fermentum hendrerit risus sed tristique. Nulla volutpat ultricies nisl, at gravida dolor accumsan id. Aliquam ac sem odio. Nunc odio tellus, blandit in tempor at, ullamcorper vitae purus. Nullam quis nibh libero, a feugiat felis. In lobortis, turpis a rutrum euismod, libero leo rhoncus ante, id aliquet odio felis at augue. Nam venenatis massa ac turpis sagittis fermentum. Phasellus justo odio, fringilla malesuada fringilla sit amet, hendrerit eget nisl. Nulla convallis cursus tellus, et dapibus lacus commodo vel.</p>
+                  </div>
+                  <div id="rtFeature">
+                    <form action="/" method="get">
+                      <input type="hidden" name="hide_intro" value="1" />
+                      <button class="startedBtn" type="submit">
+                        <span>Get Started!</span>
+                      </button>
+                    </form>
+                  </div>
+                  <div class="clear"></div>
                 </div>
               </div>
             </div>

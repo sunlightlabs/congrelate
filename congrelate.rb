@@ -12,6 +12,9 @@ require 'config/environment'
 get '/' do
   @legislators = get_legislators
   @data = get_columns @legislators, initial_columns
+  @show_intro = false 
+  # change this when we have copy and a video
+  # @show_intro = params[:hide_intro].nil? 
   erb :index
 end
 

@@ -68,6 +68,13 @@ function init() {
     filter_table('');
     $('input#filter_field').focus();
   });
+  
+  // Clearing the intro
+  $('button.startedBtn').click(function() {
+    $('div.intro').hide();
+    $('table.display').show();
+    return false;
+  });
 }
 
 function init_source_form(source) {
