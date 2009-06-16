@@ -91,8 +91,7 @@ function init_source_form(source) {
   for (var key in current_columns) {
     $(popup_elem + ' :checkbox[name=' + key + ']').attr('checked','1')
                                                   .parents('table.grid td').toggleClass('selected');
-  }
-  
+  }  
   // Events
   $(popup_elem + ' form.search_name_form').submit(function() {
     return search_table(source, $('#search_name_field_' + source).val(), 1);
@@ -129,11 +128,26 @@ function search_table(source, q, page) {
       $(popup_elem + ' table.list tr.search_result td.' + source + '_box input').click(function() {
         $(this).parent('td').parent('tr').toggleClass('selected');
       });
+      for (var key in current_columns) {
+        var keysplosion = keysplode(key);
+        var hidden_field = $(popup_elem + ' :hidden[value=' + keysplosion['value'] + ']')
+        hidden_field.siblings(':checkbox').attr('checked','1');
+        hidden_field.parent('td').parent('tr').toggleClass('selected');
+      }      
       popup_spinner_off();
     },
     url: search_url
   });
   return false;
+}
+
+// translate a key like foo[bar] into an object where source=foo and value=bar
+function keysplode(key) {
+  first_split = key.split("[");
+  source = first_split[0];
+  second_split = first_split[1].split("]");
+  value = second_split[0];
+  return { "source":source, "value":value };
 }
 
 function add_column(source, column) {
