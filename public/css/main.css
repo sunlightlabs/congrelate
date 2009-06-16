@@ -151,6 +151,7 @@ div.source_form label {cursor: pointer;}
 div.source_form table.grid td.selected {
   background-color: #ddd;
   border: 1px solid #999;
+  border-width: 1px 0;
 }
 
 td.delete {

@@ -84,21 +84,32 @@ function clear_intro() {
 }
 
 function init_source_form(source) {
-  // for popups with a search field - the search form
+  // For popups with a search field - the search form
   var popup_elem = 'div#' + source;
+  
+  // Pre-check the current_columns
+  for (var key in current_columns) {
+    $(popup_elem + ' :checkbox[name=' + key + ']').attr('checked','1')
+                                                  .parents('table.grid td').toggleClass('selected');
+  }
+  
+  // Events
   $(popup_elem + ' form.search_name_form').submit(function() {
     return search_table(source, $('#search_name_field_' + source).val(), 1);
   });
   $(popup_elem + ' div.search_field input.search').focus(function() {this.value = '';})
   
-  // for popups with a grid of checkboxes
+  // For popups with a grid of checkboxes
   $(popup_elem + ' table.grid td input:checkbox').click(function() {
     $(this).parents('table.grid td').toggleClass('selected');
   });
   // For all popups - collecting the checked columns
   $(popup_elem + ' button.add_button').click(function() {
     $(popup_elem + ' input:checked').each(function(i, box) {
-      add_column(source, $(this).siblings('input:hidden').val());
+      var column_value = $(this).siblings('input:hidden').val() 
+      if (!current_columns.hasOwnProperty(source + '[' + column_value + ']' )) {
+        add_column(source, column_value);        
+      }
     });
     $(document).trigger('close.facebox');
   });
