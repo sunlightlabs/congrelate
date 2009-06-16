@@ -70,9 +70,10 @@ class RollCall < ActiveRecord::Base
       Dir.glob("data/govtrack/#{congress}/rolls/*.xml").each do |filename|
         identifier = File.basename filename, '.xml'
         
-        # For now, never update an existing roll call or associated vote data
-        # Later, use the updated timestamp to know whether the object should be updated
-        # Update an existing roll call with its bill_title
+        # For now, never update an existing roll call or associated vote data (old)
+        # Later, use the updated timestamp to know whether the object should be updated (old)
+        # Update an existing roll call with its bill_title (luigi)
+        # REMOVE THIS ONCE EXISTING PRODUCTION DB IS UPDATED
         if roll_call = RollCall.find_by_identifier(identifier)
           if roll_call.bill_title.blank?
             roll_call.bill_title = bill_titles[roll_call.bill_identifier]
@@ -80,6 +81,7 @@ class RollCall < ActiveRecord::Base
           end
         end
         next if roll_call
+        
 
         roll_call = RollCall.new :identifier => identifier
         doc = open(filename) {|f| Hpricot f}
