@@ -78,8 +78,8 @@ class RollCall < ActiveRecord::Base
             roll_call.bill_title = bill_titles[roll_call.bill_identifier]
             roll_call.save!
           end
-          next
         end
+        next if roll_call
 
         roll_call = RollCall.new :identifier => identifier
         doc = open(filename) {|f| Hpricot f}
