@@ -17,9 +17,20 @@ class RollCall < ActiveRecord::Base
         bill_identifier = ? or identifier like ? or bill_title like ?',
         "#{q}%", "% #{q}%", "%(#{q}%",
         "#{bill_q}", "%#{q}%", "%#{q}%"
-      ]
+        ]
     }
   }
+  
+  named_scope :passage, :conditions => "roll_call_type LIKE '%Passage%'"
+  named_scope :motion, :conditions => "roll_call_type LIKE '%Motion%'"
+  named_scope :amendment, :conditions => "roll_call_type LIKE '%Amendment%'"
+  named_scope :resolution, :conditions => "roll_call_type LIKE '%Resolution%'"
+  named_scope :cloture, :conditions => "roll_call_type LIKE '%Cloture%'"
+  named_scope :nomination, :conditions => "roll_call_type LIKE '%Nomination%'"
+  named_scope :conference_report, :conditions => "roll_call_type LIKE '%Conference%'"
+  
+  named_scope :senate, :conditions => "chamber = 'Senate'"
+  named_scope :house, :conditions => "chamber = 'House'"
 
   def self.sort(fields)
     fields.sort
