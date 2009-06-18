@@ -80,7 +80,7 @@
       opacity      : 0,
       overlay      : true,
       loadingImage : '/facebox/loading.gif',
-      closeImage   : '/facebox/closelabel.gif',
+      closeImage   : '/images/deleteBtn.png',
       imageTypes   : [ 'png', 'jpg', 'jpeg', 'gif' ],
       faceboxHtml  : '\
     <div id="facebox" style="display:none;"> \
@@ -93,12 +93,12 @@
             <tr> \
               <td class="b"/> \
               <td class="body"> \
-                <div class="content"> \
-                </div> \
-                <div class="footer"> \
+                <div class="footer" > \
                   <a href="#" class="close"> \
-                    <img src="/facebox/closelabel.gif" title="close" class="close_image" /> \
+                    <img src="/images/deleteBtn.png" title="close" class="close_image" /> \
                   </a> \
+                </div> \
+                <div class="content" style="padding-top:0px;"> \
                 </div> \
               </td> \
               <td class="b"/> \

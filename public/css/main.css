@@ -223,7 +223,7 @@ div#addBtns ul {width: 100%; display: block;}
 
 
 div.source_form {text-align: left;}
-div.source_form h2 {font-size: 130%; margin: 10px 20px 5px 0; font-weight: bold;}
+div.source_form h2 {font-size: 130%; margin: 0px 20px 5px 0; font-weight: bold;}
 div.source_form h3 {float: left; margin-right: 15px; font-size: 115%; margin-top: 3px;}
 div.source_form h6 {float: left}
 div.source_form button.add_button {float: right}
@@ -261,10 +261,13 @@ div.search_table td {margin-right: 15px; line-height: 15px; padding: 8px 10px 8p
   border-collapse: collapse;
 }
 #facebox .footer {
-  padding-top: 5px;
-  margin-top: 10px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
   text-align: right;
-  clear: both
+  line-height: 10px;
+}
+#facebox .content {
+  margin-top: -5px;
 }
 
 div#pageNav { margin: 0 auto; width: 100px;}
