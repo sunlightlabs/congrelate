@@ -54,8 +54,8 @@ namespace :deploy do
   
   desc "Deploy, and migrate the database"
   task :with_migrations do
-    deploy.migrate
     deploy.update
+    deploy.migrate
     deploy.restart
   end
   
