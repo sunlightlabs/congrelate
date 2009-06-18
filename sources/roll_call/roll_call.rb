@@ -69,14 +69,16 @@ class RollCall < ActiveRecord::Base
       
       Dir.glob("data/govtrack/#{congress}/rolls/*.xml").each do |filename|
         identifier = File.basename filename, '.xml'
+        doc = open(filename) {|f| Hpricot f}
         
         # For now, never update an existing roll call or associated vote data (old)
         # Later, use the updated timestamp to know whether the object should be updated (old)
         # Update an existing roll call with its bill_title (luigi)
         # REMOVE THIS ONCE EXISTING PRODUCTION DB IS UPDATED
         if roll_call = RollCall.find_by_identifier(identifier)
-          if roll_call.bill_title.blank?
+          if roll_call.bill_title.blank? || roll_call.chamber.blank? || true
             roll_call.bill_title = bill_titles[roll_call.bill_identifier]
+            roll_call.chamber = doc.at(:roll)[:where].titleize
             roll_call.save!
           end
         end
@@ -84,11 +86,11 @@ class RollCall < ActiveRecord::Base
         
 
         roll_call = RollCall.new :identifier => identifier
-        doc = open(filename) {|f| Hpricot f}
         
         # basic fields
         roll_call.held_at = Time.at(doc.at(:roll)[:when].to_i)
         roll_call.congress = doc.at(:roll)[:session].to_i
+        roll_call.chamber = doc.at(:roll)[:where].titleize
         roll_call.roll_call_type = doc.at(:type).inner_text
         roll_call.question = doc.at(:question).inner_text
         roll_call.result = doc.at(:result).inner_text
@@ -186,4 +188,10 @@ end
 class Vote < ActiveRecord::Base
   belongs_to :roll_call
   validates_presence_of :roll_call_identifier, :position
+end
+
+class String
+  def titlecase
+    self.gsub(/\b\w/){$&.upcase}
+  end
 end

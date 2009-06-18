@@ -7,6 +7,7 @@
     <tr class="titles">
       <th class="select"/>
       <th class="date">Date</th>
+      <th>Chamber</th>
       <th>Description</th>
       <th>Result</th>
     </tr>
@@ -19,6 +20,7 @@
           <input type="hidden" value="<%= roll_call.identifier %>" />
         </td>
         <td class="date"><%= short_date roll_call.held_at %></td>
+        <td><%= roll_call.chamber %></td>
         <td><%= roll_call.question %></td>
         <td><%= roll_call.result %></td>
       </tr>
