@@ -109,7 +109,8 @@ helpers do
       row << legislator.bioguide_id
       sources.each do |source|
         sort_fields(@data[source].keys, source).each do |column|
-          row << data[source][column][legislator.bioguide_id]
+          cell = data[source][column][legislator.bioguide_id]
+          row << (cell.is_a?(Hash) ? cell[:data] : cell)
         end
       end
       array << row

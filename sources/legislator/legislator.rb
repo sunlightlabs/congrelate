@@ -25,14 +25,15 @@ class Legislator < ActiveRecord::Base
     field = {}
     legislators.each do |legislator|
       field[legislator.bioguide_id] = case column
-      when 'committees'
-        legislator.parent_committees.map {|committee| 
-          %Q{<a href="#" class="filter" title="Filter by #{committee.name}">#{committee.short_name}</a>}
-        }.join(', ')
-      when 'subcommittees'
-        legislator.subcommittees.map {|committee| 
-          %Q{<a href="#" class="filter" title="Filter by #{committee.name}">#{committee.short_name}</a>}
-        }.join(', ')
+      when 'committees', 'subcommittees'
+        committees = column == 'committees' ? legislator.parent_committees : legislator.subcommittees
+        {
+          :html => 
+            committees.map {|committee| 
+              %Q{<a href="#" class="filter" title="Filter by #{committee.short_name}">#{committee.short_name}</a>}
+            }.join(', '),
+          :data => committees.map(&:name).join(', ')
+        }
       when 'district'
         "#{legislator.house.capitalize} - #{legislator.district}"
       else

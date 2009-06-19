@@ -165,16 +165,24 @@ function keysplode(key) {
 function add_column(source, column) {
   spinner_on();
   $.getJSON('/column.json', {source: source, column: column}, function(data) {
+    if (data.title == null)
+      data.title = '';
+    window.all_data = data;
     var id = column_id(source, column);
+    
     for (var bioguide_id in data) {
-      if (bioguide_id != 'title' && bioguide_id != 'header') {
-        if (data[bioguide_id] == null)
-          data[bioguide_id] = '';
-        if (data.title == null)
-          data.title = '';
-        var row = $('tr#' + bioguide_id);
-        if (row)
-          $('tr#' + bioguide_id).append('<td class="' + id + '">' + data[bioguide_id] + '</tr>');
+      var row = $('tr#' + bioguide_id);
+      if (row) {
+        var cell;
+        
+        if (typeof(data[bioguide_id]) == 'string')
+          cell = data[bioguide_id]
+        else if (data[bioguide_id] != null && typeof(data[bioguide_id]) == 'object')
+          cell = data[bioguide_id].html;
+        else
+          cell = null;
+        
+        $('tr#' + bioguide_id).append('<td class="' + id + '">' + (cell || '') + '</tr>');
       }
       clear_intro();
     }
