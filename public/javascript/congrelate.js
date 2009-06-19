@@ -27,8 +27,12 @@ function init() {
     this.zid = setTimeout(function() {
       filter_table(strip_search(filter));
       
-      $('div.filtering.help').show();
-      $('div.filtering.help span').html(display_filter(filter));
+      if (filter == "") {
+        $('div.filtering.help').hide();
+      } else {
+        $('div.filtering.help').show();
+        $('div.filtering.help span').html(display_filter(filter));
+      }
   
       clear_intro();
       if ($('#main_table tr.legislator:visible').size() == 0) {
@@ -211,6 +215,10 @@ function remove_column(source, column) {
   update_links();
 }
 
+function sort_column() {
+  $('.sorting.help').show();
+}
+
 function update_links() {
   $('div.download a, div.permalink a').each(function(i, a) {
     a.href = table_url(a.id);
@@ -283,9 +291,7 @@ function prepare_table() {
     sortInitialOrder: 'desc'
   });
   
-  $('#main_table th.header').click(function() {
-    $('.sorting.help').show();
-  });
+  $('#main_table th.header').click(sort_column);
 }
 
 function filter_table(q, column) {
