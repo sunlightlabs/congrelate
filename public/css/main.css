@@ -140,6 +140,10 @@ div.sorting {
   background-color: #f4f4ef; border-color: #ccc; display: none;
 }
 
+div.filtering {
+  background-color: #f4f4ef; border-color: #ccc; display: none;
+}
+
 tr.titles {color: #203646; text-transform: uppercase; font-size: 115%;}
 tr.titles a{ text-transform: none; font-size: 80%;}
 table tr {height: 25px;}

@@ -26,6 +26,10 @@ function init() {
     
     this.zid = setTimeout(function() {
       filter_table(strip_search(filter));
+      
+      $('div.filtering.help').show();
+      $('div.filtering.help span').html(display_filter(filter));
+  
       clear_intro();
       if ($('#main_table tr.legislator:visible').size() == 0) {
         $('div.no_results').show();
@@ -59,16 +63,11 @@ function init() {
   });
   
   $(document).bind('reveal.facebox', function() {
-    $("div#facebox table").show();
+    $('div#facebox table').show();
   });
   
   // Activate the clear button
-  $('button#clear_button').click(function() {
-    $('input#filter_field').attr("value","");
-    $('input#filter_field').addClass('activated');
-    filter_table('');
-    $('input#filter_field').focus();
-  });
+  $('button#clear_button, div.filtering.help a').click(clear_filter);
   
   // Clearing the intro
   $('button.startedBtn').click(clear_intro);
@@ -81,6 +80,15 @@ function clear_intro() {
     intro_cleared = true;
     return false;
   }
+}
+
+function clear_filter() {
+  $('input#filter_field').val('');
+  $('input#filter_field').addClass('activated');
+  filter_table('');
+  $('input#filter_field').focus();
+  
+  $('div.filtering.help').hide();
 }
 
 function init_source_form(source) {
@@ -258,6 +266,10 @@ function unencode(string) {
 
 function strip_search(string) {
   return string.replace(/[\"]/g, '');
+}
+
+function display_filter(string) {
+  return "\"" + string.split(/\s+/).join("\", \"") + "\"";
 }
 
 /** Functions that deal with the raw table plugins **/
