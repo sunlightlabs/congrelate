@@ -152,6 +152,9 @@ table tr td, table tr th { padding-left: 10px;}
 tfoot tr td { padding-top: 2px;}
 
 div.source_form table.list tr {cursor: pointer;}
+div.source_form table.list tr td {}
+div.source_form table.list tr.even td {border: 1px solid #fff; border-width: 1px 0;}
+div.source_form table.list tr.odd td {border: 1px solid #f4f4ef; border-width: 1px 0;}
 div.source_form table.list tr.selected td,
 div.source_form table.list tr:hover td {
   background-color: #ddd; 

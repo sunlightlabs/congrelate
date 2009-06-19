@@ -170,8 +170,8 @@ function add_column(source, column) {
       if (bioguide_id != 'title' && bioguide_id != 'header') {
         if (data[bioguide_id] == null)
           data[bioguide_id] = '';
-        if (data['title'] == null)
-          data['title'] = '';
+        if (data.title == null)
+          data.title = '';
         var row = $('tr#' + bioguide_id);
         if (row)
           $('tr#' + bioguide_id).append('<td class="' + id + '">' + data[bioguide_id] + '</tr>');
@@ -179,11 +179,11 @@ function add_column(source, column) {
       clear_intro();
     }
     
-    var sort_class = data['type'] ? " {sorter: '" + data['type'] + "'}" : "";
+    var sort_class = data.type ? " {sorter: '" + data.type + "'}" : "";
     
     $('#main_table tr.titles').append(
-      "<th class=\"" + id + sort_class + "\" title=\"" + escape_single_quotes(data['title']) + "\">" + 
-      "<span>" + data['header'] + "</span>" + 
+      "<th class=\"" + id + sort_class + "\" title=\"" + escape_single_quotes(data.title) + "\">" + 
+      "<span>" + data.header + "</span>" + 
       "<a href=\"#\" title=\"Remove Column\" class=\"remove\"></a>" + 
       "<input type=\"hidden\" class=\"source\" value=\"" + source + "\" />" + 
       "<input type=\"hidden\" class=\"column\" value=\"" + column + "\" />" + 
