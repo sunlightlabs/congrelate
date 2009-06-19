@@ -10,6 +10,12 @@
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.gnu.org/licenses/gpl.html
  * 
+ *
+ *
+ * Modifications made by Eric Mill, marked as "Eric Mill" in comments below
+ *
+ *
+ *
  */
 /**
  *

@@ -130,6 +130,16 @@ div#filter h2 {
 div#mainContent { padding: 10px 0;}
 div#mainContent table#main_table { width: 100%; margin-bottom: 100px;}
 
+div.help {
+  padding: 5px; margin-top: -15px; margin-bottom: 15px;
+  border-width: 1px 0; border-style: solid; width: 890px;
+  text-align: center; font-size: 10pt;
+}
+
+div.sorting {
+  background-color: #f4f4ef; border-color: #ccc; display: none;
+}
+
 tr.titles {color: #203646; text-transform: uppercase; font-size: 115%;}
 tr.titles a{ text-transform: none; font-size: 80%;}
 table tr {height: 25px;}

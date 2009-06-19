@@ -270,6 +270,10 @@ function prepare_table() {
     widgets: ['zebra'],
     sortInitialOrder: 'desc'
   });
+  
+  $('#main_table th.header').click(function() {
+    $('.sorting.help').show();
+  });
 }
 
 function filter_table(q, column) {
