@@ -94,7 +94,7 @@
                       <tr id="<%= legislator.bioguide_id %>" class="legislator">
                         <% sort_by_ref(@data.keys, source_keys).each do |source| %>
                           <% sort_fields(@data[source].keys, source).each do |column| %>
-                            <td class="<%= source %>_<%= column %>">
+                            <td class="<%= column_id source, column %>">
                               <% cell = @data[source][column][legislator.bioguide_id] %>
                               <%= cell.is_a?(Hash) ? cell[:html] : cell %>
                             </td>
