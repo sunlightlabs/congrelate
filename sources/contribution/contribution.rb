@@ -1,5 +1,6 @@
 require 'httparty'
 require 'htmlentities'
+require 'fastercsv'
 
 class Contribution < ActiveRecord::Base
 
@@ -79,9 +80,33 @@ class Contribution < ActiveRecord::Base
       int + options[:decimal_symbol] + frac + options[:currency_symbol]
     end
   end
-
+  
   
   def self.update(options = {})
+    cycle = options[:cycle] || latest_cycle.to_s[2..3]
+    
+    SourceContribution.load_for_cycle(cycle)
+    
+    # category codes (also known as RealCodes) and their Industry
+    industry_codes = {}
+    FasterCSV.foreach("data/opensecrets/IndustryCategories.csv", :headers => true) do |row|
+      industry_codes[row['Catcode']] = row['Industry']
+    end
+    
+    # the industries we care about
+    industries = industry_codes.values.uniq!
+    ["No Employer Listed or Found","Non-contribution","Other","Unknown"].each do |to_delete|
+      industries.delete(to_delete)
+    end
+    
+    Legislator.active.each do |legislator|
+      
+    end
+    
+  end
+  
+  
+  def self.update_old(options = {})
     cycle = options[:cycle] || latest_cycle
     limit = options[:limit] || Legislator.count
     
@@ -177,6 +202,26 @@ class OpenSecrets
     self.class.get '/', :query => url_options.merge(:method => 'candIndustry', :cid => crp_id, :apikey => api_key, :cycle => cycle)
   end
 end
+
+
+class SourceContribution < ActiveRecord::Base
+    
+  def self.load_for_cycle(cycle)
+    
+    FasterCSV.foreach("data/opensecrets/CampaignFin#{cycle}/indivs#{cycle}.csv") do |row|      
+      SourceContribution.create(:cycle => row[0], :contributor => row[3], :crp_identifier => row[4],
+                                :industry_category => row[7], :amount => row[9], :contribution_type => 'individual')
+    end
+    
+    FasterCSV.foreach("data/opensecrets/CampaignFin#{cycle}/pacs#{cycle}.csv") do |row|      
+      SourceContribution.create(:cycle => row[0], :contributor => row[2], :crp_identifier => row[3],
+                                :industry_category => row[6], :amount => row[4], :contribution_type => 'pac')
+    end
+  
+  end
+  
+end
+
 
 class Candidate < ActiveRecord::Base
   validates_presence_of :bioguide_id, :crp_id, :cycle
