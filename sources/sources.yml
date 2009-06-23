@@ -23,6 +23,6 @@ contribution:
   id: 4
   name: Fundraising
   keyword: contribution
-  ttl: 1
+  ttl: 30
   source_name: Center for Responsive Politics
   source_url: "http://opensecrets.org"
