@@ -97,8 +97,9 @@ class Contribution < ActiveRecord::Base
     end
     
     # category codes (also known as RealCodes) and their Industry
-    industry_codes = {}
-    FasterCSV.foreach("data/opensecrets/IndustryCategories.csv", :headers => true) do |row|
+    get_industry_codes
+    industry_codes = {}    
+    FasterCSV.foreach("data/opensecrets/IndustryCategories.txt", :col_sep => "\t", :headers => true) do |row|
       industry_codes[row['Catcode']] = row['Industry']
     end
     puts "Done loading hash for industry categories..."
@@ -219,6 +220,20 @@ class Contribution < ActiveRecord::Base
   # This relies on truncating integers
   def self.latest_cycle
     Time.now.year / 2 * 2
+  end
+  
+  def self.get_industry_codes
+    FileUtils.mkdir_p "data/opensecrets"
+    system "curl http://www.opensecrets.org/downloads/crp/CRP_Categories.txt > data/opensecrets/IndustryCategories.txt.tmp"
+    # clean it up
+    tmp_file = File.open("data/opensecrets/IndustryCategories.txt.tmp", "r+")
+    file = File.new("data/opensecrets/IndustryCategories.txt", "w")
+    at_content = false
+    tmp_file.each_line do |line|
+      at_content = true if line =~ /Catcode*/
+      file.puts line if at_content
+    end
+    system "rm data/opensecrets/IndustryCategories.txt.tmp"
   end
 
 end
