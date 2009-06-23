@@ -33,7 +33,7 @@ namespace :sources do
     else
       Source.all.each do |source|
         last_update = Update.first :conditions => {:source => source.keyword, :status => 'SUCCESS'}, :order => 'created_at DESC'
-        if last_update.nil? or ((Time.now - last_update.created_at) > (source.ttl - 1).days)
+        if last_update.nil? or ((Time.now - last_update.created_at) > source.ttl.days)
           update_source source
         else
           puts "[#{source.name}] Up to date, not updating."
