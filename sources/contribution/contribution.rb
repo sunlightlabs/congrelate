@@ -84,7 +84,6 @@ class Contribution < ActiveRecord::Base
   
   def self.update(options = {})
     cycle = options[:cycle] || latest_cycle.to_s[2..3]
-    
     if !SourceContribution.source_files_present?(cycle)
       update_via_api(options)
       return
@@ -139,6 +138,10 @@ class Contribution < ActiveRecord::Base
         end
       end
     end
+    
+    ['SUCCESS', ""]
+  rescue => e
+    ['FAILED', "#{e.class}: #{e.message}"]
   end
   
   
