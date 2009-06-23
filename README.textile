@@ -4,7 +4,7 @@ Congrelate is a website and data aggregation framework written in Sinatra.
 
 h3. Getting started
 
-  * The following gems need to be installed: sinatra, fastercsv, httparty, open-uri, json, hpricot, htmlentities, technicalpickles-daywalker (via GitHub)
+  * From Rubyforge and Github, install these gems: sinatra, fastercsv, httparty, open-uri, json, hpricot, htmlentities, technicalpickles-daywalker
   * Copy config/database.yml.example to config/database.yml and modify as needed.
   * Copy sources/api_keys.yml.example to sources/api_keys.yml and add your API keys.
   * Run "rake db:migrate", then "rake sources:update". This may take a while.
