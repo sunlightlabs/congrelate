@@ -50,6 +50,7 @@ namespace :deploy do
   task :after_update_code, :roles => [:web, :app] do
     run "ln -nfs #{shared_path}/database.yml #{release_path}/config/database.yml"
     run "ln -nfs #{shared_path}/api_keys.yml #{release_path}/sources/api_keys.yml"
+    run "ln -nfs #{shared_path}/data #{release_path}/data"
   end
   
   desc "Deploy, and migrate the database"
