@@ -85,6 +85,11 @@ class Contribution < ActiveRecord::Base
   def self.update(options = {})
     cycle = options[:cycle] || latest_cycle.to_s[2..3]
     
+    if !SourceContribution.source_files_present?(cycle)
+      update_via_api(options)
+      return
+    end
+    
     if SourceContribution.find(:all).empty?
       puts "Loading CSV data (this will take a while)..."
       SourceContribution.load_for_cycle(cycle)
@@ -136,7 +141,7 @@ class Contribution < ActiveRecord::Base
   end
   
   
-  def self.update_old(options = {})
+  def self.update_via_api(options = {})
     cycle = options[:cycle] || latest_cycle
     limit = options[:limit] || Legislator.count
     
@@ -235,7 +240,11 @@ end
 
 
 class SourceContribution < ActiveRecord::Base
-    
+  
+  def self.source_files_present?(cycle)
+    File.exists?("data/opensecrets/CampaignFin#{cycle}/indivs#{cycle}.csv") && File.exists?("data/opensecrets/CampaignFin#{cycle}/pacs#{cycle}.csv")
+  end
+  
   def self.load_for_cycle(cycle)
     
     active_crp_identifiers = []
