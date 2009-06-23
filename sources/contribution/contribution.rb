@@ -85,24 +85,54 @@ class Contribution < ActiveRecord::Base
   def self.update(options = {})
     cycle = options[:cycle] || latest_cycle.to_s[2..3]
     
-    SourceContribution.load_for_cycle(cycle)
+    if SourceContribution.find(:all).empty?
+      puts "Loading CSV data (this will take a while)..."
+      SourceContribution.load_for_cycle(cycle)
+      puts "Done loading CSV data..."
+    end
     
     # category codes (also known as RealCodes) and their Industry
     industry_codes = {}
     FasterCSV.foreach("data/opensecrets/IndustryCategories.csv", :headers => true) do |row|
       industry_codes[row['Catcode']] = row['Industry']
     end
+    puts "Done loading hash for industry categories..."
     
     # the industries we care about
     industries = industry_codes.values.uniq!
-    ["No Employer Listed or Found","Non-contribution","Other","Unknown"].each do |to_delete|
+    ["No Employer Listed or Found","Non-contribution","Other","Unknown",
+      "Employer Listed/Category Unknown","Generic Occupation/Category Unknown",
+      "Party Committees","Misc Issues","Retired"].each do |to_delete|
       industries.delete(to_delete)
     end
     
+    puts "Aggregating industry amounts per Legislator..."
     Legislator.active.each do |legislator|
       
+      puts "Aggregating for #{legislator.name}..."
+      
+      industry_aggregates = {}
+      industries.each do |key|
+        industry_aggregates[key] = 0.00
+      end
+      
+      
+      SourceContribution.find_all_by_crp_identifier(legislator.crp_id).each do |source_contribution|
+        industry = industry_codes[source_contribution.industry_category]
+        if industries.include?(industry)
+          industry_aggregates[industry] += source_contribution.amount.to_f
+        end
+      end
+            
+      industry_aggregates.each do |industry, amount|
+        if amount > 0.00
+          contribution = Contribution.find_or_initialize_by_industry_and_cycle_and_bioguide_id industry, latest_cycle, legislator.bioguide_id
+          contribution.crp_id = legislator.crp_id
+          contribution.amount = amount
+          contribution.save!
+        end
+      end
     end
-    
   end
   
   
@@ -208,16 +238,33 @@ class SourceContribution < ActiveRecord::Base
     
   def self.load_for_cycle(cycle)
     
-    FasterCSV.foreach("data/opensecrets/CampaignFin#{cycle}/indivs#{cycle}.csv") do |row|      
-      SourceContribution.create(:cycle => row[0], :contributor => row[3], :crp_identifier => row[4],
-                                :industry_category => row[7], :amount => row[9], :contribution_type => 'individual')
+    active_crp_identifiers = []
+    Legislator.active.each do |legislator|
+      active_crp_identifiers << legislator.crp_id
     end
     
-    FasterCSV.foreach("data/opensecrets/CampaignFin#{cycle}/pacs#{cycle}.csv") do |row|      
-      SourceContribution.create(:cycle => row[0], :contributor => row[2], :crp_identifier => row[3],
-                                :industry_category => row[6], :amount => row[4], :contribution_type => 'pac')
+    File.foreach("data/opensecrets/CampaignFin#{cycle}/indivs#{cycle}.csv") do |raw_row|
+      begin
+        row = FasterCSV.parse_line(raw_row)
+        SourceContribution.create(:cycle => row[0], :contributor => row[3], :crp_identifier => row[4],
+                                  :industry_category => row[7], :amount => row[9], 
+                                  :contribution_type => 'individual') if active_crp_identifiers.include?(row[4])
+      rescue FasterCSV::MalformedCSVError
+        puts "skipping line: " + $!
+      end
     end
-  
+    
+    File.foreach("data/opensecrets/CampaignFin#{cycle}/pacs#{cycle}.csv") do |raw_row|
+      begin
+        row = FasterCSV.parse_line(raw_row)
+        SourceContribution.create(:cycle => row[0], :contributor => row[2], :crp_identifier => row[3],
+                                  :industry_category => row[6], :amount => row[4],
+                                  :contribution_type => 'pac')  if active_crp_identifiers.include?(row[3])
+      rescue FasterCSV::MalformedCSVError
+        puts "skipping line: " + $!
+      end
+    end
+
   end
   
 end
