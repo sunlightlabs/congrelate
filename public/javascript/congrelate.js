@@ -7,12 +7,23 @@ var current_columns = {
 };
 var current_filter = "";
 var intro_cleared = false;
+var query_keys = get_query_keys();
 
 function init() {
 
   prepare_table();
   
-    // Add source data links
+  // Populate current_columns from query string
+  if (query_keys.length > 0) {
+    current_columns = {};
+    for(i in query_keys) {
+      if(query_keys[i] != "filter") {
+        current_columns[query_keys[i]] = 1;
+      }
+    }
+  }
+  
+  // Add source data links
   $('a.source_form_link').click(function() {
     var source_id = this.id.replace('_form_link', '');
     jQuery.facebox({ajax: '/' + source_id + '/form'});
@@ -93,6 +104,8 @@ function clear_filter() {
   $('input#filter_field').focus();
   
   $('div.filtering.help').hide();
+  current_filter = ""
+  update_links();
 }
 
 function init_source_form(source) {
@@ -161,6 +174,23 @@ function keysplode(key) {
   value = second_split[0];
   return { "source":source, "value":value };
 }
+
+// get the keys from the query string
+function get_query_keys() {
+  var query_keys = [];
+  var query = window.location.search.substring(1);
+  var parms = query.split('&');
+  for (var i=0; i<parms.length; i++) {
+    var pos = parms[i].indexOf('=');
+    if (pos > 0) {
+      var key = parms[i].substring(0,pos);
+      var val = parms[i].substring(pos+1);
+      query_keys[i] = key;
+    }
+  }
+  return query_keys;
+}
+
 
 function add_column(source, column) {
   spinner_on();
