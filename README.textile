@@ -1,6 +1,6 @@
 h1. Relating Data about Congress
 
-Congrelate, a project of the "Sunlight Labs":http://sunlightlabs.com, is a web app and data aggregation framework written in "Sinatra":http://sinatrarb.com. At its core, "Congrelate":http://congrelate.com is a dynamic, sortable spreadsheet of data about Members of Congress. 
+Congrelate, a project of the "Sunlight Labs":http://sunlightlabs.com, is a web app and data aggregation framework written in "Sinatra":http://www.sinatrarb.com. At its core, "Congrelate":http://congrelate.com is a dynamic, sortable spreadsheet of data about Members of Congress. 
 
 By pulling in other sets of data about campaign contributions and voting records, a user can quickly answer questions like: "Which women voted against the Lily Ledbetter Fair Pay Act?" or "Which industries are the largest contributions to members of the Senate Finance Committee?". 
 
@@ -32,7 +32,7 @@ h3. Legislator Data
 
 h3. District Census Data
 
-* Code located at @sources/district/@, data at @data/census/@.
+* Code located at @sources/district/@, data at @data/census/@ (note that the @data/@ directory won't be populated until the initial @rake sources:update@ command is issued).
 * Required gems: fastercsv
 * Run @rake sources:update SOURCE=district@
 
@@ -40,7 +40,7 @@ h3. Industry Contribution Data
 
 * Code located at @sources/contribution/@, data at @data/opensecrets@.
 * Required gems: httparty, fastercsv
-* *Important*: OpenSecrets.org releases their data under their OpenData initiative (as a zipped up CSV file) and via an API. The dataset is preferred, but to get this, you must sign up for an account at "OpenSecrets.org":http://opensecrets.org and download the 2008 Campaign Finance data set "here":http://www.opensecrets.org/MyOS/bulk.php. Unzip that into @data/opensecrets/@, creating the @opensecrets/@ directory if necessary. So the .csv files should be in @data/opensecrets/CampaignFin08@.
+* *Important*: OpenSecrets.org releases their data under their OpenData initiative (as a zipped up CSV file) and via an API. The dataset is preferred, but to get this, you must sign up for an account at "OpenSecrets.org":http://www.opensecrets.org/MyOS/index.php and download the 2008 Campaign Finance data set "here":http://www.opensecrets.org/MyOS/bulk.php. Unzip that into @data/opensecrets/@, creating the @opensecrets/@ directory if necessary. So the .csv files should be in @data/opensecrets/CampaignFin08@.
 * Otherwise, you'll need to register an API key at OpenSecrets and pop it into @sources/api_keys.yml@ for "contribution".
 * Run @rake sources:update SOURCE=contribution@
 
@@ -65,4 +65,4 @@ You are strongly encouraged to contribute your own data sources to the project. 
 # Write the ERB/HTML necessary for displaying the form pop-up that allows the user to select the data.
 # Send us a pull request when you're ready.
 
-See the @data/example@ directory for details.
+See the @sources/example/@ directory for details.
