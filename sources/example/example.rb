@@ -34,4 +34,5 @@ class Example < ActiveRecord::Base
   def self.update(options = {})
     ['SUCCESS', "Message on success"]
   end
-    
+
+end
