@@ -205,7 +205,7 @@ function add_column(source, column) {
       if (row) {
         var cell;
         
-        if (typeof(data[bioguide_id]) == 'string')
+        if (typeof(data[bioguide_id]) == 'string' || typeof(data[bioguide_id]) == 'number')
           cell = data[bioguide_id]
         else if (data[bioguide_id] != null && typeof(data[bioguide_id]) == 'object')
           cell = data[bioguide_id].html;
