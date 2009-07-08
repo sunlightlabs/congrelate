@@ -3,9 +3,10 @@ var mainTable;
 var current_columns = {
   'legislator[name]': 1,
   'legislator[state]': 1,
-  'legislator[district]': 1
+  'legislator[district]':1,
 };
 var current_filter = "";
+var attribution_links = "";
 var intro_cleared = false;
 var query_keys = get_query_keys();
 
@@ -16,7 +17,7 @@ function init() {
   // Populate current_columns from query string
   if (query_keys.length > 0) {
     current_columns = {};
-    for(i in query_keys) {
+    for(var i = 0; i < query_keys.length; i++) {
       if(query_keys[i] != "filter") {
         current_columns[query_keys[i]] = 1;
       }
@@ -70,6 +71,9 @@ function init() {
   // filter links
   filter_links();
   
+  // update attribution
+  update_attributions();
+  
   // table functions
   $('tr.titles th a.remove').click(function() {
     var source = $(this).siblings('input.source').val();
@@ -86,15 +90,42 @@ function init() {
   
   // Clearing the intro
   $('button.startedBtn').click(clear_intro);
+  $('div.attribution.help').hide();
+  
 }
 
 function clear_intro() {
   if (!intro_cleared) {
     $('div.intro').hide();
     $('table.display').show();
+    $('div.attribution.help').show();
     intro_cleared = true;
     return false;
   }
+}
+
+function update_attributions() {
+  $.getJSON('/sources.json', function(data) {
+    var source_keywords = [];
+
+    for (var key in current_columns) {
+      source_keywords.push(keysplode(key)['source']);
+    }
+
+    var passed_the_first = false;
+    $('div.attribution.help span').html('');
+    attribution_links = '';
+    $.each(data, function(sourceIndex, source) {      
+     if (source_keywords.contains(source['keyword'])) {
+       if (passed_the_first) {
+         attribution_links += ", ";
+       }
+       attribution_links += "<a href='" + source['source_url'] + "'>" + source['source_name'] + "</a>";
+       passed_the_first = true;
+     }
+    });
+    $('div.attribution.help span').html(attribution_links);
+  });
 }
 
 function clear_filter() {
@@ -239,6 +270,7 @@ function add_column(source, column) {
     
     current_columns[source + "[" + column + "]"] = 1;
     update_links();
+    update_attributions();
     
     $('input#filter_field').focus();
   });
@@ -251,6 +283,7 @@ function remove_column(source, column) {
   
   delete current_columns[source + "[" + column + "]"];
   update_links();
+  update_attributions();
 }
 
 function sort_column() {
@@ -335,4 +368,27 @@ function prepare_table() {
 function filter_table(q, column) {
   // uiTableFilter expects the column argument to be a class name on the TH tag of that column
   $.uiTableFilter($('#main_table'), q, column);
+}
+
+Array.prototype.unique = function() {
+  var a = [];
+  var l = this.length;
+  for (var i = 0; i < l; i++) {
+    for (var j = i + 1; j < l; j++) {
+      if (this[i] === this[j])
+        j = ++i;
+    }
+    a.push(this[i]);
+  }
+  return a;
+};
+  
+Array.prototype.contains = function(obj) {
+  var i = this.length;
+  while (i--) {
+    if (this[i] === obj) {
+      return true;
+    }
+  }
+  return false;
 }
