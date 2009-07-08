@@ -5,13 +5,15 @@ legislator:
   ttl: 1
   source_name: Sunlight Labs
   source_url: "http://sunlightlabs.com"
+  source_image: "http://assets.sunlightfoundation.com/images/ecosystem_sunlightlabs_225x75.gif"
 roll_call:
   id: 2
   name: Vote History
   keyword: roll_call
   ttl: 1
-  source_name: GovTrack
+  source_name: GovTrack.us
   source_url: "http://govtrack.us"
+  source_image: "http://www.govtrack.us/media/linklogo.png"
 district:
   id: 3
   name: Demographic Info
@@ -19,10 +21,12 @@ district:
   ttl: 365
   source_name: 2000 US Census
   source_url: "http://census.gov"
+  source_image: "http://www.census.gov/main/www/img/wordmarktl.gif"
 contribution:
   id: 4
   name: Fundraising
   keyword: contribution
   ttl: 30
-  source_name: Center for Responsive Politics
+  source_name: OpenSecrets.org
   source_url: "http://opensecrets.org"
+  source_image: "http://www.opensecrets.org/img/myos/opensecrets_150x54.gif"

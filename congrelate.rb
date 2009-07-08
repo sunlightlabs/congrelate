@@ -24,6 +24,11 @@ get '/column.json' do
   column.to_json
 end
 
+get '/sources.json' do
+  response['Content-Type'] = 'text/json'
+  sources.to_json
+end
+
 get /\/table(?:\.([\w]+))?/ do
   @legislators = get_legislators
   @data = get_columns @legislators, params
