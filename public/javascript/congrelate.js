@@ -100,6 +100,7 @@ function clear_intro() {
     $('table.display').show();
     $('div.attribution.help').show();
     intro_cleared = true;
+    prepare_table();
     return false;
   }
 }
