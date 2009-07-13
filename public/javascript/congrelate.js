@@ -23,7 +23,7 @@ function init() {
       }
     }
   }
-  
+    
   // Add source data links
   $('a.source_form_link').click(function() {
     var source_id = this.id.replace('_form_link', '');
@@ -90,7 +90,9 @@ function init() {
   
   // Clearing the intro
   $('button.startedBtn').click(clear_intro);
-  $('div.attribution.help').hide();
+  if (query_keys.length == 0) {
+    $('div.attribution.help').hide();
+  }
   
 }
 
