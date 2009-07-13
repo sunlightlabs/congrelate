@@ -84,18 +84,8 @@ class RollCall < ActiveRecord::Base
         
         # For now, never update an existing roll call or associated vote data (old)
         # Later, use the updated timestamp to know whether the object should be updated (old)
-        # Update an existing roll call with its bill_title (luigi)
-        # REMOVE THIS ONCE EXISTING PRODUCTION DB IS UPDATED
-        if roll_call = RollCall.find_by_identifier(identifier)
-          if roll_call.bill_title.blank? || roll_call.chamber.blank? || true
-            roll_call.bill_title = bill_titles[roll_call.bill_identifier]
-            roll_call.chamber = doc.at(:roll)[:where].titleize
-            roll_call.save!
-          end
-        end
-        next if roll_call
+        next if RollCall.find_by_identifier(identifier)
         
-
         roll_call = RollCall.new :identifier => identifier
         
         # basic fields
