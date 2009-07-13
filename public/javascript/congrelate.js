@@ -322,7 +322,7 @@ function table_url(format) {
 function query_string_for(options) {
   var string = [];
   for (var key in options)
-    string.push(key + "=" + options[key]);
+    string.push(escape(key) + "=" + options[key]);
   return string.join("&");
 }
 
