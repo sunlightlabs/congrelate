@@ -89,11 +89,7 @@ function init() {
   $('button#clear_button, div.filtering.help a').click(clear_filter);
   
   // Clearing the intro
-  $('button.startedBtn').click(clear_intro);
-  if (query_keys.length == 0) {
-    $('div.attribution.help').hide();
-  }
-  
+  $('button.startedBtn').click(clear_intro);  
 }
 
 function clear_intro() {
@@ -115,19 +111,14 @@ function update_attributions() {
       source_keywords.push(keysplode(key)['source']);
     }
 
-    var passed_the_first = false;
     $('div.attribution.help span').html('');
-    attribution_links = '';
+    attribution_links = [];
     $.each(data, function(sourceIndex, source) {      
      if (source_keywords.contains(source['keyword'])) {
-       if (passed_the_first) {
-         attribution_links += ", ";
-       }
-       attribution_links += "<a href='" + source['source_url'] + "'>" + source['source_name'] + "</a>";
-       passed_the_first = true;
+       attribution_links.push("<a href='" + source['source_url'] + "'>" + source['source_name'] + "</a>");
      }
     });
-    $('div.attribution.help span').html(attribution_links);
+    $('div.attribution.help span').html(attribution_links.join(' ,'));
   });
 }
 
