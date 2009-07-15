@@ -18,7 +18,7 @@ function init() {
   if (query_keys.length > 0) {
     current_columns = {};
     for(var i = 0; i < query_keys.length; i++) {
-      if(query_keys[i] != "filter") {
+      if(query_keys[i] != 'filter') {
         current_columns[query_keys[i]] = 1;
       }
     }
@@ -73,6 +73,8 @@ function init() {
   
   // update attribution
   update_attributions();
+  if (query_keys.length > 0)
+    $('div.attribution.help').show();
   
   // table functions
   $('tr.titles th a.remove').click(function() {
@@ -208,8 +210,8 @@ function get_query_keys() {
   for (var i=0; i<parms.length; i++) {
     var pos = parms[i].indexOf('=');
     if (pos > 0) {
-      var key = parms[i].substring(0,pos);
-      var val = parms[i].substring(pos+1);
+      var key = unescape(parms[i].substring(0,pos));
+      var val = unescape(parms[i].substring(pos+1));
       query_keys[i] = key;
     }
   }
