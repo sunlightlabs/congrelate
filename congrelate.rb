@@ -10,7 +10,7 @@ require 'config/environment'
 
 
 get '/' do
-  @legislators = get_legislators
+  @legislators = Legislator.active
   @data = get_columns @legislators, initial_columns
   @show_intro = params[:hide_intro].nil? 
   erb :index
@@ -18,7 +18,7 @@ end
 
 get '/column.json' do
   response['Content-Type'] = 'text/json'
-  column = class_for(params[:source]).field_for(get_legislators, params[:column])
+  column = class_for(params[:source]).field_for(Legislator.active, params[:column])
   column[:header] ||= params[:column].to_s.titleize
   column[:title] ||= params[:column].to_s.titleize
   column.to_json
@@ -30,18 +30,16 @@ get '/sources.json' do
 end
 
 get /\/table(?:\.([\w]+))?/ do
-  @legislators = get_legislators
+  @legislators = Legislator.active
   @data = get_columns @legislators, params
+  @filter = !params[:filter].blank? ? params[:filter] : nil
   case params[:captures]
   when ['csv']
     response['Content-Type'] = 'text/csv'
-    to_csv @data, @legislators
-  when ['xml']
-    response['Content-Type'] = 'text/xml'
-    to_xml @data, @legislators
+    to_csv @data, @legislators, @filter
   when ['json']
     response['Content-Type'] = 'text/json'
-    to_json @data, @legislators
+    to_json @data, @legislators, @filter
   else
     erb :index
   end
@@ -49,14 +47,6 @@ end
 
 
 helpers do
-
-  def get_legislators
-    if params[:filters]
-      Legislator.active.filter params[:filters]
-    else
-      Legislator.active
-    end
-  end
   
   def get_columns(legislators, params)
     data = {}
@@ -84,18 +74,18 @@ helpers do
     }}
   end
   
-  def to_csv(data, legislators)
+  def to_csv(data, legislators, filter = nil)
     FasterCSV.generate do |csv|
-      to_array(data, legislators).each {|row| csv << row}
+      to_array(data, legislators, filter).each {|row| csv << row}
     end
   end
   
-  def to_json(data, legislators)
-    to_array(data, legislators).to_json
+  def to_json(data, legislators, filter = nil)
+    to_array(data, legislators, filter).to_json
   end
   
   # creates a flat array of arrays of the data
-  def to_array(data, legislators)
+  def to_array(data, legislators, filter = nil)
     array = []
     
     sources = sort_by_ref(data.keys, source_keys)
@@ -112,13 +102,23 @@ helpers do
     legislators.each do |legislator|
       row = []
       row << legislator.bioguide_id
+      
+      matches_filter = false
       sources.each do |source|
         sort_fields(@data[source].keys, source).each do |column|
           cell = data[source][column][legislator.bioguide_id]
-          row << (cell.is_a?(Hash) ? cell[:data] : cell)
+          cell = cell[:data] if cell.is_a?(Hash)
+          
+          if filter
+            if cell =~ /#{filter}/i
+              matches_filter = true
+            end
+          end
+          
+          row << cell
         end
       end
-      array << row
+      array << row unless filter and !matches_filter
     end
     
     array
