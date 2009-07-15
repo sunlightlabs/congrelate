@@ -87,6 +87,7 @@ helpers do
   # creates a flat array of arrays of the data
   def to_array(data, legislators, filter = nil)
     array = []
+    filters = filter ? filter.split(/\s+/) : nil
     
     sources = sort_by_ref(data.keys, source_keys)
     header = []
@@ -110,9 +111,16 @@ helpers do
           cell = cell[:data] if cell.is_a?(Hash)
           row << cell
           
-          matches_filter = true if filter and cell =~ /#{filter}/i
+          if filters and !matches_filter
+            missed_one = false
+            filters.each do |f| 
+              missed_one = true unless cell =~ /#{f}/i
+            end
+            matches_filter = !missed_one
+          end
         end
       end
+      
       array << row unless filter and !matches_filter
     end
     
