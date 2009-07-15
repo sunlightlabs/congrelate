@@ -190,4 +190,8 @@ helpers do
     number.ordinalize.gsub number.to_s, ''
   end
   
+  def asset(path)
+    [path, File.mtime(File.join(Sinatra::Application.public, path)).to_i.to_s].join '?'
+  end
+  
 end
