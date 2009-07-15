@@ -108,14 +108,9 @@ helpers do
         sort_fields(@data[source].keys, source).each do |column|
           cell = data[source][column][legislator.bioguide_id]
           cell = cell[:data] if cell.is_a?(Hash)
-          
-          if filter
-            if cell =~ /#{filter}/i
-              matches_filter = true
-            end
-          end
-          
           row << cell
+          
+          matches_filter = true if filter and cell =~ /#{filter}/i
         end
       end
       array << row unless filter and !matches_filter
