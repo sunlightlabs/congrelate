@@ -109,9 +109,8 @@ function update_attributions() {
   $.getJSON('/sources.json', function(data) {
     var source_keywords = [];
 
-    for (var key in current_columns) {
+    for (var key in current_columns)
       source_keywords.push(keysplode(key)['source']);
-    }
 
     $('div.attribution.help span').html('');
     attribution_links = [];
@@ -120,7 +119,7 @@ function update_attributions() {
        attribution_links.push("<a href='" + source['source_url'] + "'>" + source['source_name'] + "</a>");
      }
     });
-    $('div.attribution.help span').html(attribution_links.join(' ,'));
+    $('div.attribution.help span').html(attribution_links.join(', '));
   });
 }
 
@@ -136,7 +135,6 @@ function clear_filter() {
 }
 
 function init_source_form(source) {
-  // For popups with a search field - the search form
   var popup_elem = 'div#' + source;
   
   // Pre-check the current_columns
@@ -199,21 +197,17 @@ function keysplode(key) {
   source = first_split[0];
   second_split = first_split[1].split("]");
   value = second_split[0];
-  return { "source":source, "value":value };
+  return {source: source, value: value};
 }
 
 // get the keys from the query string
 function get_query_keys() {
   var query_keys = [];
   var query = window.location.search.substring(1);
-  var parms = query.split('&');
-  for (var i=0; i<parms.length; i++) {
-    var pos = parms[i].indexOf('=');
-    if (pos > 0) {
-      var key = unescape(parms[i].substring(0,pos));
-      var val = unescape(parms[i].substring(pos+1));
-      query_keys[i] = key;
-    }
+  var params = query.split('&');
+  for (var i in params) {
+    var pieces = params[i].split('=');
+    query_keys.push(unescape(pieces[0]));
   }
   return query_keys;
 }
@@ -280,10 +274,6 @@ function remove_column(source, column) {
   delete current_columns[source + "[" + column + "]"];
   update_links();
   update_attributions();
-}
-
-function sort_column() {
-  $('.sorting.help').show();
 }
 
 function update_links() {
@@ -358,7 +348,9 @@ function prepare_table() {
     sortInitialOrder: 'desc'
   });
   
-  $('#main_table th.header').click(sort_column);
+  $('#main_table th.header').click(function() {
+    $('.sorting.help').show();
+  });
 }
 
 function filter_table(q, column) {
