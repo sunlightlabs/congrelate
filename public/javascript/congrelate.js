@@ -206,8 +206,10 @@ function get_query_keys() {
   var query = window.location.search.substring(1);
   var params = query.split('&');
   for (var i in params) {
-    var pieces = params[i].split('=');
-    query_keys.push(unescape(pieces[0]));
+    if (params[i]) {
+      var pieces = params[i].split('=');
+      query_keys.push(unescape(pieces[0]));
+    }
   }
   return query_keys;
 }
