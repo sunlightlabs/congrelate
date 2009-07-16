@@ -307,7 +307,9 @@
 							
           // Eric Mill - hacked to force initial sort order as desc
           // sortInitialOrder option flag didn't work as advertised at top of file
-					this.count = 1; 
+          // this.count = 0;
+          this.count = 1;
+          
 					this.column = index;
 					this.order = formatSortingOrder(table.config.sortInitialOrder);
 					
@@ -466,6 +468,21 @@
 				
 				cache.normalized.sort(sortWrapper);
 				
+        
+        // Eric Mill: shove all blanks to the end
+        var primarySortColumn = sortList[0][0];
+        var noBlanks = [];
+        var allBlanks = [];
+        var l = cache.normalized.length;
+        for (var i=0; i<l; i++) {
+          if (cache.normalized[i][primarySortColumn] === "")
+            allBlanks.push(cache.normalized[i])
+          else
+            noBlanks.push(cache.normalized[i])
+        }
+        cache.normalized = noBlanks.concat(allBlanks);
+        
+        
 				if(table.config.debug) { benchmark("Sorting on " + sortList.toString() + " and dir " + order+ " time:", sortTime); }
 				
 				return cache;
@@ -718,6 +735,8 @@
 			return $.tablesorter.isDigit(s,c);
 		},
 		format: function(s) {
+      // Eric Mill: force blank elements to return "" to distinguish from 0
+      if ($.trim(s) === "") return "";
 			return $.tablesorter.formatFloat(s);
 		},
 		type: "numeric"
@@ -729,6 +748,9 @@
 			return /^[£$€?.]/.test(s);
 		},
 		format: function(s) {
+      // Eric Mill: force blank elements to return "" to distinguish from 0
+      if ($.trim(s) === "") return "";
+      
 			return $.tablesorter.formatFloat(s.replace(new RegExp(/[^0-9.]/g),""));
 		},
 		type: "numeric"
@@ -782,6 +804,9 @@
 			return /\%$/.test($.trim(s));
 		},
 		format: function(s) {
+      // Eric Mill: force blank elements to return "" to distinguish from 0
+      if ($.trim(s) === "") return "";
+      
 			return $.tablesorter.formatFloat(s.replace(new RegExp(/%/g),""));
 		},
 		type: "numeric"
