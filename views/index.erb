@@ -41,10 +41,7 @@
                   <h2>Filter</h2>
                   <ul>
                     <li>
-                        <input class='text<%= ' activated' if params[:filter] %>' id='filter_field' maxlength='329' type='text' value='<%= params[:filter] || 'e.g. "kennedy", "senate ny"' %>' />
-                        <button class="clearBtn" type="submit" id="clear_button">
-                          <span>Clear</span>
-                        </button>
+                      <input class='text<%= ' activated' if params[:filter] %>' id='filter_field' maxlength='329' type='text' value='<%= params[:filter] || 'e.g. "kennedy", "senate ny"' %>' />
                     </li>
                     <li id='spinner' style='display: none; padding-top: 5px; padding-left: 10px;'>
                       <img src='/images/spinner.gif'/>
