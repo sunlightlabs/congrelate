@@ -32,7 +32,8 @@ class Legislator < ActiveRecord::Base
             committees.map {|committee| 
               %Q{<a href="#" class="filter" title="Filter by #{committee.short_name}">#{committee.short_name}</a>}
             }.join(', '),
-          :data => committees.map(&:name).join(', ')
+          :data => committees.map(&:name).join(', '),
+          :searchable => committees.map(&:name).join(', ')
         }
       when 'district'
         {
@@ -44,10 +45,10 @@ class Legislator < ActiveRecord::Base
           :data => legislator.state,
           :searchable => state_name(legislator.state)
         }
-      when 'party'
+      when 'party', 'gender'
         {
-          :data => legislator.party[0...1],
-          :searchable => legislator.party
+          :data => legislator.send(column)[0...1],
+          :searchable => legislator.send(column)
         }
       else
         legislator.send column
@@ -158,7 +159,7 @@ class Legislator < ActiveRecord::Base
   end
   
   def self.gender_for(api_legislator)
-    api_legislator.gender.to_s.first.capitalize
+    api_legislator.gender.to_s.capitalize
   end
   
   def self.state_name(state)
