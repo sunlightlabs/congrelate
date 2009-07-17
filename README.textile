@@ -31,17 +31,16 @@ h3. Source Data
 h3. Finishing Up
 
 * A simple @rake sources:update@ will update all data sources according to their time-to-life values in @sources/sources.yml@.
-* Running @ruby congrelate.rb@ will fire up the app.
+* Running @ruby congrelate.rb@ will fire up the app on port 4567.
 
 h2. Developing Your Own Data Sources
 
-You are strongly encouraged to contribute your own data sources to the project. In six easy steps:
+We strongly encourage you to fork this code and contribute your own data sources to the project!   In five easy steps:
 
-# Fork the project on GitHub if you haven't already
 # Create a new directory in @sources/@
 # Write the database migration and pop it in @migrations/@
-# Write an ActiveRecord model(s) that defines class methods for sorting, updating, and generating columns for the data
+# Write an ActiveRecord model that defines class methods for sorting, updating, and generating columns for the data, and any other helper classes you need
 # Write the form HTML for the pop-up that lets the user choose from your data (view helpers provided)
-# Send us a pull request when you're ready
+# Update @sources/sources.yml@ with the details of your new source
 
 See the @sources/example/@ directory for details.
