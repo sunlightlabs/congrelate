@@ -98,6 +98,9 @@
                             <td class="<%= column_id source, column %>">
                               <% cell = @data[source][column][legislator.bioguide_id] %>
                               <%= cell.is_a?(Hash) ? cell[:html] : cell %>
+                              <% if cell.is_a?(Hash) and cell[:searchable] %>
+                                <span class="searchable"><%= cell[:searchable] %></span>
+                              <% end %>
                             </td>
                           <% end %>
                         <% end %>

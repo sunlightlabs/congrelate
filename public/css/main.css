@@ -157,6 +157,8 @@ table tr.odd { background: #f4f4ef;}
 table tr td, table tr th { padding-left: 10px;}
 tfoot tr td { padding-top: 2px;}
 
+table tr td span.searchable {display: none}
+
 div.source_form table.list tr {cursor: pointer;}
 div.source_form table.list tr td {}
 div.source_form table.list tr.even td {border: 1px solid #fff; border-width: 1px 0;}

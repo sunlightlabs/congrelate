@@ -35,7 +35,10 @@ class Legislator < ActiveRecord::Base
           :data => committees.map(&:name).join(', ')
         }
       when 'district'
-        "#{legislator.house.capitalize} - #{legislator.district}"
+        {
+          :html => legislator.district,
+          :searchable => legislator.house
+        }
       else
         legislator.send column
       end

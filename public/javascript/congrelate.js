@@ -235,7 +235,11 @@ function add_column(source, column) {
         else
           cell = null;
         
-        $('tr#' + bioguide_id).append('<td class="' + id + '">' + (cell || '') + '</tr>');
+        var searchable = '';
+        if (data[bioguide_id].searchable)
+          searchable = '<span class="searchable">' + data[bioguide_id].searchable + '</span>';
+        
+        $('tr#' + bioguide_id).append('<td class="' + id + '">' + (cell || '') + searchable + '</tr>');
       }
       clear_intro();
     }
@@ -355,9 +359,9 @@ function prepare_table() {
   });
 }
 
-function filter_table(q, column) {
+function filter_table(q) {
   // uiTableFilter expects the column argument to be a class name on the TH tag of that column
-  $.uiTableFilter($('#main_table'), q, column);
+  $.uiTableFilter($('#main_table'), q);
 }
 
 Array.prototype.unique = function() {

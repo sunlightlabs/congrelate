@@ -36,6 +36,7 @@ jQuery.uiTableFilter = function(jq, phrase, column, ifHidden){
   if( column ) {
     var index = null;
     jq.find("thead > tr:last > th").each( function(i){
+      // Eric Mill: changed this to test the class name, not the innards
       if( $(this).hasClass(column)){
         index = i;
         return false;
