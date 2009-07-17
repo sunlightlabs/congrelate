@@ -36,13 +36,18 @@ class Legislator < ActiveRecord::Base
         }
       when 'district'
         {
-          :html => legislator.district,
+          :data => legislator.district,
           :searchable => legislator.house
         }
       when 'state'
         {
-          :html => legislator.state,
+          :data => legislator.state,
           :searchable => state_name(legislator.state)
+        }
+      when 'party'
+        {
+          :data => legislator.party[0...1],
+          :searchable => legislator.party
         }
       else
         legislator.send column
@@ -149,7 +154,7 @@ class Legislator < ActiveRecord::Base
   end
   
   def self.party_for(api_legislator)
-    api_legislator.party.to_s.first.capitalize
+    api_legislator.party.to_s.capitalize
   end
   
   def self.gender_for(api_legislator)
