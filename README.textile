@@ -7,62 +7,41 @@ By pulling in other sets of data about campaign contributions and voting records
 Congrelate accomplishes this by pulling together data from various sources. Currently, the standard data sources used are:
 
 * "Sunlight Labs API":http://wiki.sunlightlabs.com/index.php/Sunlight_Labs_API for basic information on members of Congress and the committees they sit on.
-* US Census data for demographic information on congressional districts.
+* "US Census":http://www.census.gov data for demographic information on congressional districts.
 * "OpenSecrets.org":http://opensecrets.org for industry contribution data.
 * "GovTrack.us":http://govtrack.us for congressional vote history.
 
 
-h2. Set Up
+h2. Getting Set Up
 
-Congrelate uses Sinatra for the basic web framework, ActiveRecord for storing data from the data sources, and jQuery to power the dynamic data table. See @congrelate.rb@ and @public/javascripts/congrelate.js@ for the implementation details.
+Congrelate uses Sinatra for the basic web framework, and jQuery to power the dynamic data table. See @congrelate.rb@ and @public/javascripts/congrelate.js@ for the implementation details.
 
-h3. Core App
+h3. Basic
 
-* Required gems: sinatra, htmlentities, activerecord, activesupport.
+* Required gems: sinatra, htmlentities, activerecord, activesupport, open-uri, json, fastercsv, hpricot, httparty, technicalpickles-daywalker (from GitHub).
 * Set up a database, copy @config/database.yml.example@ to @config/database.yml@ and modify as needed.
 * Run @rake db:migrate@.
 
-h3. Legislator Data
+h3. Source Data
 
-* Code located at @sources/legislator/@.
-* Required gems: open-uri, json, technicalpickles-daywalker (from GitHub).
 * Register for a "Sunlight Labs API key":http://services.sunlightlabs.com/api/register/.
 * Copy @sources/api_keys.yml.example@ to @sources/api_keys.yml@ and add your Sunlight API key for "legislator".
-* Run @rake sources:update SOURCE=legislator@
+* OpenSecrets.org releases their data under their OpenData initiative (as a zipped up CSV file). To get this, sign up for an account at "OpenSecrets.org":http://www.opensecrets.org/MyOS/index.php and download the 2008 Campaign Finance data set "here":http://www.opensecrets.org/MyOS/bulk.php. Unzip that into @data/opensecrets/@, so  that the .csv files are in @data/opensecrets/CampaignFin08@.
 
-h3. District Census Data
+h3. Finishing Up
 
-* Code located at @sources/district/@, data at @data/census/@ (note that the @data/@ directory won't be populated until the initial @rake sources:update@ command is issued).
-* Required gems: fastercsv
-* Run @rake sources:update SOURCE=district@
-
-h3. Industry Contribution Data
-
-* Code located at @sources/contribution/@, data at @data/opensecrets@.
-* Required gems: httparty, fastercsv
-* *Important*: OpenSecrets.org releases their data under their OpenData initiative (as a zipped up CSV file) and via an API. The dataset is preferred, but to get this, you must sign up for an account at "OpenSecrets.org":http://www.opensecrets.org/MyOS/index.php and download the 2008 Campaign Finance data set "here":http://www.opensecrets.org/MyOS/bulk.php. Unzip that into @data/opensecrets/@, creating the @opensecrets/@ directory if necessary. So the .csv files should be in @data/opensecrets/CampaignFin08@.
-* Otherwise, you'll need to register an API key at OpenSecrets and pop it into @sources/api_keys.yml@ for "contribution".
-* Run @rake sources:update SOURCE=contribution@
-
-h3. Roll Call Congressional Data
-
-* Code located at @sources/roll_call/@, data at @data/govtrack@.
-* Required gems: hpricot
-* Run @rake sources:update SOURCE=roll_call@
-
-h3. Finishing Set Up
-
-* A simple @rake sources:update@ will update all data sources according to their TTL values in @sources/sources.yml@.
+* A simple @rake sources:update@ will update all data sources according to their time-to-life values in @sources/sources.yml@.
 * Running @ruby congrelate.rb@ will fire up the app.
 
 h2. Developing Your Own Data Sources
 
-You are strongly encouraged to contribute your own data sources to the project. In five easy steps:
+You are strongly encouraged to contribute your own data sources to the project. In six easy steps:
 
 # Fork the project on GitHub if you haven't already
 # Create a new directory in @sources/@
-# Write an ActiveRecord model that defines class methods for sorting the data, generating a column of the data, and updating the data.
-# Write the ERB/HTML necessary for displaying the form pop-up that allows the user to select the data.
-# Send us a pull request when you're ready.
+# Write the database migration and pop it in @migrations/@
+# Write an ActiveRecord model(s) that defines class methods for sorting, updating, and generating columns for the data
+# Write the form HTML for the pop-up that lets the user choose from your data (view helpers provided)
+# Send us a pull request when you're ready
 
 See the @sources/example/@ directory for details.
