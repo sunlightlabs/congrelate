@@ -58,7 +58,7 @@ class Legislator < ActiveRecord::Base
   end
   
   def self.update
-    Daywalker.api_key = api_key
+    Daywalker.api_key = self.api_key
     api_legislators = Daywalker::Legislator.all
     
     created_count = 0
@@ -92,7 +92,7 @@ class Legislator < ActiveRecord::Base
       }
       
       begin
-        open "http://services.sunlightlabs.com/api/committees.allForLegislator?apikey=#{api_key}&bioguide_id=#{legislator.bioguide_id}" do |response|
+        open "http://services.sunlightlabs.com/api/committees.allForLegislator?apikey=#{self.api_key}&bioguide_id=#{legislator.bioguide_id}" do |response|
           committees = JSON.parse(response.read)
           committees['response']['committees'].each do |comm|
             committee = Committee.find_or_initialize_by_keyword comm['committee']['id']
