@@ -236,7 +236,7 @@ function add_column(source, column) {
           cell = null;
         
         var searchable = '';
-        if (data[bioguide_id].searchable)
+        if (data[bioguide_id] && data[bioguide_id].searchable)
           searchable = '<span class="searchable">' + data[bioguide_id].searchable + '</span>';
         
         $('tr#' + bioguide_id).append('<td class="' + id + '">' + (cell || '') + searchable + '</tr>');
