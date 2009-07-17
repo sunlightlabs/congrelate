@@ -97,7 +97,7 @@
                           <% sort_fields(@data[source].keys, source).each do |column| %>
                             <td class="<%= column_id source, column %>">
                               <% cell = @data[source][column][legislator.bioguide_id] %>
-                              <%= cell.is_a?(Hash) ? cell[:html] : cell %>
+                              <%= cell.is_a?(Hash) ? cell[:html] || cell[:data] : cell %>
                               <% if cell.is_a?(Hash) and cell[:searchable] %>
                                 <span class="searchable"><%= cell[:searchable] %></span>
                               <% end %>
