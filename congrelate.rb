@@ -108,16 +108,23 @@ helpers do
       sources.each do |source|
         sort_fields(@data[source].keys, source).each do |column|
           cell = data[source][column][legislator.bioguide_id]
-          cell = cell[:data] if cell.is_a?(Hash)
-          row << cell
+          if cell.is_a?(Hash) ? cell[:data] : cell
+            raw_data = cell[:data]
+            searchable = cell[:searchable]
+          else
+            raw_data = cell
+            searchable = nil
+          end
           
           if filters and !matches_filter
             missed_one = false
             filters.each do |f| 
-              missed_one = true unless cell =~ /#{f}/i
+              missed_one = true unless raw_data =~ /#{f}/i or (searchable and searchable =~ /#{f}/i)
             end
             matches_filter = !missed_one
           end
+          
+          row << raw_data
         end
       end
       
