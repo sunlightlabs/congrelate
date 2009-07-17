@@ -87,7 +87,7 @@ helpers do
   # creates a flat array of arrays of the data
   def to_array(data, legislators, filter = nil)
     array = []
-    filters = filter ? filter.split(/\s+/) : nil
+    filters = filter ? filter.split(/\s+/) : []
     
     sources = sort_by_ref(data.keys, source_keys)
     header = []
@@ -102,13 +102,14 @@ helpers do
     
     legislators.each do |legislator|
       row = []
+      row_filters = filters.dup
+      
       row << legislator.bioguide_id
       
-      matches_filter = false
       sources.each do |source|
         sort_fields(@data[source].keys, source).each do |column|
           cell = data[source][column][legislator.bioguide_id]
-          if cell.is_a?(Hash) ? cell[:data] : cell
+          if cell.is_a?(Hash)
             raw_data = cell[:data]
             searchable = cell[:searchable]
           else
@@ -116,19 +117,15 @@ helpers do
             searchable = nil
           end
           
-          if filters and !matches_filter
-            missed_one = false
-            filters.each do |f| 
-              missed_one = true unless raw_data =~ /#{f}/i or (searchable and searchable =~ /#{f}/i)
-            end
-            matches_filter = !missed_one
+          if row_filters and row_filters.any?
+            row_filters.reject! {|f| (raw_data =~ /#{f}/i) || (searchable and searchable =~ /#{f}/i)}
           end
           
           row << raw_data
         end
       end
       
-      array << row unless filter and !matches_filter
+      array << row unless filter and row_filters.any?
     end
     
     array
