@@ -20,6 +20,20 @@
       <%= field_checkbox :legislator, :gender %>
     </td>
   </tr>
+  <tr>
+    <td>
+      <%= field_checkbox :legislator, :phone %>
+    </td>
+    <td>
+      <%= field_checkbox :legislator, :website %>
+    </td>
+    <td>
+      <%= field_checkbox :legislator, :twitter_id, :title => 'Twitter' %>
+    </td>
+    <td>
+      <%= field_checkbox :legislator, :youtube_url, :title => 'YouTube' %>
+    </td>
+  </tr>
 </table>
 <table class="grid">  
   <tr>
@@ -30,4 +44,4 @@
       <%= field_checkbox :legislator, :subcommittees, :title => 'Subcommittee Memberships' %>
     </td>
   </tr>
-</table>  
+</table>

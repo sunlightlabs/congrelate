@@ -17,7 +17,7 @@ class Legislator < ActiveRecord::Base
   }
   
   def self.sort(fields)
-    cols = ['name', 'state', 'district', 'gender', 'party', 'committees', 'subcommittees']
+    cols = ['name', 'state', 'district', 'gender', 'party', 'phone', 'website', 'twitter_id', 'youtube_url', 'committees', 'subcommittees']
     fields.sort {|a, b| cols.index(a) <=> cols.index(b)}
   end
   
@@ -50,6 +50,16 @@ class Legislator < ActiveRecord::Base
           :data => legislator.send(column)[0...1],
           :searchable => legislator.send(column)
         }
+      when 'website', 'youtube_url'
+        {
+          :data => legislator.send(column),
+          :html => "<a href='#{legislator.send(column)}'>#{legislator.send(column)}</a>"
+        }
+      when 'twitter_id'
+        {
+          :data => legislator.twitter_id,
+          :html => "<a href='http://twitter.com/#{legislator.twitter_id}'>#{legislator.twitter_id}</a>"
+        }
       else
         legislator.send column
       end
@@ -57,7 +67,9 @@ class Legislator < ActiveRecord::Base
     field
   end
   
-  def self.update
+  def self.update(options = {})
+    options[:committees] ||= false
+    
     Daywalker.api_key = self.api_key
     api_legislators = Daywalker::Legislator.all
     
@@ -88,41 +100,47 @@ class Legislator < ActiveRecord::Base
         :crp_id => api_legislator.crp_id,
         :govtrack_id => api_legislator.govtrack_id,
         :votesmart_id => api_legislator.votesmart_id,
-        :fec_id => api_legislator.fec_id
+        :fec_id => api_legislator.fec_id,
+        :phone => api_legislator.phone,
+        :website => api_legislator.website_url,
+        :twitter_id => api_legislator.twitter_id,
+        :youtube_url => api_legislator.youtube_url
       }
       
-      begin
-        open "http://services.sunlightlabs.com/api/committees.allForLegislator?apikey=#{self.api_key}&bioguide_id=#{legislator.bioguide_id}" do |response|
-          committees = JSON.parse(response.read)
-          committees['response']['committees'].each do |comm|
-            committee = Committee.find_or_initialize_by_keyword comm['committee']['id']
-            committee.attributes = {:chamber => comm['committee']['chamber'], :name => comm['committee']['name']}
-            puts "  [Committee #{committee.new_record? ? 'Created' : 'Updated'}] #{committee.name}"
-            committee.save!
-            
-            unless membership = legislator.committee_memberships.find_by_committee_id(committee.id)
-              membership = legislator.committee_memberships.build :committee_id => committee.id
-              puts "    - Added Membership"
-            end
-            
-            if comm['committee']['subcommittees']
-              comm['committee']['subcommittees'].each do |subcomm|
-                subcommittee = Committee.find_or_initialize_by_keyword subcomm['committee']['id']
-                subcommittee.attributes = {:chamber => subcomm['committee']['chamber'], :name => subcomm['committee']['name'], :parent_id => committee.id}
-                puts "    [Subcommittee #{subcommittee.new_record? ? 'Created' : 'Updated'}] #{subcommittee.name}"
-                subcommittee.save!
-                
-                unless membership = legislator.committee_memberships.find_by_committee_id(subcommittee.id)
-                  membership = legislator.committee_memberships.build :committee_id => subcommittee.id
-                  puts "      - Added Membership"
+      if options[:committees]
+        begin
+          open "http://services.sunlightlabs.com/api/committees.allForLegislator?apikey=#{self.api_key}&bioguide_id=#{legislator.bioguide_id}" do |response|
+            committees = JSON.parse(response.read)
+            committees['response']['committees'].each do |comm|
+              committee = Committee.find_or_initialize_by_keyword comm['committee']['id']
+              committee.attributes = {:chamber => comm['committee']['chamber'], :name => comm['committee']['name']}
+              puts "  [Committee #{committee.new_record? ? 'Created' : 'Updated'}] #{committee.name}"
+              committee.save!
+              
+              unless membership = legislator.committee_memberships.find_by_committee_id(committee.id)
+                membership = legislator.committee_memberships.build :committee_id => committee.id
+                puts "    - Added Membership"
+              end
+              
+              if comm['committee']['subcommittees']
+                comm['committee']['subcommittees'].each do |subcomm|
+                  subcommittee = Committee.find_or_initialize_by_keyword subcomm['committee']['id']
+                  subcommittee.attributes = {:chamber => subcomm['committee']['chamber'], :name => subcomm['committee']['name'], :parent_id => committee.id}
+                  puts "    [Subcommittee #{subcommittee.new_record? ? 'Created' : 'Updated'}] #{subcommittee.name}"
+                  subcommittee.save!
+                  
+                  unless membership = legislator.committee_memberships.find_by_committee_id(subcommittee.id)
+                    membership = legislator.committee_memberships.build :committee_id => subcommittee.id
+                    puts "      - Added Membership"
+                  end
                 end
               end
             end
+            
           end
-          
+        rescue OpenURI::HTTPError => e
+          mistakes << "Error getting committees for legislator #{legislator.bioguide_id}"
         end
-      rescue OpenURI::HTTPError => e
-        mistakes << "Error getting committees for legislator #{legislator.bioguide_id}"
       end
       
       legislator.save!
