@@ -11,13 +11,9 @@ class Legislator < ActiveRecord::Base
   validates_presence_of :bioguide_id, :district, :state, :name
   
   named_scope :active, :conditions => {:in_office => true}
-  named_scope :filter, lambda {|conditions|
-    conditions.delete('house') unless ['house', 'senate'].include?(conditions[:house])
-    {:conditions => conditions}
-  }
   
   def self.sort(fields)
-    cols = ['name', 'state', 'district', 'gender', 'party', 'phone', 'website', 'twitter_id', 'youtube_url', 'committees', 'subcommittees']
+    cols = ['name', 'chamber', 'state', 'district', 'gender', 'party', 'phone', 'website', 'twitter_id', 'youtube_url', 'committees', 'subcommittees']
     fields.sort {|a, b| cols.index(a) <=> cols.index(b)}
   end
   
@@ -38,7 +34,7 @@ class Legislator < ActiveRecord::Base
       when 'district'
         {
           :data => legislator.district,
-          :searchable => legislator.house
+          :searchable => legislator.chamber
         }
       when 'state'
         {
@@ -90,7 +86,7 @@ class Legislator < ActiveRecord::Base
       end
       
       legislator.attributes = {
-        :house => house_for(api_legislator),
+        :chamber => chamber_for(api_legislator),
         :gender => gender_for(api_legislator),
         :name => name_for(api_legislator),
         :district => district_for(api_legislator),
@@ -156,11 +152,11 @@ class Legislator < ActiveRecord::Base
   private
   
   # Some Daywalker-specific transformations
-  def self.house_for(api_legislator)
+  def self.chamber_for(api_legislator)
     {
-      :representative => 'house',
-      :senator => 'senate',
-      nil => 'house'
+      :representative => 'House',
+      :senator => 'Senate',
+      nil => 'House'
     }[api_legislator.title]
   end
   
