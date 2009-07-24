@@ -69,8 +69,9 @@ helpers do
   def initial_columns
     {:legislator => {
         'name' => '1',
+        'chamber' => '1',
         'state' => '1',
-        'district' => '1'
+        'party' => '1'
     }}
   end
   
