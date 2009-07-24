@@ -44,7 +44,7 @@ class Legislator < ActiveRecord::Base
       when 'party', 'gender'
         {
           :data => legislator.send(column)[0...1],
-          :searchable => legislator.send(column)
+          :searchable => legislator.send(column).pluralize
         }
       when 'website', 'youtube_url'
         {
