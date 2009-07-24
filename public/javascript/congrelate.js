@@ -2,8 +2,9 @@ var mainTable;
 
 var current_columns = {
   'legislator[name]': 1,
+  'legislator[chamber]': 1,
   'legislator[state]': 1,
-  'legislator[district]':1,
+  'legislator[party]':1,
 };
 var current_filter = "";
 var attribution_links = "";
