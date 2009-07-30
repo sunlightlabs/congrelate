@@ -145,7 +145,7 @@ function init_source_form(source) {
   }  
   // Events
   $(popup_elem + ' form.search_name_form').submit(function() {
-    return search_table(source, $('#search_name_field_' + source).val(), 1);
+    return search_table(source, $('#search_name_field_' + source).val());
   });
   $(popup_elem + ' div.search_field input.search').focus(function() {this.value = '';})
   
@@ -166,9 +166,9 @@ function init_source_form(source) {
 
 }
 
-function search_table(source, q, page) {
+function search_table(source, q) {
   var popup_elem = 'div#' + source;
-  var search_url = '/' + source + '/search?q=' + q + '&page=' + page;
+  var search_url = '/' + source + '/search?q=' + q;
   popup_spinner_on();
   $.ajax({
     success: function(data) {
