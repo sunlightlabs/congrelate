@@ -11,7 +11,7 @@ var attribution_links = "";
 var intro_cleared = false;
 var query_keys = get_query_keys();
 
-function init() {
+$(function() {
 
   prepare_table();
   
@@ -93,7 +93,7 @@ function init() {
   
   // Clearing the intro
   $('button.startedBtn').click(clear_intro);  
-}
+});
 
 function clear_intro() {
   if (!intro_cleared) {
