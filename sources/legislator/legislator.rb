@@ -64,7 +64,7 @@ class Legislator < ActiveRecord::Base
   end
   
   def age
-    
+    ((Time.now - birthdate) / 60 / 60 / 24 / 365).to_i
   end
   
   def self.update(options = {})
