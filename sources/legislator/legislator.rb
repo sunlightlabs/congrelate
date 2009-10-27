@@ -68,14 +68,17 @@ class Legislator < ActiveRecord::Base
     
     Daywalker.api_key = self.api_key
     api_legislators = Daywalker::Legislator.all
+    old_legislators = Legislator.active.all
     
     created_count = 0
     updated_count = 0
+    inactive_count = 0
     
     mistakes = []
     
     api_legislators.each do |api_legislator|
       legislator = Legislator.find_or_initialize_by_bioguide_id api_legislator.bioguide_id
+      old_legislators.delete legislator # check this one off the list
       
       if legislator.new_record?
         created_count += 1
@@ -142,7 +145,14 @@ class Legislator < ActiveRecord::Base
       legislator.save!
     end
     
-    success_msg = "#{created_count} legislators created, #{updated_count} updated"
+    # Any remaining legislators in current_legislator must be out of office
+    old_legislators.each do |legislator|
+      legislator.update_attribute :in_office, false
+      inactive_count += 1
+      puts "[Legislator #{legislator.bioguide_id}] Marked Inactive"
+    end
+    
+    success_msg = "#{created_count} legislators created, #{updated_count} updated, #{inactive_count} marked inactive"
     success_msg << "\n" + mistakes.join("\n") if mistakes.any?
     ['SUCCESS', success_msg]
   rescue => e
