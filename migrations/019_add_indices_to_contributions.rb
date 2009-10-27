@@ -12,11 +12,11 @@ class AddIndicesToContributions < ActiveRecord::Migration
   
   def self.down
     
-    drop_index :contributions, :bioguide_id
-    drop_index :contributions, :crp_id
-    drop_index :contributions, :industry
-    drop_index :contributions, :cycle
-    drop_index :contributions, :amount
+    remove_index :contributions, :bioguide_id
+    remove_index :contributions, :crp_id
+    remove_index :contributions, :industry
+    remove_index :contributions, :cycle
+    remove_index :contributions, :amount
 
   end
 
