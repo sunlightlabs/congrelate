@@ -1,4 +1,4 @@
-require 'daywalker'
+require 'sunlight'
 require 'open-uri'
 require 'json'
 
@@ -13,7 +13,7 @@ class Legislator < ActiveRecord::Base
   named_scope :active, :conditions => {:in_office => true}
   
   def self.sort(fields)
-    cols = ['name', 'chamber', 'state', 'district', 'gender', 'party', 'phone', 'website', 'twitter_id', 'youtube_url', 'committees', 'subcommittees']
+    cols = ['name', 'chamber', 'state', 'district', 'gender', 'party', 'age', 'phone', 'website', 'twitter_id', 'youtube_url', 'committees', 'subcommittees']
     fields.sort {|a, b| cols.index(a) <=> cols.index(b)}
   end
   
@@ -63,11 +63,15 @@ class Legislator < ActiveRecord::Base
     field
   end
   
+  def age
+    
+  end
+  
   def self.update(options = {})
     options[:committees] ||= false
     
-    Daywalker.api_key = self.api_key
-    api_legislators = Daywalker::Legislator.all
+    Sunlight::Base.api_key = self.api_key
+    api_legislators = Sunlight::Legislator.all_where :in_office => 1
     old_legislators = Legislator.active.all
     
     created_count = 0
@@ -92,7 +96,8 @@ class Legislator < ActiveRecord::Base
         :chamber => chamber_for(api_legislator),
         :gender => gender_for(api_legislator),
         :name => name_for(api_legislator),
-        :district => district_for(api_legislator),
+        :birthdate => api_legislator.birthdate,
+        :district => api_legislator.district,
         :state => api_legislator.state,
         :party => party_for(api_legislator),
         :in_office => api_legislator.in_office,
@@ -101,7 +106,7 @@ class Legislator < ActiveRecord::Base
         :votesmart_id => api_legislator.votesmart_id,
         :fec_id => api_legislator.fec_id,
         :phone => api_legislator.phone,
-        :website => api_legislator.website_url,
+        :website => api_legislator.website,
         :twitter_id => api_legislator.twitter_id,
         :youtube_url => api_legislator.youtube_url
       }
@@ -161,29 +166,32 @@ class Legislator < ActiveRecord::Base
   
   private
   
-  # Some Daywalker-specific transformations
   def self.chamber_for(api_legislator)
     {
-      :representative => 'House',
-      :senator => 'Senate',
-      nil => 'House'
+      'Rep' => 'House',
+      'Sen' => 'Senate',
+      'Del' => 'House',
+      'Com' => 'House'
     }[api_legislator.title]
   end
   
   def self.name_for(api_legislator)
-    "#{api_legislator.first_name} #{api_legislator.last_name}"
-  end
-  
-  def self.district_for(api_legislator)
-    api_legislator.district.to_s.titleize
+    "#{api_legislator.nickname.present? ? api_legislator.nickname : api_legislator.firstname} #{api_legislator.lastname}"
   end
   
   def self.party_for(api_legislator)
-    api_legislator.party.to_s.capitalize
+    {
+      'D' => 'Democrat',
+      'R' => 'Republican',
+      'I' => 'Independent'
+    }[api_legislator.party]
   end
   
   def self.gender_for(api_legislator)
-    api_legislator.gender.to_s.capitalize
+    {
+      'M' => 'Male',
+      'F' => 'Female'
+    }[api_legislator.gender]
   end
   
   def self.state_name(state)
