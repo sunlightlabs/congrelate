@@ -24,6 +24,8 @@ set :deploy_via, :remote_cache
 set :runner, user
 set :admin_runner, runner
 
+set :use_sudo, false
+
 role :app, domain
 role :web, domain
 
