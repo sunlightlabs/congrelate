@@ -1,19 +1,22 @@
-set :environment, (ENV['target'] || 'staging')
+set :environment, 'production' # (ENV['target'] || 'staging')
 
 # Change repo and domain for your setup
-if environment == 'production'
+# if environment == 'production'
   set :domain, 'belushi.sunlightlabs.org'
-else
-  set :domain, 'hammond.sunlightlabs.org'
-end
+# else
+#   set :domain, 'hammond.sunlightlabs.org'
+# end
+  
 set :repository, "git://github.com/sunlightlabs/congrelate.git"
 
 set :user, 'congrelate'
 set :branch, 'master'
 set :application, "congrelate_#{environment}"
 
-# Number of thin processes
-set :instances, 2
+
+set :sock, "#{user}.sock"
+set :gem_bin, "/home/#{user}/.gem/ruby/1.8/bin"
+
 
 set :scm, :git
 set :deploy_to, "/home/congrelate/www/#{application}"
@@ -24,21 +27,25 @@ set :admin_runner, runner
 role :app, domain
 role :web, domain
 
-namespace :deploy do  
-  desc "Start the server"
-  task :start, :roles => [:web, :app] do
-    run "cd #{deploy_to}/current && nohup thin -s #{instances} -C config/thin_#{environment}.yml -R config/thin_#{environment}.ru start"
-  end
- 
-  desc "Stop the server"
-  task :stop, :roles => [:web, :app] do
-    run "cd #{deploy_to}/current && nohup thin -s #{instances} -C config/thin_#{environment}.yml -R config/thin_#{environment}.ru stop"
+after "deploy", "deploy:cleanup"
+after "deploy:update_code", "deploy:bundle_install"
+after "deploy:update_code", "deploy:shared_links"
+
+namespace :deploy do
+  
+  task :start do
+    run "cd #{current_path} && #{gem_bin}/unicorn -D -l #{shared_path}/#{sock} -c #{current_path}/unicorn.rb"
   end
   
+  task :stop do
+    run "kill `cat #{shared_path}/unicorn.pid`"
+  end
+  
+  task :migrate do; end
+  
   desc "Restart the server"
-  task :restart, :roles => [:web, :app] do
-    deploy.stop
-    deploy.start
+  task :restart, :roles => :app, :except => {:no_release => true} do
+    run "kill -HUP `cat #{shared_path}/unicorn.pid`"
   end
   
   desc "Migrate the database"
@@ -47,15 +54,22 @@ namespace :deploy do
   end
   
   desc "Get shared files into position"
-  task :after_update_code, :roles => [:web, :app] do
+  task :shared_links, :roles => [:web, :app] do
     run "ln -nfs #{shared_path}/database.yml #{release_path}/config/database.yml"
     run "ln -nfs #{shared_path}/api_keys.yml #{release_path}/sources/api_keys.yml"
+    run "ln -nfs #{shared_path}/config.ru #{release_path}/config.ru"
+    run "ln -nfs #{shared_path}/unicorn.rb #{release_path}/unicorn.rb"
   end
   
   desc "Initial deploy"
   task :cold do
     deploy.update
     deploy.start
+  end
+  
+  desc "Install Ruby gems"
+  task :bundle_install, :roles => :app, :except => {:no_release => true} do
+    run "cd #{release_path} && #{gem_bin}/bundle install --local"
   end
 end
 
