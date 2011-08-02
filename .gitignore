@@ -7,3 +7,5 @@
 /db/*.sqlite3
 
 /public/javascript/dataTables-*.js
+
+/vendor/gems

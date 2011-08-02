@@ -4,8 +4,8 @@ gem 'sinatra', '1.0'
 gem 'activesupport', '= 2.3.5'
 gem 'htmlentities', '4.0.0'
 
+gem 'mysql', '2.8.1'
 gem 'activerecord', '>=2.3'
-
 
 group :development do
   gem 'sinatra-reloader'
