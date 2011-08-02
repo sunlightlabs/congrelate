@@ -1,0 +1,22 @@
+have_header: checking for re.h... -------------------- yes
+
+"gcc -E -I. -I/usr/lib/ruby/1.8/x86_64-linux -I.    -fno-strict-aliasing -g -g -O3  -fPIC   -Wall  conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include <re.h>
+/* end */
+
+--------------------
+
+have_header: checking for ruby/st.h... -------------------- no
+
+"gcc -E -I. -I/usr/lib/ruby/1.8/x86_64-linux -I.    -fno-strict-aliasing -g -g -O3  -fPIC   -Wall  conftest.c -o conftest.i"
+conftest.c:1:21: fatal error: ruby/st.h: No such file or directory
+compilation terminated.
+checked program was:
+/* begin */
+1: #include <ruby/st.h>
+/* end */
+
+--------------------
+

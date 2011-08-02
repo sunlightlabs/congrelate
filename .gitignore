@@ -1,6 +1,6 @@
+/.bundle
 /data/*
 /config/database.yml
-/config/deploy.rb
 /config.ru
 /sources/api_keys.yml
 

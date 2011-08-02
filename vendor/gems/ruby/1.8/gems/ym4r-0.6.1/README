@@ -1,0 +1,106 @@
+=YM4R
+This is YM4R 0.5.2. YM4R has features to ease the use of the Google Maps Geocoding API and the Yahoo! Maps building block API's from Ruby. If you are looking to use the main Google Maps API from your Rails application, you should use the YM4R/GM plugin for Rails (http://thepochisuperstarmegashow.com/projects/#ym4r).
+
+==Relation between the YM4R gem and the YM4R/GM plugin for Rails
+They are completely independent from each other.
+
+With the plugin, you don't need the YM4R gem anymore, unless you want to use the Yahoo! Maps Building Block API's, the tilers or the Google Maps geocoding REST API. All of these functionalities are detailed in the current document.
+
+Conversely, the YM4R gem does not need the plugin to work.
+
+==Installing
+===As a Gem
+Just type under a command line:
+	gem install ym4r
+And the last version will be automatically downloaded and installed.
+
+===In the lib directory of a Rails project
+It can be useful if you cannot install global gems on the machine where you are going to deploy your application (for example on a shared host).
+
+You first need to unpack the gem. To do this, if the gem is installed on your local machine, type:
+	gem unpack ym4r
+
+You can also directly untar the gem (after having downloaded it first) if you prefer:
+	tar xf ym4r-0.3.2.gem
+then:
+	tar xzf data.tar.gz
+
+Then copy the content of the lib directory of the gem into the lib directory of your rails application: You should have in <tt>RAILS_ROOT/lib</tt> the <tt>ym4.rb</tt> file and the <tt>ym4r</tt> directory (plus a tasks folder; which was already there before). Contrary to what is done for a plugin, you will still need to require and include in your application the files and modules you are interested in.
+
+==Operations
+===Google Maps Geocoding API
+Here is an example of request:
+	require 'ym4r/google_maps/geocoding'
+	include Ym4r::GoogleMaps
+	results = Geocoding::get("Rue Clovis Paris")
++results+ is an array of Geocoding::Placemark objects, with 2 additional attributes: +status+ and +name+. You should check if +status+ equals <tt>Geocoding::GEO_SUCCESS</tt> to know if the request has been successful. You can access the various data elements like this:
+	if results.status == Geocoding::GEO_SUCCESS
+		a = results[0].address
+		b = results[0].latlon
+	end
+
+===Yahoo Maps Building Block API
+Building Block API's (Geocoding, Map Image, Traffic and Local Search) are supported. You have to pass to the +get+ method of the module a hash whose keys are a rubyfied version of the request parameters detailed in the documentation for these API's. You get back a ruby object, with accessors that let you get the returned data in a easy way. You get an exception if not all the parameters have been passed, if the connection to the service could not be made or if the parameters you have passed are of the incorrect value.
+
+To know what parameters to pass to the +get+ methods and what results you should expect, you should consult the documentation for the building block API's on Yahoo!'s website : http://developer.yahoo.com/maps/index.html#mapsBuildingBlocks . 
+
+Here are some examples and notes about using the different Building Block API's.
+====Geocoding
+Here is an example of request:
+	require 'ym4r/yahoo_maps/building_block'
+	include Ym4r::YahooMaps::BuildingBlock
+	results = Geocoding::get(:street => "1 Infinite Loop",
+                             	  :city => "Cupertino",
+                                  :state => "CA",
+                                  :zip => "95014")
++results+ is an array of Geocoding::Result objects. The API can return up to 50 results for one request. You can access the data in the result with attributes which are rubyfied versions of the XML elements forming the answer from the service: See the Yahoo! Geocoding documentation to know what these are and their meanings.
+
+====Map Image
+Here is an example of request:
+	require 'ym4r/yahoo_maps/building_block'
+	include Ym4r::YahooMaps::BuildingBlock
+	result = MapImage::get(:street => "1 Infinite Loop",
+                               :city => "Cupertino",
+                               :state => "CA",
+                               :zip => "95014",
+                               :image_type => "png")
++result+ is a MapImage::Result object contains the URL for the requested image. You can download this image to a file by calling +download_to+ and passing a path.
+
+=====Traffic
+Here is an example of request:
+	require 'ym4r/yahoo_maps/building_block'
+	include Ym4r::YahooMaps::BuildingBlock
+	results = Traffic::get(:street => "1 Infinite Loop",
+                               :city => "Cupertino",
+                               :state => "CA",
+                               :zip => "95014",
+                               :include_map => true)
++results+ is a Traffic::ResultSet object (subclass of +Array+), containing Traffic::Result objects, each containing information about one traffic incident.
+
+====Local Search 
+Here is an example of request:
+	require 'ym4r/yahoo_maps/building_block'
+	include Ym4r::YahooMaps::BuildingBlock
+	results = LocalSearch::get(:street => "1 Infinite Loop",
+                                   :city => "Cupertino",
+                                   :state => "CA",
+                                   :zip => "95014",
+                                   :query => "chinese")
++results+ is a LocalSearch::ResultSet object (subclass of +Array+), containing LocalSearch::Result objects, each containing information about one hit on the Yahoo! local search.
+
+
+==Changes since last version
+- Removed the tilers. They are now in a separately downloadable package.
+- Changed the Yahoo App Id
+
+==TODO
+- Add more tests
+
+==Disclaimer
+This software is not endorsed in any way by Yahoo! or Google.
+
+==License
+YM4R is released under the MIT license.
+
+==Support
+Any questions, enhancement proposals, bug notifications or corrections can be sent to mailto:guilhem.vellut+ym4r@gmail.com.

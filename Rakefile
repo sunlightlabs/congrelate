@@ -9,11 +9,15 @@ end
 
 desc "Loads bootstrap environment"
 task :bootstrap_environment do
+  require 'rubygems'
+  require 'bundler/setup'
   require 'config/bootstrap_environment'
 end
 
 desc "Loads environment"
 task :environment do
+  require 'rubygems'
+  require 'bundler/setup'
   require 'config/environment'
 end
 
