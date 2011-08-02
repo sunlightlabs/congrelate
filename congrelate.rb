@@ -4,8 +4,6 @@ require 'rubygems'
 require 'sinatra'
 require 'htmlentities'
 
-
-# Environment
 require 'config/environment'
 
 
